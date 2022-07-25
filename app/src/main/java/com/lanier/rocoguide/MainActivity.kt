@@ -8,7 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.lanier.rocoguide.ui.page.main.MainHome
+import com.lanier.rocoguide.ui.page.MainHome
 import com.lanier.rocoguide.ui.theme.RocoGuideTheme
 
 class MainActivity : ComponentActivity() {

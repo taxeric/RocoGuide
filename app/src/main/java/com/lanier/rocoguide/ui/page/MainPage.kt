@@ -1,5 +1,8 @@
-package com.lanier.rocoguide.ui.page.main
+package com.lanier.rocoguide.ui.page
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -9,16 +12,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.lanier.plugin_base.logE
+import com.lanier.rocoguide.base.ROUTE_PARAMS_WEB_VIEW_TITLE
+import com.lanier.rocoguide.base.ROUTE_PARAMS_WEB_VIEW_URL
 import com.lanier.rocoguide.entity.Screen
-import com.lanier.rocoguide.ui.page.NewsScreen
-import com.lanier.rocoguide.ui.page.OtherScreen
-import com.lanier.rocoguide.ui.page.SpiritScreen
 
 /**
  * Create by Eric
@@ -27,34 +33,61 @@ import com.lanier.rocoguide.ui.page.SpiritScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainHome(){
+    val bottomState = rememberSaveable {
+        mutableStateOf(true)
+    }
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    "cz -> ${bottomState.value} ${navBackStackEntry?.destination?.route}".logE()
+    when (navBackStackEntry?.destination?.route){
+        Screen.NewsList.route,
+        Screen.SpiritList.route,
+        Screen.OtherList.route -> {
+            bottomState.value = true
+        }
+        else -> {
+            bottomState.value = false
+        }
+    }
     Scaffold(
         bottomBar = {
-            var selectIndex by remember {
-                mutableStateOf(0)
-            }
-            val items = listOf(
-                Screen.NewsList,
-                Screen.SpiritList,
-                Screen.OtherList
-            )
-            NavigationBar {
-                items.forEachIndexed { index, item ->
-                    NavigationBarItem(
-                        selected = selectIndex == index,
-                        onClick = { selectIndex = index },
-                        icon = {
-                            Icon(imageVector = Icons.Filled.Home, contentDescription = "home")
-                        },
-                        label = {
-                            Text(text = item.title)
-                        }
-                    )
-                }
-            }
+            BottomBar(bottomState = bottomState)
         }
     ) {
         NavBar(navController = navController, padding = it)
+    }
+}
+
+@Composable
+fun BottomBar(bottomState: MutableState<Boolean>){
+    var selectIndex by remember {
+        mutableStateOf(0)
+    }
+    val items = listOf(
+        Screen.NewsList,
+        Screen.SpiritList,
+        Screen.OtherList
+    )
+    "重组 -> ${bottomState.value}".logE()
+    AnimatedVisibility(
+        visible = bottomState.value,
+        enter = slideInVertically(initialOffsetY = { it }),
+        exit = slideOutVertically(targetOffsetY = { it })
+    ) {
+        NavigationBar {
+            items.forEachIndexed { index, item ->
+                NavigationBarItem(
+                    selected = selectIndex == index,
+                    onClick = { selectIndex = index },
+                    icon = {
+                        Icon(imageVector = Icons.Filled.Home, contentDescription = "home")
+                    },
+                    label = {
+                        Text(text = item.title)
+                    }
+                )
+            }
+        }
     }
 }
 
@@ -73,6 +106,22 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
         }
         composable(Screen.OtherList.route) {
             OtherScreen(navController, title = Screen.OtherList.title)
+        }
+        composable(
+            route = "${Screen.WebViewPage.route}/{${ROUTE_PARAMS_WEB_VIEW_TITLE}}/{${ROUTE_PARAMS_WEB_VIEW_URL}}",
+            arguments = listOf(
+                navArgument(ROUTE_PARAMS_WEB_VIEW_TITLE) {
+                    type = NavType.StringType
+                },
+                navArgument(ROUTE_PARAMS_WEB_VIEW_URL) {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            val argument = requireNotNull(it.arguments)
+            val title = argument.getString(ROUTE_PARAMS_WEB_VIEW_TITLE)?: ""
+            val url = argument.getString(ROUTE_PARAMS_WEB_VIEW_URL)?: ""
+            WebViewByUrl(navController, title, url)
         }
     }
 }
