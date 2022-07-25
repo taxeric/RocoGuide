@@ -80,4 +80,9 @@ dependencies {
 
     //webview
     implementation "com.google.accompanist:accompanist-webview:0.24.13-rc"
+
+    //coil
+    def coil_version = "2.1.0"
+    implementation("io.coil-kt:coil-gif:$coil_version")
+    implementation("io.coil-kt:coil-compose:$coil_version")
 }

@@ -1,5 +1,6 @@
 package com.lanier.rocoguide.ui.page
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,9 +11,18 @@ import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import coil.ImageLoader
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.request.ImageRequest
+import com.lanier.rocoguide.R
 
 /**
  * Create by Eric
@@ -35,7 +45,20 @@ fun OtherScreen(navHostController: NavHostController, title: String){
 
 @Composable
 fun OthersMain(navHostController: NavHostController, padding: PaddingValues){
+    val context = LocalContext.current
+    val gifImageLoader = ImageLoader.Builder(context)
+        .components {
+            if (android.os.Build.VERSION.SDK_INT >= 28) {
+                add(ImageDecoderDecoder.Factory())
+            } else {
+                add(GifDecoder.Factory())
+            }
+        }
+        .build()
     Column(modifier = Modifier.padding(padding)) {
-        Text(text = "其他")
+        val painter = rememberAsyncImagePainter(model = R.drawable.dimo, gifImageLoader)
+        Image(painter = painter, contentDescription = "")
+        val p1 = rememberAsyncImagePainter(model = R.drawable.ic_dimo_1)
+        Image(painter = p1, contentDescription = "")
     }
 }
