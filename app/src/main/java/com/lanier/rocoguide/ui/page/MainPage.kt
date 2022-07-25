@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -38,7 +39,6 @@ fun MainHome(){
     }
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    "cz -> ${bottomState.value} ${navBackStackEntry?.destination?.route}".logE()
     when (navBackStackEntry?.destination?.route){
         Screen.NewsList.route,
         Screen.SpiritList.route,
@@ -51,7 +51,7 @@ fun MainHome(){
     }
     Scaffold(
         bottomBar = {
-            BottomBar(bottomState = bottomState)
+            BottomBar(bottomState = bottomState, navController)
         }
     ) {
         NavBar(navController = navController, padding = it)
@@ -59,7 +59,7 @@ fun MainHome(){
 }
 
 @Composable
-fun BottomBar(bottomState: MutableState<Boolean>){
+fun BottomBar(bottomState: MutableState<Boolean>, navController: NavHostController){
     var selectIndex by remember {
         mutableStateOf(0)
     }
@@ -68,7 +68,6 @@ fun BottomBar(bottomState: MutableState<Boolean>){
         Screen.SpiritList,
         Screen.OtherList
     )
-    "重组 -> ${bottomState.value}".logE()
     AnimatedVisibility(
         visible = bottomState.value,
         enter = slideInVertically(initialOffsetY = { it }),
@@ -78,7 +77,16 @@ fun BottomBar(bottomState: MutableState<Boolean>){
             items.forEachIndexed { index, item ->
                 NavigationBarItem(
                     selected = selectIndex == index,
-                    onClick = { selectIndex = index },
+                    onClick = {
+                        selectIndex = index
+                        navController.navigate(item.route){
+                            popUpTo(navController.graph.findStartDestination().id){
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
                     icon = {
                         Icon(imageVector = Icons.Filled.Home, contentDescription = "home")
                     },

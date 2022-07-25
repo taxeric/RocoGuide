@@ -43,6 +43,15 @@ fun WebViewByUrl(navController: NavController, title: String, url: String){
 fun WebViewImpl(paddingValues: PaddingValues, url: String){
     val state = rememberWebViewState(url)
     Box(modifier = Modifier.padding(paddingValues)) {
-        WebView(state = state, captureBackPresses = false)
+        WebView(
+            state = state,
+            captureBackPresses = false,
+            onCreated = {
+                it.settings.run {
+                    domStorageEnabled = true
+                    javaScriptEnabled = true
+                }
+            }
+        )
     }
 }
