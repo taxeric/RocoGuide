@@ -13,7 +13,10 @@ Compose实现的洛克王国攻略
 2. 克隆该项目
 3. 在本地项目中引入克隆下来的项目内的`lib_plugin_base`模块
 4. 将本地项目的`MainAcitity: ComponentActivity()`改为`MainActivity: IPluginActivityInterface()`
-5. 项目完成后打包(apk格式),发送至xxx
+5. 将本地项目的`AndroidManifest.xml`的`MainActivity`相关节点注释
+6. 项目完成后打包(apk格式),发送至xxx
+
+## 目前存在的插件
 
 ## 开源库
 
