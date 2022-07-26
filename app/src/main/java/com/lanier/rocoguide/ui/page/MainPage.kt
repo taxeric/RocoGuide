@@ -22,9 +22,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.lanier.plugin_base.logE
+import com.lanier.rocoguide.base.ROUTE_PARAMS_SPIRIT_ID
 import com.lanier.rocoguide.base.ROUTE_PARAMS_WEB_VIEW_TITLE
 import com.lanier.rocoguide.base.ROUTE_PARAMS_WEB_VIEW_URL
+import com.lanier.rocoguide.base.ROUTE_PARAMS_SPIRIT_ID
 import com.lanier.rocoguide.entity.Screen
 
 /**
@@ -114,6 +115,18 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
         }
         composable(Screen.OtherList.route) {
             OtherScreen(navController, title = Screen.OtherList.title)
+        }
+        composable(
+            route = "${Screen.SpiritDetail.route}/{${ROUTE_PARAMS_SPIRIT_ID}}",
+            arguments = listOf(
+                navArgument(ROUTE_PARAMS_SPIRIT_ID) {
+                    type = NavType.IntType
+                }
+            )
+        ) {
+            val argument = requireNotNull(it.arguments)
+            val id = argument.getInt(ROUTE_PARAMS_SPIRIT_ID)
+            SpiritScreen(navController, id)
         }
         composable(
             route = "${Screen.WebViewPage.route}/{${ROUTE_PARAMS_WEB_VIEW_TITLE}}/{${ROUTE_PARAMS_WEB_VIEW_URL}}",
