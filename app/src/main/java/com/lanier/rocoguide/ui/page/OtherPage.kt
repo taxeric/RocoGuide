@@ -1,27 +1,23 @@
 package com.lanier.rocoguide.ui.page
 
+import android.content.ComponentName
+import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.ImageLoader
-import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
-import coil.request.ImageRequest
+import com.lanier.plugin_base.PluginLoader
 import com.lanier.rocoguide.R
 
 /**
@@ -56,6 +52,20 @@ fun OthersMain(navHostController: NavHostController, padding: PaddingValues){
         }
         .build()
     Column(modifier = Modifier.padding(padding)) {
+        Button(onClick = {
+            PluginLoader.loadAssetsPluginApk(context, ""){ result, msg ->
+                if (result){
+                    val intent = Intent().apply {
+                        component = ComponentName(context, "com.lanier.roco.MainActivity")
+                    }
+                    context.startActivity(intent)
+                } else {
+                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }) {
+            Text(text = "遗传")
+        }
         val painter = rememberAsyncImagePainter(model = R.drawable.dimo, gifImageLoader)
         Image(painter = painter, contentDescription = "")
         val p1 = rememberAsyncImagePainter(model = R.drawable.ic_dimo_1)

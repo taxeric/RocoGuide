@@ -1,6 +1,7 @@
 package com.lanier.plugin_base
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 
 /**
@@ -21,8 +22,13 @@ class HostActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
         intent.getStringExtra(ARG_PLUGIN_CLASS_NAME)?.let {
             val clazz= pluginClassLoader.loadClass(it)
-            pluginActivity = clazz.newInstance() as? IPluginActivityInterface
-            pluginActivity?.registerHostActivity(this)
+            try {
+                pluginActivity = clazz.newInstance() as? IPluginActivityInterface
+                pluginActivity?.registerHostActivity(this)
+            } catch (e: Exception) {
+                Toast.makeText(this, "插件加载失败", Toast.LENGTH_SHORT).show()
+                "failed -> ${e.message}".logE()
+            }
         }
         pluginActivity?.lifecycle = this.lifecycle
         pluginActivity?.onCreate(savedInstanceState)

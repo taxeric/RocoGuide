@@ -1,5 +1,6 @@
 package com.lanier.plugin_base
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
@@ -7,6 +8,7 @@ import androidx.compose.runtime.CompositionContext
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import java.io.File
 
 /**
  * Author: Eric
@@ -51,11 +53,17 @@ abstract class IPluginActivityInterface {
     }
 
     lateinit var mHostActivity: HostActivity
-    fun registerHostActivity(hostActivity: HostActivity) {
-        mHostActivity = hostActivity;
-    }
 
-    fun getIntent() = mHostActivity.intent
+    var intent: Intent? = null
+    var externalCacheDir: File? = null
+
+    fun registerHostActivity(hostActivity: HostActivity) {
+        if (!::mHostActivity.isInitialized) {
+            mHostActivity = hostActivity
+            intent = mHostActivity.intent
+            externalCacheDir = mHostActivity.externalCacheDir
+        }
+    }
 
     open fun onCreate(savedInstanceState: Bundle?){
         lifecycle?.addObserver(defaultLifecycleObserver)
