@@ -81,6 +81,8 @@ dependencies {
     //webview
     implementation "com.google.accompanist:accompanist-webview:0.24.13-rc"
 
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
     //coil
     def coil_version = "2.1.0"
     implementation("io.coil-kt:coil-gif:$coil_version")

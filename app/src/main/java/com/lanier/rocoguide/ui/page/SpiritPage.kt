@@ -114,15 +114,15 @@ fun SpiritMainListImpl(list: List<SpiritEntity>, navHostController: NavHostContr
 @Composable
 fun SpiritItem(navHostController: NavHostController, item: SpiritEntity){
     Column(modifier = Modifier
-        .height(110.dp)
+        .height(200.dp)
         .background(Color.Green)
-        .clip(RoundedCornerShape(50.dp))
+        .clip(RoundedCornerShape(10.dp))
         .clickable {
             navHostController.navigate("${ROUTE_SCREEN_SPIRIT_DETAIL}/${item.number}")
         }
     ){
         Box {
-            AsyncImage(model = item.avatar, contentDescription = "avatar", modifier = Modifier.height(80.dp))
+            AsyncImage(model = item.avatar, contentDescription = "avatar", modifier = Modifier.height(170.dp))
             Text(text = item.number.toString(), fontSize = 16.sp, color = Color.Black, modifier = Modifier.align(Alignment.TopEnd))
         }
         Text(text = item.name, textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier.fillMaxHeight())

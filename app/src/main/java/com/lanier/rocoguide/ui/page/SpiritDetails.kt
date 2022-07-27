@@ -2,6 +2,7 @@ package com.lanier.rocoguide.ui.page
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -13,9 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.lanier.rocoguide.R
@@ -87,33 +92,57 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity){
         .fillMaxWidth()
         .padding(paddingValues)) {
         Row {
-            SpiritEntityPic(data, modifier = Modifier.weight(0.35f))
-            SpiritEntityBaseInfo(data, modifier = Modifier.weight(0.65f))
+            SpiritEntityPic(data, modifier = Modifier
+                .weight(0.35f)
+                .padding(10.dp, 5.dp))
+            SpiritEntityBaseInfo(data, modifier = Modifier
+                .weight(0.65f)
+                .padding(10.dp, 5.dp))
         }
         Spacer(modifier = Modifier.height(10.dp))
-//        TODO("六项种族值")
+        SpiritRacialValue(data)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
-    Card(elevation = CardDefaults.cardElevation(defaultElevation = 5.dp), modifier = modifier) {
+    Card(elevation = CardDefaults.cardElevation(defaultElevation = 5.dp), modifier = modifier.background(Color.White)) {
         Column(modifier = Modifier.height(200.dp)) {
             AsyncImage(model = data.avatar, contentDescription = "avatar", modifier = Modifier.height(170.dp))
-            Box(modifier = Modifier.height(30.dp).background(Color.Yellow)) {
-                Row(modifier = Modifier.fillMaxHeight().width(30.dp).background(Color.Blue)) {
-                    if (data.primary_attributes_id != 0){
-                        Image(painter = painterResource(id = R.drawable.ic_jelly), contentDescription = "pr")
-                        Spacer(modifier = Modifier.width(10.dp))
-                    }
-                    if (data.secondary_attributes_id != 0){
-                        Image(painter = painterResource(id = R.drawable.ic_jelly), contentDescription = "dm")
-                    }
+            ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+                val (attr1, attr2, space, eggGroup) = createRefs()
+                if (data.primary_attributes_id != 0){
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_jelly),
+                        contentDescription = "pr",
+                        modifier = Modifier.constrainAs(attr1){
+                            start.linkTo(parent.start)
+                        }
+                    )
+                    Spacer(modifier = Modifier
+                        .width(10.dp)
+                        .constrainAs(space) {
+                            start.linkTo(attr1.end)
+                        })
+                }
+                if (data.secondary_attributes_id != 0){
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_jelly),
+                        contentDescription = "dm",
+                        modifier = Modifier.constrainAs(attr2){
+                            start.linkTo(space.end)
+                        }
+                    )
                 }
                 Image(painter = painterResource(id = R.drawable.ic_jelly),
                     contentDescription = "",
-                    modifier = Modifier.fillMaxHeight().width(30.dp).background(Color.Green).align(Alignment.CenterEnd))
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(30.dp)
+                        .constrainAs(eggGroup) {
+                            end.linkTo(parent.end)
+                        })
             }
         }
     }
@@ -128,6 +157,36 @@ fun SpiritEntityBaseInfo(data: SpiritEntity, modifier: Modifier){
     }
 }
 
+@Preview(backgroundColor = 0xffffffff)
+@Composable
+fun SpiritRacialValue(data: SpiritEntity = SpiritEntity()){
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp, 5.dp)) {
+        SpiritSingleRacialValue(modifier = Modifier.wrapContentHeight().weight(1f), )
+        SpiritSingleRacialValue(modifier = Modifier.wrapContentHeight().weight(1f), )
+        SpiritSingleRacialValue(modifier = Modifier.wrapContentHeight().weight(1f), )
+        SpiritSingleRacialValue(modifier = Modifier.wrapContentHeight().weight(1f), )
+        SpiritSingleRacialValue(modifier = Modifier.wrapContentHeight().weight(1f), )
+        SpiritSingleRacialValue(modifier = Modifier.wrapContentHeight().weight(1f), )
+    }
+}
+
+@Composable
+fun SpiritSingleRacialValue(modifier: Modifier = Modifier, name: String = "种族", value: Int = 100){
+    Column(modifier = modifier
+        .fillMaxWidth()
+        .background(Color.White)
+        .border(1.dp, Color(0xFF7961FE))) {
+        Text(text = name, color = Color(0xFFC3C6E0), fontSize = 18.sp, textAlign = TextAlign.Center, modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(0xff61A9FE))
+            .padding(10.dp))
+        Text(text = "$value", textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()
+            .padding(4.dp))
+    }
+}
+
 @Composable
 fun EggDialog(onDismiss: () -> Unit){
     Dialog(
@@ -137,7 +196,9 @@ fun EggDialog(onDismiss: () -> Unit){
             dismissOnBackPress = true
         )
     ) {
-        Column(modifier = Modifier.background(Color.White).clip(RoundedCornerShape(30.dp))) {
+        Column(modifier = Modifier
+            .background(Color.White)
+            .clip(RoundedCornerShape(30.dp))) {
             Text(text = "敬请期待", modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.height(20.dp))
             TextButton(onClick = onDismiss, modifier = Modifier
