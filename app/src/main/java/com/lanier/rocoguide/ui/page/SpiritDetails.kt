@@ -24,6 +24,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.lanier.rocoguide.R
+import com.lanier.rocoguide.entity.SpiritAttributes
 import com.lanier.rocoguide.entity.SpiritEntity
 
 /**
@@ -80,8 +81,8 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
 @Composable
 fun SpiritDetailData(paddingValues: PaddingValues){
     SpiritDetailImpl(paddingValues, SpiritEntity(
-        primary_attributes_id = 1,
-        secondary_attributes_id = 2,
+        primaryAttributes = SpiritAttributes(1),
+        secondaryAttributes = SpiritAttributes(2),
         name = "lalala",
         description = "火花，腾讯游戏《洛克王国》初始宠物，可以自然进化为焰火、火神，火神又可依次超进化为烈火战神、豪炎战神，拥有全新蛋生纪念皮肤公测火花。长大可以喷出火焰，现在已经可以熟练使用火花。"))
 }
@@ -112,7 +113,7 @@ fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
             AsyncImage(model = data.avatar, contentDescription = "avatar", modifier = Modifier.height(170.dp))
             ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                 val (attr1, attr2, space, eggGroup) = createRefs()
-                if (data.primary_attributes_id != 0){
+                if (data.primaryAttributes.id != 0){
                     Image(
                         painter = painterResource(id = R.drawable.ic_jelly),
                         contentDescription = "pr",
@@ -126,7 +127,7 @@ fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
                             start.linkTo(attr1.end)
                         })
                 }
-                if (data.secondary_attributes_id != 0){
+                if (data.secondaryAttributes.id != 0){
                     Image(
                         painter = painterResource(id = R.drawable.ic_jelly),
                         contentDescription = "dm",
@@ -177,10 +178,10 @@ fun SpiritSingleRacialValue(modifier: Modifier = Modifier, name: String = "种�
     Column(modifier = modifier
         .fillMaxWidth()
         .background(Color.White)
-        .border(1.dp, Color(0xFF7961FE))) {
-        Text(text = name, color = Color(0xFFC3C6E0), fontSize = 18.sp, textAlign = TextAlign.Center, modifier = Modifier
+        .border(1.dp, Color(0xFF83AAF7))) {
+        Text(text = name, color = Color(0xFFEEEEEE), fontSize = 18.sp, textAlign = TextAlign.Center, modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xff61A9FE))
+            .background(Color(0xFF90C3FF))
             .padding(10.dp))
         Text(text = "$value", textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()
             .padding(4.dp))
