@@ -1,8 +1,6 @@
 package com.lanier.rocoguide.ui.page
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -14,7 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,6 +26,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.lanier.rocoguide.R
+import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.entity.SpiritAttributes
 import com.lanier.rocoguide.entity.SpiritEntity
 
@@ -69,7 +72,7 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
             )
         },
     ) { innerPadding ->
-        SpiritDetailData(innerPadding)
+        SpiritDetailData(innerPadding, navHostController)
     }
     if (showEggDialog){
         EggDialog {
@@ -79,19 +82,20 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
 }
 
 @Composable
-fun SpiritDetailData(paddingValues: PaddingValues){
+fun SpiritDetailData(paddingValues: PaddingValues, navHostController: NavHostController){
     SpiritDetailImpl(paddingValues, SpiritEntity(
         primaryAttributes = SpiritAttributes(1),
         secondaryAttributes = SpiritAttributes(2),
         name = "lalala",
-        description = "火花，腾讯游戏《洛克王国》初始宠物，可以自然进化为焰火、火神，火神又可依次超进化为烈火战神、豪炎战神，拥有全新蛋生纪念皮肤公测火花。长大可以喷出火焰，现在已经可以熟练使用火花。"))
+        hobby = "喜欢阳光，喜欢新鲜的空气"), navHostController)
 }
 
 @Composable
-fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity){
+fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostController: NavHostController){
     Column(modifier = Modifier
         .fillMaxWidth()
-        .padding(paddingValues)) {
+        .padding(paddingValues)
+        .verticalScroll(rememberScrollState())) {
         Row {
             SpiritEntityPic(data, modifier = Modifier
                 .weight(0.35f)
@@ -101,7 +105,22 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity){
                 .padding(10.dp, 5.dp))
         }
         Spacer(modifier = Modifier.height(10.dp))
+        Text(text = data.description, color = Color.Black, fontSize = 18.sp, modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         SpiritRacialValue(data)
+        Spacer(modifier = Modifier.height(10.dp))
+        SpiritSkills(data, navHostController)
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(text = buildAnnotatedString {
+            append("数据来自网络,如有纰漏请")
+            withStyle(SpanStyle(color = Color.Blue)) {
+                append("联系改正")
+            }
+        }, textAlign = TextAlign.Center, modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp))
     }
 }
 
@@ -154,7 +173,11 @@ fun SpiritEntityBaseInfo(data: SpiritEntity, modifier: Modifier){
     Column(modifier = modifier) {
         Text(text = data.name)
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = data.description)
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Text(text = "身高: ${data.height}m", modifier = Modifier.weight(1f))
+            Text(text = "体重: ${data.weight}kg", modifier = Modifier.weight(1f))
+        }
+        Text(text = data.hobby)
     }
 }
 
@@ -164,12 +187,24 @@ fun SpiritRacialValue(data: SpiritEntity = SpiritEntity()){
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(10.dp, 5.dp)) {
-        SpiritSingleRacialValue(modifier = Modifier.wrapContentHeight().weight(1f), )
-        SpiritSingleRacialValue(modifier = Modifier.wrapContentHeight().weight(1f), )
-        SpiritSingleRacialValue(modifier = Modifier.wrapContentHeight().weight(1f), )
-        SpiritSingleRacialValue(modifier = Modifier.wrapContentHeight().weight(1f), )
-        SpiritSingleRacialValue(modifier = Modifier.wrapContentHeight().weight(1f), )
-        SpiritSingleRacialValue(modifier = Modifier.wrapContentHeight().weight(1f), )
+        SpiritSingleRacialValue(modifier = Modifier
+            .wrapContentHeight()
+            .weight(1f), )
+        SpiritSingleRacialValue(modifier = Modifier
+            .wrapContentHeight()
+            .weight(1f), )
+        SpiritSingleRacialValue(modifier = Modifier
+            .wrapContentHeight()
+            .weight(1f), )
+        SpiritSingleRacialValue(modifier = Modifier
+            .wrapContentHeight()
+            .weight(1f), )
+        SpiritSingleRacialValue(modifier = Modifier
+            .wrapContentHeight()
+            .weight(1f), )
+        SpiritSingleRacialValue(modifier = Modifier
+            .wrapContentHeight()
+            .weight(1f), )
     }
 }
 
@@ -183,8 +218,84 @@ fun SpiritSingleRacialValue(modifier: Modifier = Modifier, name: String = "种�
             .fillMaxWidth()
             .background(Color(0xFF90C3FF))
             .padding(10.dp))
-        Text(text = "$value", textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth()
+        Text(text = "$value", textAlign = TextAlign.Center, modifier = Modifier
+            .fillMaxWidth()
             .padding(4.dp))
+    }
+}
+
+@Composable
+fun SpiritSkills(data: SpiritEntity, navHostController: NavHostController){
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp, 5.dp)
+        .background(Color.White)
+        .border(0.5.dp, Color.Yellow)) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Text(text = "技能", textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
+            Text(text = "威力", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+            Text(text = "PP", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+            Text(text = "类型", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+            Text(text = "附加效果", textAlign = TextAlign.Center, modifier = Modifier.weight(1.8f))
+        }
+        data.skills.forEach {
+            SingleSkill(it, navHostController)
+        }
+    }
+}
+
+@Composable
+fun SingleSkill(skill: Skill, navHostController: NavHostController){
+    var showSkillDialog by remember {
+        mutableStateOf(false)
+    }
+    var dialogContent by remember {
+        mutableStateOf("")
+    }
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp, 0.dp, 10.dp, 0.dp)
+        .clickable {
+            dialogContent = skill.description
+            showSkillDialog = true
+        }
+    ) {
+        Text(text = skill.name, fontSize = 14.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+        Text(text = "${skill.value}", fontSize = 14.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+        Text(text = "${skill.amount}", fontSize = 14.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+        val type = skill.attributes.name + skill.skillType.name
+        Text(text = type, fontSize = 14.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+        Text(text = skill.additional_effects, fontSize = 14.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(2f))
+    }
+    if (showSkillDialog) {
+        SkillDialog(dialogContent) {
+            showSkillDialog = false
+        }
+    }
+}
+
+@Composable
+fun SkillDialog(content: String, onDismiss: () -> Unit){
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(
+            dismissOnClickOutside = true,
+            dismissOnBackPress = true
+        )
+    ) {
+        Column {
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(text = content, color = Color.Black, fontSize = 16.sp, modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth())
+            Spacer(modifier = Modifier.height(20.dp))
+            TextButton(onClick = onDismiss, modifier = Modifier
+                .align(Alignment.End)
+                .padding(5.dp, 2.dp)) {
+                Text(text = "确定")
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+        }
     }
 }
 
