@@ -4,7 +4,9 @@ package com.lanier.rocoguide.entity
  * Create by Eric
  * on 2022/7/25
  */
-data class BaseNewsEntity(
+data class NewsList(
+    val code: Int = 0,
+    val msg: String = "",
     val `data`: List<NewsData> = emptyList(),
     val totalItem: Int = 0
 )

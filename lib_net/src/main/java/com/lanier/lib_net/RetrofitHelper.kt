@@ -4,7 +4,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.create
 
 /**
  * Create by Eric
@@ -27,18 +26,30 @@ object RetrofitHelper {
         }
     }
 
-    fun <S> createService(clazz: Class<S>) = mRetrofit.create(clazz)
+    fun <S> createService(clazz: Class<S>): S = mRetrofit.create(clazz)
+
+    suspend fun <T> launch(block: suspend () -> T): Result<T>{
+        return try {
+            val response = withContext(Dispatchers.Default) {
+                block()
+            }
+            Result.success(response)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
     suspend fun <T> launch(
         block: suspend () -> T,
+        result: (Result<T>) -> Unit,
         complete: () -> Unit = {}
     ){
         withContext(Dispatchers.Default) {
             try {
                 val t = block()
-                Result.success(t)
+                result(Result.success(t))
             } catch (e: Exception) {
-                Result.failure(e)
+                result(Result.failure(e))
             } finally {
                 withContext(Dispatchers.Main) {
                     complete()

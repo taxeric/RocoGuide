@@ -48,6 +48,7 @@ android {
 dependencies {
 
     implementation project(':lib_plugin_base')
+    implementation project(':lib_net')
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation "androidx.compose.ui:ui:$compose_version"
@@ -87,4 +88,7 @@ dependencies {
     def coil_version = "2.1.0"
     implementation("io.coil-kt:coil-gif:$coil_version")
     implementation("io.coil-kt:coil-compose:$coil_version")
+
+    //refresh
+    api("com.google.accompanist:accompanist-swiperefresh:0.23.1")
 }
