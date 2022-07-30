@@ -15,8 +15,9 @@ Compose实现的洛克王国攻略
 4. 将本地项目的`MainAcitity: ComponentActivity()`改为`MainActivity: IPluginActivityInterface()`
 5. 将本地项目的`AndroidManifest.xml`的`MainActivity`相关节点注释
 6. 项目完成后打包(apk格式),发送至xxx
+**注: 建议使用Compose开发，使用非Compose开发可能产生未经检查的异常**
 
-## 目前存在的插件
+## 目前开发完成的插件
 
 ## 开源库
 
