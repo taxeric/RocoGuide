@@ -29,6 +29,8 @@ import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.entity.SpiritAttributes
 import com.lanier.rocoguide.entity.SpiritEntity
+import com.lanier.rocoguide.ui.common.EggDialog
+import com.lanier.rocoguide.ui.common.SkillDialog
 
 /**
  * Create by Eric
@@ -270,55 +272,6 @@ fun SingleSkill(skill: Skill, navHostController: NavHostController){
     if (showSkillDialog) {
         SkillDialog(dialogContent) {
             showSkillDialog = false
-        }
-    }
-}
-
-@Composable
-fun SkillDialog(content: String, onDismiss: () -> Unit){
-    Dialog(
-        onDismissRequest = onDismiss,
-        properties = DialogProperties(
-            dismissOnClickOutside = true,
-            dismissOnBackPress = true
-        )
-    ) {
-        Column {
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text = content, color = Color.Black, fontSize = 16.sp, modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth())
-            Spacer(modifier = Modifier.height(20.dp))
-            TextButton(onClick = onDismiss, modifier = Modifier
-                .align(Alignment.End)
-                .padding(5.dp, 2.dp)) {
-                Text(text = "确定")
-            }
-            Spacer(modifier = Modifier.height(5.dp))
-        }
-    }
-}
-
-@Composable
-fun EggDialog(onDismiss: () -> Unit){
-    Dialog(
-        onDismissRequest = onDismiss,
-        properties = DialogProperties(
-            dismissOnClickOutside = true,
-            dismissOnBackPress = true
-        )
-    ) {
-        Column(modifier = Modifier
-            .background(Color.White)
-            .clip(RoundedCornerShape(30.dp))) {
-            Text(text = "敬请期待", modifier = Modifier.fillMaxWidth())
-            Spacer(modifier = Modifier.height(20.dp))
-            TextButton(onClick = onDismiss, modifier = Modifier
-                .align(Alignment.End)
-                .padding(5.dp)) {
-                Text(text = "确定")
-            }
-            Spacer(modifier = Modifier.height(5.dp))
         }
     }
 }
