@@ -5,12 +5,20 @@ package com.lanier.rocoguide.entity
  * on 2022/7/30
  */
 data class UpdateEntity(
-    val log: String = "",
-    val createTime: Long = 0L,
-    val mandatory: Int = 0,
-    val url: String = "",
-    val size: Long = 0L,
-    val versionCode: Int = 0,
-    val versionName: String = "",
-    val type: Int = -1
+    val code: Int,
+    val `data`: UpdateData,
+    val msg: String
+)
+
+data class UpdateData(
+    val createTime: String,
+    val id: Int,
+    val log: String,
+    val logType: Int,
+    val md5: String,
+    val mandatory: Boolean,
+    val size: String,
+    val url: String,
+    val versionCode: Int,
+    val versionName: String
 )

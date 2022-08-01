@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.lanier.rocoguide.entity.UpdateData
 import com.lanier.rocoguide.entity.UpdateEntity
 
 /**
@@ -80,20 +81,20 @@ fun EggDialog(onDismiss: () -> Unit){
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VersionUpdateDialog(
-    data: UpdateEntity,
+    data: UpdateData,
     onDismiss: () -> Unit = {},
     onCheckEnable: (Boolean) -> Unit,
     onClick: (url: String) -> Unit
 ) {
-    if (data.type == 0 || data.type == 1) {
+    if (data.logType == 0 || data.logType == 1) {
         var checkEnable by remember {
             mutableStateOf(false)
         }
         Dialog(
             onDismissRequest = onDismiss,
             properties = DialogProperties(
-                dismissOnBackPress = data.mandatory != 1 && data.type != 1,
-                dismissOnClickOutside = data.mandatory != 1 && data.type != 1
+                dismissOnBackPress = !data.mandatory && data.logType != 1,
+                dismissOnClickOutside = !data.mandatory && data.logType != 1
             )
         ) {
             Column(
@@ -102,7 +103,7 @@ fun VersionUpdateDialog(
                     .background(Color.White)
                     .padding(10.dp)
             ) {
-                val title = if (data.type == 0) {
+                val title = if (data.logType == 0) {
                     "公告"
                 } else {
                     "版本更新"
@@ -119,13 +120,13 @@ fun VersionUpdateDialog(
                     text = buildAnnotatedString {
                         append(data.log)
                         append("\n")
-                        if (data.type == 1) {
-                            if (data.mandatory == 1) {
+                        if (data.logType == 1) {
+                            if (data.mandatory) {
                                 withStyle(SpanStyle(color = Color.Black, fontSize = 16.sp)) {
                                     append("本版为强制更新\n")
                                 }
                             }
-                            append("文件大小: ${(data.size / 1024 / 1024).toDouble()} MB")
+                            append("文件大小: ${data.size}")
                         }
                     }, modifier = Modifier
                         .fillMaxWidth()
@@ -145,7 +146,7 @@ fun VersionUpdateDialog(
                     TextButton(onClick = {
                         onCheckEnable(checkEnable)
                         onClick(
-                            if (data.type == 1) {
+                            if (data.logType == 1) {
                                 data.url
                             } else {
                                 ""
@@ -153,7 +154,7 @@ fun VersionUpdateDialog(
                         )
                         onDismiss()
                     }) {
-                        val text = if (data.type == 0) {
+                        val text = if (data.logType == 0) {
                             "确定"
                         } else {
                             "立即下载"
