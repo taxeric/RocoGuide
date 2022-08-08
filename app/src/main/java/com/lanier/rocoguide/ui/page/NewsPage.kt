@@ -1,6 +1,7 @@
 package com.lanier.rocoguide.ui.page
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -72,7 +73,9 @@ fun NewsMain(navController: NavController, padding: PaddingValues){
 fun NewsList(navController: NavController){
     val vm: NewsViewModel = viewModel()
     val list = vm.newsFlow.collectAsLazyPagingItems()
-    RefreshLazyColumn(modifier = Modifier.fillMaxWidth(), data = list){index, data ->
+    RefreshLazyColumn(modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        data = list){index, data ->
         NewsItem(navController = navController, item = data)
     }
 }
@@ -82,6 +85,7 @@ fun NewsItem(navController: NavController, item: NewsData){
     Box(modifier = Modifier
         .fillMaxWidth()
         .height(50.dp)
+        .background(MaterialTheme.colorScheme.background)
         .clickable {
             val encodeUrl = URLEncoder.encode(item.url, StandardCharsets.UTF_8.toString())
             navController.navigate("${ROUTE_SCREEN_WEB_VIEW}/正文/$encodeUrl")
@@ -93,6 +97,7 @@ fun NewsItem(navController: NavController, item: NewsData){
             fontSize = 16.sp,
             textAlign = TextAlign.Start,
             modifier = Modifier.align(Alignment.CenterStart)
+                .padding(10.dp, 0.dp)
         )
 //        Icon(imageVector = Icons.Filled.AddCircle)
     }

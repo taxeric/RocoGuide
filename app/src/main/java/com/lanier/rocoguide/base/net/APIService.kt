@@ -13,25 +13,25 @@ import retrofit2.http.Query
  */
 interface APIService {
 
-    @GET("news/v1/page")
+    @GET("api/news/v1/page")
     suspend fun getNewsList(
         @Query("page") page: Int,
         @Query("amount") amount: Int = 20
     ): NewsList
 
-    @GET("genius/v1/page")
+    @GET("api/genius/v1/page")
     suspend fun getSpiritList(
         @Query("page") page: Int,
         @Query("keywords") keywords: String = "",
         @Query("amount") amount: Int = 20
     ): SpiritList
 
-    @GET("genius/v1/genius")
+    @GET("api/genius/v1/genius")
     suspend fun getSpiritById(
         @Query("id") id: Int
     ): SpiritDetailEntity
 
-    @GET("skill/v1/page")
+    @GET("api/skill/v1/page")
     suspend fun getSkillsList(
         @Query("page") page: Int,
         @Query("keywords") keywords: String = "",

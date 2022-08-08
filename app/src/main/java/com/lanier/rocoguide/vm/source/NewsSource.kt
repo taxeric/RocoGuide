@@ -14,13 +14,13 @@ import com.lanier.rocoguide.vm.repo.NewsRepo
 class NewsSource(
     private val repo: NewsRepo = NewsRepo()
 ): PagingSource<Int, NewsData>() {
-    override fun getRefreshKey(state: PagingState<Int, NewsData>): Int = 0
+    override fun getRefreshKey(state: PagingState<Int, NewsData>): Int = 1
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, NewsData> {
         val nextPage = params.key ?: 1
         val response = repo.getNewsList(nextPage).getOrDefault(NewsList())
         if (response.code == 200) {
-            return LoadResult.Page(response.data, null, nextPage)
+            return LoadResult.Page(response.data, null, if (params.loadSize >= response.totalItem) null else nextPage + 1)
         }
         return LoadResult.Error(Throwable(response.msg))
     }
