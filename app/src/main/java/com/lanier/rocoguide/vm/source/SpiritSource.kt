@@ -2,10 +2,9 @@ package com.lanier.rocoguide.vm.source
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.lanier.plugin_base.logE
 import com.lanier.rocoguide.entity.SpiritEntity
 import com.lanier.rocoguide.entity.SpiritList
-import com.lanier.rocoguide.vm.repo.SpiritRepo
+import com.lanier.rocoguide.vm.repo.remote.SpiritRemoteData
 
 /**
  * Author: 芒硝
@@ -14,11 +13,9 @@ import com.lanier.rocoguide.vm.repo.SpiritRepo
  * Desc  :
  */
 class SpiritSource(
-    private val repo: SpiritRepo
+    private val repo: SpiritRemoteData,
+    private val keywords: String = ""
 ): PagingSource<Int, SpiritEntity>() {
-
-    var keywords: String = ""
-    var isSearchMode = false
 
     override fun getRefreshKey(state: PagingState<Int, SpiritEntity>): Int = 1
 

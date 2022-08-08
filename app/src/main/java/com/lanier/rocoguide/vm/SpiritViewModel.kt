@@ -17,17 +17,6 @@ import com.lanier.rocoguide.vm.source.SpiritSource
 class SpiritViewModel: ViewModel() {
 
     private val repo = SpiritRepo()
-    private val source = SpiritSource(repo)
 
-    private val _spiritMainList = Pager(
-        PagingConfig(20)
-    ){
-        source
-    }.flow.cachedIn(viewModelScope)
-
-    fun search(keywords: String) {
-        source.keywords = keywords
-    }
-
-    val spiritMainList get() = _spiritMainList
+    val spiritMainList get() = repo.getAllSpirit().cachedIn(viewModelScope)
 }

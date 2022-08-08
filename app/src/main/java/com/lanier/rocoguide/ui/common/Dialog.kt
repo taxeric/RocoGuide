@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.lanier.rocoguide.entity.Search
 import com.lanier.rocoguide.entity.UpdateEntity
 
 /**
@@ -47,6 +45,59 @@ fun SkillDialog(content: String, onDismiss: () -> Unit){
                 .align(Alignment.End)
                 .padding(5.dp, 2.dp)) {
                 Text(text = "确定")
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+    }
+}
+
+@Composable
+fun SearchDialog(type: Search, onDismiss: (String) -> Unit) {
+    Dialog(
+        onDismissRequest = { onDismiss("") },
+        properties = DialogProperties(
+            dismissOnClickOutside = true,
+            dismissOnBackPress = true
+        )
+    ) {
+        var mDesc by remember {
+            mutableStateOf("")
+        }
+        Column(
+            modifier = Modifier
+                .clip(RoundedCornerShape(10.dp))
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            Text(
+                text = "搜索${type.title}", modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            OutlinedTextField(
+                value = mDesc, onValueChange = {
+                    mDesc = it
+                },
+                label = {
+                    Text(text = "更改描述")
+                }, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            Row(modifier = Modifier.align(Alignment.End)) {
+                TextButton(
+                    onClick = { onDismiss("") }, modifier = Modifier
+                        .padding(5.dp)
+                ) {
+                    Text(text = "取消")
+                }
+                TextButton(
+                    onClick = { onDismiss(mDesc) }, modifier = Modifier
+                        .padding(5.dp)
+                ) {
+                    Text(text = "确定")
+                }
             }
             Spacer(modifier = Modifier.height(5.dp))
         }
