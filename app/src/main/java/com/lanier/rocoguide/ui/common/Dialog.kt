@@ -114,13 +114,45 @@ fun EggDialog(onDismiss: () -> Unit){
         )
     ) {
         Column(modifier = Modifier
-            .clip(RoundedCornerShape(30.dp))
-            .background(Color.White)) {
+            .clip(RoundedCornerShape(10.dp))
+            .background(MaterialTheme.colorScheme.background)) {
             Text(text = "敬请期待", modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.height(20.dp))
             TextButton(onClick = onDismiss, modifier = Modifier
                 .align(Alignment.End)
                 .padding(5.dp)) {
+                Text(text = "确定")
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+    }
+}
+
+@Composable
+fun DataErrorDialog(type: Int, onDismiss: () -> Unit) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(
+            dismissOnClickOutside = true,
+            dismissOnBackPress = true
+        )
+    ) {
+        Column(modifier = Modifier
+            .clip(RoundedCornerShape(10.dp))
+            .background(MaterialTheme.colorScheme.background)) {
+            val errorStr = when (type) {
+                -1 -> "编号对应精灵错误"
+                -3 -> "精灵获取失败"
+                -4 -> "服务器响应异常"
+                else -> "其他异常"
+            }
+            Text(text = "数据可能有误: $errorStr", modifier = Modifier.fillMaxWidth().padding(10.dp))
+            Spacer(modifier = Modifier.height(20.dp))
+            TextButton(
+                onClick = onDismiss, modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(5.dp)
+            ) {
                 Text(text = "确定")
             }
             Spacer(modifier = Modifier.height(5.dp))

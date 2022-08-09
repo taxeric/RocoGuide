@@ -36,4 +36,6 @@ class SpiritRepo {
             SpiritSource(remoteRepo, keywords)
         }.flow
     }
+
+    suspend fun searchSpiritById(id: Int) = remoteRepo.getSpiritById(id)
 }

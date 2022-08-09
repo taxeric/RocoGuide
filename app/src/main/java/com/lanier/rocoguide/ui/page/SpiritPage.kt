@@ -19,6 +19,7 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
+import com.lanier.plugin_base.logI
 import com.lanier.rocoguide.base.ROUTE_SCREEN_SEARCH_LIST
 import com.lanier.rocoguide.base.ROUTE_SCREEN_SPIRIT_DETAIL
 import com.lanier.rocoguide.entity.Search
@@ -68,7 +69,7 @@ fun SpiritScreen(navHostController: NavHostController, title: String){
 }
 
 @Composable
-fun SpiritMainList(navHostController: NavHostController, paddingValues: PaddingValues, showSearch: Boolean = false){
+fun SpiritMainList(navHostController: NavHostController, paddingValues: PaddingValues){
     val vm = viewModel<SpiritViewModel>()
     val list = vm.spiritMainListFlow.collectAsLazyPagingItems()
     Column(modifier = Modifier.padding(paddingValues)) {
@@ -89,12 +90,13 @@ fun SpiritItem(navHostController: NavHostController, item: SpiritEntity){
         .height(210.dp)
         .clip(RoundedCornerShape(10.dp))
         .clickable {
+            "search -> ${item.number}".logI()
             navHostController.navigate("${ROUTE_SCREEN_SPIRIT_DETAIL}/${item.number}")
         }
     ){
         Box {
             AsyncImage(model = item.avatar, contentDescription = "avatar", modifier = Modifier.height(150.dp))
-            Text(text = item.number.toString(), fontSize = 16.sp, color = Color.Black, modifier = Modifier
+            Text(text = item.number, fontSize = 16.sp, color = Color.Black, modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(10.dp))
         }
