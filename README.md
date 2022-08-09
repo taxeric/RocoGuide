@@ -22,21 +22,22 @@ Compose实现的洛克王国攻略
 ## 目前开发完成的插件
 
 ## 开源库
-- (compose-WebView: 适用于compose的浏览器控件)[https://google.github.io/accompanist/webview/]
-- (compose-refresh: 适用于compose的下拉刷新框架)[https://google.github.io/accompanist/swiperefresh/]
-- (compose-paging3: 适用于compose的数据分页框架)[https://developer.android.google.cn/topic/libraries/architecture/paging/v3-overview]
-- (compose-navigation: 适用于compose的路由框架)[https://developer.android.google.cn/guide/navigation/navigation-getting-started]
-- (coil: 基于kt的图片加载库)[https://github.com/coil-kt/coil/blob/main/README-zh.md]
-- compose-constraintlayout: 适用于compose的约束布局
+- [Compose-WebView: 适用于Compose的浏览器控件](https://google.github.io/accompanist/webview/)
+- [Compose-refresh: 适用于Compose的下拉刷新框架](https://google.github.io/accompanist/swiperefresh/)
+- [Compose-paging3: 适用于Compose的数据分页框架](https://developer.android.google.cn/topic/libraries/architecture/paging/v3-overview)
+- [Compose-navigation: 适用于Compose的路由框架](https://developer.android.google.cn/guide/navigation/navigation-getting-started)
+- [Coil: 基于kt的图片加载库](https://github.com/coil-kt/coil/blob/main/README-zh.md)
+- Compose-constraintlayout: 适用于Compose的约束布局
 
 ## 测试名单
-- (bbyyxx2)[https://github.com/bbyyxx2]
-- (XiaoAnXA)[https://github.com/XiaoAnXA]
+- [bbyyxx2](https://github.com/bbyyxx2)
+- [XiaoAnXA](https://github.com/XiaoAnXA)
 
 ## 鸣谢
+- [XiaoAnXA](https://github.com/XiaoAnXA),为本项目提供服务器数据及接口支持
 
 ## 推荐阅读
 - compose开发助手
-- - (文档)[https://google.github.io/accompanist/]
-- - (版本)[https://search.maven.org/search?q=g:com.google.accompanist]
+  - [文档](https://google.github.io/accompanist/)
+  - [版本](https://search.maven.org/search?q=g:com.google.accompanist)
 
