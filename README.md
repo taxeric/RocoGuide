@@ -15,12 +15,28 @@ Compose实现的洛克王国攻略
 4. 将本地项目的`MainAcitity: ComponentActivity()`改为`MainActivity: IPluginActivityInterface()`
 5. 将本地项目的`AndroidManifest.xml`的`MainActivity`相关节点注释
 6. 项目完成后打包(apk格式),发送至xxx
-**注: 建议使用Compose开发，使用非Compose开发可能产生未经检查的异常**
+
+**注1: 建议使用Compose开发，使用非Compose开发可能产生未经检查的异常**  
+**注2: 您的compose相关依赖版本请与`lib_plugin_base`一致**
 
 ## 目前开发完成的插件
 
 ## 开源库
+- (compose-WebView: 适用于compose的浏览器控件)[https://google.github.io/accompanist/webview/]
+- (compose-refresh: 适用于compose的下拉刷新框架)[https://google.github.io/accompanist/swiperefresh/]
+- (compose-paging3: 适用于compose的数据分页框架)[https://developer.android.google.cn/topic/libraries/architecture/paging/v3-overview]
+- (compose-navigation: 适用于compose的路由框架)[https://developer.android.google.cn/guide/navigation/navigation-getting-started]
+- (coil: 基于kt的图片加载库)[https://github.com/coil-kt/coil/blob/main/README-zh.md]
+- compose-constraintlayout: 适用于compose的约束布局
 
 ## 测试名单
+- (bbyyxx2)[https://github.com/bbyyxx2]
+- (XiaoAnXA)[https://github.com/XiaoAnXA]
 
 ## 鸣谢
+
+## 推荐阅读
+- compose开发助手
+- - (文档)[https://google.github.io/accompanist/]
+- - (版本)[https://search.maven.org/search?q=g:com.google.accompanist]
+
