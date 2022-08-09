@@ -79,7 +79,7 @@ fun SearchDialog(type: Search, onDismiss: (String) -> Unit) {
                     mDesc = it
                 },
                 label = {
-                    Text(text = "更改描述")
+                    Text(text = "精灵名")
                 }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp)

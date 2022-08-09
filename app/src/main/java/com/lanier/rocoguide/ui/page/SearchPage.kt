@@ -7,6 +7,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.lanier.rocoguide.entity.Search
 import com.lanier.rocoguide.ui.common.SearchBaseScaffold
 import com.lanier.rocoguide.vm.SearchViewModel
+import com.lanier.rocoguide.vm.factory.SearchVMFactory
 
 /**
  * Author: 芒硝
@@ -16,8 +17,8 @@ import com.lanier.rocoguide.vm.SearchViewModel
  */
 @Composable
 fun SearchSpiritScreen(navController: NavHostController, keywords: String) {
-    val vm = viewModel<SearchViewModel>()
-    val list = vm.searchResult(keywords).collectAsLazyPagingItems()
+    val vm = viewModel<SearchViewModel>(factory = SearchVMFactory(keywords))
+    val list = vm.searchResult.collectAsLazyPagingItems()
     SearchBaseScaffold(type = Search.Spirit, onBack = {
         navController.popBackStack()
     }) {

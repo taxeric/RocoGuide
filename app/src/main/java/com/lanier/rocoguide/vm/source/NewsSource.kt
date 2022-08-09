@@ -20,7 +20,7 @@ class NewsSource(
         val nextPage = params.key ?: 1
         val response = repo.getNewsList(nextPage).getOrDefault(NewsList())
         if (response.code == 200) {
-            return LoadResult.Page(response.data, null, if (params.loadSize >= response.totalItem) null else nextPage + 1)
+            return LoadResult.Page(response.data, null, if (params.loadSize >= response.total) null else nextPage + 1)
         }
         return LoadResult.Error(Throwable(response.msg))
     }

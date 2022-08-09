@@ -15,9 +15,11 @@ import kotlinx.coroutines.launch
  * Date  : 2022/8/8 14:38
  * Desc  :
  */
-class SearchViewModel : ViewModel(){
+class SearchViewModel(
+    keywords: String
+) : ViewModel(){
 
     private val repo = SpiritRepo()
 
-    val searchResult get() = fun (keywords: String) = repo.searchSpirit(keywords).cachedIn(viewModelScope)
+    val searchResult = repo.searchSpirit(keywords).cachedIn(viewModelScope)
 }
