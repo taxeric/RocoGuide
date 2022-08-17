@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -106,9 +107,9 @@ fun SearchDialog(type: Search, onDismiss: (String) -> Unit) {
 }
 
 @Composable
-fun EggDialog(onDismiss: () -> Unit){
+fun EggDialog(groupName: String, groupId: Int, onDismiss: (Boolean) -> Unit){
     Dialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = { onDismiss(false) },
         properties = DialogProperties(
             dismissOnClickOutside = true,
             dismissOnBackPress = true
@@ -117,12 +118,26 @@ fun EggDialog(onDismiss: () -> Unit){
         Column(modifier = Modifier
             .clip(RoundedCornerShape(10.dp))
             .background(MaterialTheme.colorScheme.background)) {
-            Text(text = "敬请期待", modifier = Modifier.fillMaxWidth())
+            Text(text = buildAnnotatedString {
+                append("组别: ")
+                withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                    append(groupName)
+                }
+                append("\n")
+                append("可遗传技能,是否前往遗传图鉴?")
+            }, modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.height(20.dp))
-            TextButton(onClick = onDismiss, modifier = Modifier
+            Row(modifier = Modifier
                 .align(Alignment.End)
-                .padding(5.dp)) {
-                Text(text = "确定")
+                .padding(5.dp)
+                .align(Alignment.End)
+            ) {
+                TextButton(onClick = { onDismiss(false) }, modifier = Modifier) {
+                    Text(text = "取消")
+                }
+                TextButton(onClick = { onDismiss(true) }, modifier = Modifier) {
+                    Text(text = "确定")
+                }
             }
             Spacer(modifier = Modifier.height(5.dp))
         }
@@ -147,7 +162,9 @@ fun DataErrorDialog(type: Int, onDismiss: () -> Unit) {
                 -4 -> "服务器响应异常"
                 else -> "其他异常"
             }
-            Text(text = "数据可能有误: $errorStr", modifier = Modifier.fillMaxWidth().padding(10.dp))
+            Text(text = "数据可能有误: $errorStr", modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp))
             Spacer(modifier = Modifier.height(20.dp))
             TextButton(
                 onClick = onDismiss, modifier = Modifier

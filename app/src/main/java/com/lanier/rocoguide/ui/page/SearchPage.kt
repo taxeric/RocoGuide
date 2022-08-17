@@ -1,6 +1,9 @@
 package com.lanier.rocoguide.ui.page
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -22,6 +25,8 @@ fun SearchSpiritScreen(navController: NavHostController, keywords: String) {
     SearchBaseScaffold(type = Search.Spirit, onBack = {
         navController.popBackStack()
     }) {
-        SpiritMainListImpl(list = list, navHostController = navController)
+        Column(modifier = Modifier.padding(it)) {
+            SpiritMainListImpl(list = list, navHostController = navController)
+        }
     }
 }

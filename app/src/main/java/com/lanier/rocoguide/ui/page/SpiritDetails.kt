@@ -103,7 +103,10 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
         }
     }
     if (showEggDialog) {
-        EggDialog {
+        EggDialog(eggGroup, eggGroupId) {
+            if (it) {
+                //TODO 遗传图鉴
+            }
             showEggDialog = false
         }
     }
