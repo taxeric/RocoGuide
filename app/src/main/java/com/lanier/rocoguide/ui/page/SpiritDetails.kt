@@ -31,6 +31,7 @@ import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.entity.SpiritAttributes
 import com.lanier.rocoguide.entity.SpiritEntity
+import com.lanier.rocoguide.ui.common.AttrImage
 import com.lanier.rocoguide.ui.common.DataErrorDialog
 import com.lanier.rocoguide.ui.common.EggDialog
 import com.lanier.rocoguide.ui.common.SkillDialog
@@ -156,27 +157,17 @@ fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
             ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                 val (attr1, attr2, space, eggGroup) = createRefs()
                 if (data.primaryAttributes.id != 0){
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_jelly),
-                        contentDescription = "pr",
-                        modifier = Modifier.constrainAs(attr1){
+                    AttrImage(attr = data.primaryAttributes, modifier = Modifier
+                        .constrainAs(attr1){
                             start.linkTo(parent.start)
-                        }
-                    )
-                    Spacer(modifier = Modifier
-                        .width(10.dp)
-                        .constrainAs(space) {
-                            start.linkTo(attr1.end)
                         })
                 }
                 if (data.secondaryAttributes.id != 0){
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_jelly),
-                        contentDescription = "dm",
-                        modifier = Modifier.constrainAs(attr2){
+                    AttrImage(attr = data.secondaryAttributes, modifier = Modifier
+                        .padding(8.dp, 0.dp, 0.dp, 0.dp)
+                        .constrainAs(attr2){
                             start.linkTo(space.end)
-                        }
-                    )
+                        })
                 }
                 Image(painter = painterResource(id = R.drawable.ic_jelly),
                     contentDescription = "",
@@ -194,12 +185,13 @@ fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
 @Composable
 fun SpiritEntityBaseInfo(data: SpiritEntity, modifier: Modifier){
     Column(modifier = modifier) {
-        Text(text = data.name)
+        Text(text = data.name, fontSize = 18.sp)
         Spacer(modifier = Modifier.height(10.dp))
         Row(modifier = Modifier.fillMaxWidth()) {
             Text(text = "身高: ${data.height}m", modifier = Modifier.weight(1f))
             Text(text = "体重: ${data.weight}kg", modifier = Modifier.weight(1f))
         }
+        Spacer(modifier = Modifier.height(10.dp))
         Text(text = data.hobby)
     }
 }
