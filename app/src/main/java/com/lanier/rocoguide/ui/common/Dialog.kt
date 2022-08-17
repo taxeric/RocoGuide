@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.lanier.rocoguide.entity.Search
+import com.lanier.rocoguide.entity.UpdateData
 import com.lanier.rocoguide.entity.UpdateEntity
 
 /**
@@ -160,10 +161,10 @@ fun DataErrorDialog(type: Int, onDismiss: () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+/*@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VersionUpdateDialog(
-    data: UpdateEntity,
+    data: UpdateData,
     onDismiss: () -> Unit = {},
     onCheckEnable: (Boolean) -> Unit,
     onClick: (url: String) -> Unit
@@ -247,4 +248,4 @@ fun VersionUpdateDialog(
             }
         }
     }
-}
+}*/
