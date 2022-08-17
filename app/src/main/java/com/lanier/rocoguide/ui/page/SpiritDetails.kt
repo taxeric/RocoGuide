@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,14 +24,17 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.entity.SpiritAttributes
 import com.lanier.rocoguide.entity.SpiritEntity
+import com.lanier.rocoguide.ui.common.DataErrorDialog
 import com.lanier.rocoguide.ui.common.EggDialog
 import com.lanier.rocoguide.ui.common.SkillDialog
+import com.lanier.rocoguide.vm.SpiritDetailViewModel
 
 /**
  * Create by Eric
@@ -39,12 +43,21 @@ import com.lanier.rocoguide.ui.common.SkillDialog
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
-    val title = ""
-    val layEggsEnable = true
-    val eggGroup = ""
-    val eggGroupId = ""
+    val vm = viewModel<SpiritDetailViewModel>()
+    val spirit = vm.spiritDetail.collectAsState().value
+    val id = spirit.id
+    val title = spirit.name
+    val layEggsEnable = spirit.group.id != 0
+    val eggGroup = spirit.group.name
+    val eggGroupId = spirit.group.id
     var showEggDialog by remember {
+        mutableStateOf(layEggsEnable)
+    }
+    var showErrorDialog by remember {
         mutableStateOf(false)
+    }
+    LaunchedEffect(key1 = Unit) {
+        vm.getSpiritById(spiritId)
     }
     Scaffold(
         modifier = Modifier.fillMaxWidth(),
@@ -59,6 +72,13 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
                     }
                 },
                 actions = {
+                    if (id == -1) {
+                        IconButton(onClick = {
+                            showErrorDialog = true
+                        }) {
+                            Icon(imageVector = Icons.Filled.Warning, contentDescription = "warning")
+                        }
+                    }
                     if (layEggsEnable){
                         IconButton(onClick = {
                             showEggDialog = true
@@ -74,9 +94,14 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
             )
         },
     ) { innerPadding ->
-        SpiritDetailData(innerPadding, navHostController)
+        SpiritDetailData(innerPadding, navHostController, spirit)
     }
-    if (showEggDialog){
+    if (showErrorDialog) {
+        DataErrorDialog(type = spirit.id) {
+            showErrorDialog = false
+        }
+    }
+    if (showEggDialog) {
         EggDialog {
             showEggDialog = false
         }
@@ -84,12 +109,8 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
 }
 
 @Composable
-fun SpiritDetailData(paddingValues: PaddingValues, navHostController: NavHostController){
-    SpiritDetailImpl(paddingValues, SpiritEntity(
-        primaryAttributes = SpiritAttributes(1),
-        secondaryAttributes = SpiritAttributes(2),
-        name = "lalala",
-        hobby = "喜欢阳光，喜欢新鲜的空气"), navHostController)
+fun SpiritDetailData(paddingValues: PaddingValues, navHostController: NavHostController, spirit: SpiritEntity){
+    SpiritDetailImpl(paddingValues, spirit, navHostController)
 }
 
 @Composable
@@ -183,7 +204,7 @@ fun SpiritEntityBaseInfo(data: SpiritEntity, modifier: Modifier){
     }
 }
 
-@Preview(backgroundColor = 0xffffffff)
+//@Preview(backgroundColor = 0xffffffff)
 @Composable
 fun SpiritRacialValue(data: SpiritEntity = SpiritEntity()){
     Row(modifier = Modifier
@@ -191,27 +212,27 @@ fun SpiritRacialValue(data: SpiritEntity = SpiritEntity()){
         .padding(10.dp, 5.dp)) {
         SpiritSingleRacialValue(modifier = Modifier
             .wrapContentHeight()
-            .weight(1f), )
+            .weight(1f), "精力", data.racePower)
         SpiritSingleRacialValue(modifier = Modifier
             .wrapContentHeight()
-            .weight(1f), )
+            .weight(1f), "攻击", data.raceAttack)
         SpiritSingleRacialValue(modifier = Modifier
             .wrapContentHeight()
-            .weight(1f), )
+            .weight(1f), "防御", data.raceDefense)
         SpiritSingleRacialValue(modifier = Modifier
             .wrapContentHeight()
-            .weight(1f), )
+            .weight(1f), "魔攻", data.raceMagicAttack)
         SpiritSingleRacialValue(modifier = Modifier
             .wrapContentHeight()
-            .weight(1f), )
+            .weight(1f), "魔抗", data.raceMagicDefense)
         SpiritSingleRacialValue(modifier = Modifier
             .wrapContentHeight()
-            .weight(1f), )
+            .weight(1f), "速度", data.raceSpeed)
     }
 }
 
 @Composable
-fun SpiritSingleRacialValue(modifier: Modifier = Modifier, name: String = "种族", value: Int = 100){
+fun SpiritSingleRacialValue(modifier: Modifier = Modifier, name: String = "??", value: Int = 100){
     Column(modifier = modifier
         .fillMaxWidth()
         .background(Color.White)
@@ -231,9 +252,10 @@ fun SpiritSkills(data: SpiritEntity, navHostController: NavHostController){
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(10.dp, 5.dp)
-        .background(Color.White)
-        .border(0.5.dp, Color.Yellow)) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        .background(Color.White)) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .border(0.5.dp, Color.Yellow)) {
             Text(text = "技能", textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
             Text(text = "威力", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
             Text(text = "PP", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
@@ -256,18 +278,17 @@ fun SingleSkill(skill: Skill, navHostController: NavHostController){
     }
     Row(modifier = Modifier
         .fillMaxWidth()
-        .padding(10.dp, 0.dp, 10.dp, 0.dp)
         .clickable {
             dialogContent = skill.description
             showSkillDialog = true
         }
     ) {
-        Text(text = skill.name, fontSize = 14.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
-        Text(text = "${skill.value}", fontSize = 14.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
-        Text(text = "${skill.amount}", fontSize = 14.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+        Text(text = skill.name, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
+        Text(text = "${skill.value}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+        Text(text = "${skill.amount}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
         val type = skill.attributes.name + skill.skillType.name
-        Text(text = type, fontSize = 14.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
-        Text(text = skill.additional_effects, fontSize = 14.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(2f))
+        Text(text = type, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+        Text(text = skill.additional_effects, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1.8f))
     }
     if (showSkillDialog) {
         SkillDialog(dialogContent) {

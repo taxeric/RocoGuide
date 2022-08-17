@@ -8,7 +8,7 @@ data class SpiritList(
     val code: Int = 0,
     val msg: String = "",
     val data: List<SpiritEntity> = emptyList(),
-    val totalItem: Int = 0
+    val total: Int = 0
 )
 
 data class SpiritDetailEntity(
@@ -20,7 +20,7 @@ data class SpiritDetailEntity(
 data class SkillsList(
     val code: Int = 0,
     val msg: String = "",
-    val totalItem: Int = 0,
+    val total: Int = 0,
     val data: List<Skill> = emptyList()
 )
 
@@ -30,8 +30,9 @@ data class SpiritEntity(
     val group: SpiritEggGroup = SpiritEggGroup(),
     val height: Double = 0.0,
     val hobby: String = "",
+    val id: Int = -1,
     val name: String = "",
-    val number: Int = 0,
+    val number: String = "",
     val primaryAttributes: SpiritAttributes = SpiritAttributes(),
     val raceAttack: Int = 0,
     val raceDefense: Int = 0,

@@ -13,11 +13,9 @@ import com.lanier.rocoguide.vm.source.NewsSource
  */
 class NewsViewModel: ViewModel() {
 
-    private val _newsFlow = Pager(
-        PagingConfig(5, prefetchDistance = 1, enablePlaceholders = false)
+    val newsFlow = Pager(
+        PagingConfig(20, prefetchDistance = 1, enablePlaceholders = false)
     ){
         NewsSource()
     }.flow.cachedIn(viewModelScope)
-
-    val newsFlow get() = _newsFlow
 }

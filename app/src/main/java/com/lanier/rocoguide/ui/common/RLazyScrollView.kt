@@ -3,6 +3,8 @@ package com.lanier.rocoguide.ui.common
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -63,6 +65,69 @@ fun <T: Any> RefreshLazyColumn(
                     item {
                         val msg = (data.loadState.append as LoadState.Error).error.message
                         errorView("出错了")
+                    }
+                }
+                data.loadState.refresh is LoadState.NotLoading -> {
+                    if (data.itemCount <= 0) {
+                        item {
+                            emptyView()
+                        }
+                    }
+                }
+                data.loadState.refresh is LoadState.Error -> {
+                    item {
+                        val msg = (data.loadState.refresh as LoadState.Error).error.message
+                        errorView(msg ?: "出错了")
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun <T: Any> RefreshLazyVerticalGrid(
+    modifier: Modifier = Modifier,
+    columns: Int = 3,
+    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(5.dp),
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(5.dp),
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    data: LazyPagingItems<T>,
+    emptyView: @Composable () -> Unit = {
+        DefaultListEmptyView()
+    },
+    loadingView: @Composable () -> Unit = {
+        DefaultListLoadingView()
+    },
+    errorView: @Composable (msg: String) -> Unit = {
+        DefaultListErrorView(msg = it) {
+            data.retry()
+        }
+    },
+    key: ((Int) -> Any)? = null,
+    itemView: @Composable (Int, T) -> Unit,
+){
+    SwipeRefresh(state = rememberSwipeRefreshState(data.loadState.refresh is LoadState.Loading), onRefresh = { data.refresh() }) {
+        LazyVerticalGrid(
+            modifier = modifier.fillMaxSize(),
+            columns = GridCells.Fixed(columns),
+            verticalArrangement = verticalArrangement,
+            horizontalArrangement = horizontalArrangement,
+            contentPadding = contentPadding
+        ){
+            items(data.itemCount, key = key) { index ->
+                itemView(index, data[index]!!)
+            }
+            when {
+                data.loadState.append is LoadState.Loading -> {
+                    item {
+                        loadingView()
+                    }
+                }
+                data.loadState.append is LoadState.Error -> {
+                    item {
+                        val msg = (data.loadState.append as LoadState.Error).error.message
+                        errorView(msg ?: "出错了")
                     }
                 }
                 data.loadState.refresh is LoadState.NotLoading -> {

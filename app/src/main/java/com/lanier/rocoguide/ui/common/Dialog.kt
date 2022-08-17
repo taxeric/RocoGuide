@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.lanier.rocoguide.entity.UpdateData
+import com.lanier.rocoguide.entity.Search
 import com.lanier.rocoguide.entity.UpdateEntity
 
 /**
@@ -55,6 +52,59 @@ fun SkillDialog(content: String, onDismiss: () -> Unit){
 }
 
 @Composable
+fun SearchDialog(type: Search, onDismiss: (String) -> Unit) {
+    Dialog(
+        onDismissRequest = { onDismiss("") },
+        properties = DialogProperties(
+            dismissOnClickOutside = true,
+            dismissOnBackPress = true
+        )
+    ) {
+        var mDesc by remember {
+            mutableStateOf("")
+        }
+        Column(
+            modifier = Modifier
+                .clip(RoundedCornerShape(10.dp))
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            Text(
+                text = "搜索${type.title}", modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            OutlinedTextField(
+                value = mDesc, onValueChange = {
+                    mDesc = it
+                },
+                label = {
+                    Text(text = "精灵名")
+                }, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            Row(modifier = Modifier.align(Alignment.End)) {
+                TextButton(
+                    onClick = { onDismiss("") }, modifier = Modifier
+                        .padding(5.dp)
+                ) {
+                    Text(text = "取消")
+                }
+                TextButton(
+                    onClick = { onDismiss(mDesc) }, modifier = Modifier
+                        .padding(5.dp)
+                ) {
+                    Text(text = "确定")
+                }
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+    }
+}
+
+@Composable
 fun EggDialog(onDismiss: () -> Unit){
     Dialog(
         onDismissRequest = onDismiss,
@@ -64,8 +114,8 @@ fun EggDialog(onDismiss: () -> Unit){
         )
     ) {
         Column(modifier = Modifier
-            .clip(RoundedCornerShape(30.dp))
-            .background(Color.White)) {
+            .clip(RoundedCornerShape(10.dp))
+            .background(MaterialTheme.colorScheme.background)) {
             Text(text = "敬请期待", modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.height(20.dp))
             TextButton(onClick = onDismiss, modifier = Modifier
@@ -78,23 +128,55 @@ fun EggDialog(onDismiss: () -> Unit){
     }
 }
 
+@Composable
+fun DataErrorDialog(type: Int, onDismiss: () -> Unit) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(
+            dismissOnClickOutside = true,
+            dismissOnBackPress = true
+        )
+    ) {
+        Column(modifier = Modifier
+            .clip(RoundedCornerShape(10.dp))
+            .background(MaterialTheme.colorScheme.background)) {
+            val errorStr = when (type) {
+                -1 -> "编号对应精灵错误"
+                -3 -> "精灵获取失败"
+                -4 -> "服务器响应异常"
+                else -> "其他异常"
+            }
+            Text(text = "数据可能有误: $errorStr", modifier = Modifier.fillMaxWidth().padding(10.dp))
+            Spacer(modifier = Modifier.height(20.dp))
+            TextButton(
+                onClick = onDismiss, modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(5.dp)
+            ) {
+                Text(text = "确定")
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VersionUpdateDialog(
-    data: UpdateData,
+    data: UpdateEntity,
     onDismiss: () -> Unit = {},
     onCheckEnable: (Boolean) -> Unit,
     onClick: (url: String) -> Unit
 ) {
-    if (data.logType == 0 || data.logType == 1) {
+    if (data.type == 0 || data.type == 1) {
         var checkEnable by remember {
             mutableStateOf(false)
         }
         Dialog(
             onDismissRequest = onDismiss,
             properties = DialogProperties(
-                dismissOnBackPress = !data.mandatory && data.logType != 1,
-                dismissOnClickOutside = !data.mandatory && data.logType != 1
+                dismissOnBackPress = data.mandatory != 1 && data.type != 1,
+                dismissOnClickOutside = data.mandatory != 1 && data.type != 1
             )
         ) {
             Column(
@@ -103,7 +185,7 @@ fun VersionUpdateDialog(
                     .background(Color.White)
                     .padding(10.dp)
             ) {
-                val title = if (data.logType == 0) {
+                val title = if (data.type == 0) {
                     "公告"
                 } else {
                     "版本更新"
@@ -120,13 +202,13 @@ fun VersionUpdateDialog(
                     text = buildAnnotatedString {
                         append(data.log)
                         append("\n")
-                        if (data.logType == 1) {
-                            if (data.mandatory) {
+                        if (data.type == 1) {
+                            if (data.mandatory == 1) {
                                 withStyle(SpanStyle(color = Color.Black, fontSize = 16.sp)) {
                                     append("本版为强制更新\n")
                                 }
                             }
-                            append("文件大小: ${data.size}")
+                            append("文件大小: ${(data.size / 1024 / 1024).toDouble()} MB")
                         }
                     }, modifier = Modifier
                         .fillMaxWidth()
@@ -146,7 +228,7 @@ fun VersionUpdateDialog(
                     TextButton(onClick = {
                         onCheckEnable(checkEnable)
                         onClick(
-                            if (data.logType == 1) {
+                            if (data.type == 1) {
                                 data.url
                             } else {
                                 ""
@@ -154,7 +236,7 @@ fun VersionUpdateDialog(
                         )
                         onDismiss()
                     }) {
-                        val text = if (data.logType == 0) {
+                        val text = if (data.type == 0) {
                             "确定"
                         } else {
                             "立即下载"

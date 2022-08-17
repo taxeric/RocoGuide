@@ -1,18 +1,12 @@
 package com.lanier.rocoguide.ui.page
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_WEB_VIEW
@@ -72,27 +65,33 @@ fun NewsMain(navController: NavController, padding: PaddingValues){
 fun NewsList(navController: NavController){
     val vm: NewsViewModel = viewModel()
     val list = vm.newsFlow.collectAsLazyPagingItems()
-    RefreshLazyColumn(modifier = Modifier.fillMaxWidth(), data = list){index, data ->
+    RefreshLazyColumn(modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        data = list){index, data ->
         NewsItem(navController = navController, item = data)
     }
 }
 
 @Composable
 fun NewsItem(navController: NavController, item: NewsData){
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(50.dp)
-        .clickable {
-            val encodeUrl = URLEncoder.encode(item.url, StandardCharsets.UTF_8.toString())
-            navController.navigate("${ROUTE_SCREEN_WEB_VIEW}/正文/$encodeUrl")
-        },
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp)
+            .background(MaterialTheme.colorScheme.background)
+            .clickable {
+                val encodeUrl = URLEncoder.encode(item.url, StandardCharsets.UTF_8.toString())
+                navController.navigate("${ROUTE_SCREEN_WEB_VIEW}/正文/$encodeUrl")
+            },
     ) {
         Text(
             text = item.title,
             color = Color.Black,
             fontSize = 16.sp,
             textAlign = TextAlign.Start,
-            modifier = Modifier.align(Alignment.CenterStart)
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(10.dp, 0.dp)
         )
 //        Icon(imageVector = Icons.Filled.AddCircle)
     }

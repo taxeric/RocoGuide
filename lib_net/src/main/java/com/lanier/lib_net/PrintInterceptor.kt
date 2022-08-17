@@ -31,7 +31,7 @@ class PrintInterceptor: Interceptor {
                "请求类型: ${request.method()}, ContentLength = (${request.body()!!.contentLength()}-byte body)".log()
             }
         } else {
-            "请求类型 = ${request.method()}".log()
+            "请求类型: ${request.method()}".log()
         }
         //打印请求头
         val heards = request.headers().names()
@@ -55,7 +55,7 @@ class PrintInterceptor: Interceptor {
         }
         "请求响应: ${response.code()}".log()
         "响应结果: $content".log()
-        "--------------------Request End: ".log()
+        "Request End  --------------------".log()
         return response.newBuilder()
             .body(ResponseBody.create(mediaType, content))
             .build()
