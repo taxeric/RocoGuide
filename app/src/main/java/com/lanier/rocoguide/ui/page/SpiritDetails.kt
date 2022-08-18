@@ -17,6 +17,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,7 +49,7 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
     val spirit = vm.spiritDetail.collectAsState().value
     val id = spirit.id
     val title = spirit.name
-    val layEggsEnable = spirit.group.id != 0
+    val layEggsEnable = spirit.group.id > 1
     val eggGroup = spirit.group.name
     val eggGroupId = spirit.group.id
     var showEggDialog by remember {
@@ -142,7 +143,7 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = buildAnnotatedString {
             append("数据来自网络,如有纰漏请")
-            withStyle(SpanStyle(color = Color.Blue)) {
+            withStyle(SpanStyle(color = Color.Blue, textDecoration = TextDecoration.Underline)) {
                 append("联系改正")
             }
         }, textAlign = TextAlign.Center, modifier = Modifier
@@ -157,19 +158,29 @@ fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
     Card(elevation = CardDefaults.cardElevation(defaultElevation = 5.dp), modifier = modifier.background(Color.White)) {
         Column(modifier = Modifier.height(200.dp)) {
             AsyncImage(model = data.avatar, contentDescription = "avatar", modifier = Modifier.height(170.dp))
-            ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+            ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val (attr1, attr2, space, eggGroup) = createRefs()
                 if (data.primaryAttributes.id != 0){
                     AttrImage(attr = data.primaryAttributes, modifier = Modifier
+                        .width(20.dp)
                         .constrainAs(attr1){
                             start.linkTo(parent.start)
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
                         })
                 }
                 if (data.secondaryAttributes.id != 0){
+                    Spacer(modifier = Modifier
+                        .width(8.dp)
+                        .constrainAs(space) {
+                            start.linkTo(attr1.end)
+                        })
                     AttrImage(attr = data.secondaryAttributes, modifier = Modifier
-                        .padding(8.dp, 0.dp, 0.dp, 0.dp)
+                        .width(20.dp)
                         .constrainAs(attr2){
                             start.linkTo(space.end)
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
                         })
                 }
                 Image(painter = painterResource(id = R.drawable.ic_jelly),

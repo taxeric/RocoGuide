@@ -3,6 +3,7 @@ package com.lanier.rocoguide.ui.common
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.SpiritAttributes
@@ -38,5 +39,5 @@ fun AttrImage(modifier: Modifier = Modifier, attr: SpiritAttributes) {
         20 -> R.drawable.ic_attr_20
         21 -> R.drawable.ic_attr_21
         else -> R.drawable.ic_attr_0
-    }), contentDescription = "attr", modifier = modifier)
+    }), contentDescription = "attr", contentScale = ContentScale.Crop, modifier = modifier)
 }
