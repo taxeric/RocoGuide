@@ -32,10 +32,7 @@ import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.entity.SpiritAttributes
 import com.lanier.rocoguide.entity.SpiritEntity
-import com.lanier.rocoguide.ui.common.AttrImage
-import com.lanier.rocoguide.ui.common.DataErrorDialog
-import com.lanier.rocoguide.ui.common.EggDialog
-import com.lanier.rocoguide.ui.common.SkillDialog
+import com.lanier.rocoguide.ui.common.*
 import com.lanier.rocoguide.vm.SpiritDetailViewModel
 
 /**
@@ -163,7 +160,7 @@ fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
                 if (data.primaryAttributes.id != 0){
                     AttrImage(attr = data.primaryAttributes, modifier = Modifier
                         .width(20.dp)
-                        .constrainAs(attr1){
+                        .constrainAs(attr1) {
                             start.linkTo(parent.start)
                             top.linkTo(parent.top)
                             bottom.linkTo(parent.bottom)
@@ -177,20 +174,19 @@ fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
                         })
                     AttrImage(attr = data.secondaryAttributes, modifier = Modifier
                         .width(20.dp)
-                        .constrainAs(attr2){
+                        .constrainAs(attr2) {
                             start.linkTo(space.end)
                             top.linkTo(parent.top)
                             bottom.linkTo(parent.bottom)
                         })
                 }
-                Image(painter = painterResource(id = R.drawable.ic_jelly),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(30.dp)
-                        .constrainAs(eggGroup) {
-                            end.linkTo(parent.end)
-                        })
+                EggGroupImage(eg = data.group, modifier = Modifier
+                    .width(20.dp)
+                    .constrainAs(eggGroup) {
+                        end.linkTo(parent.end)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                    })
             }
         }
     }
@@ -218,22 +214,22 @@ fun SpiritRacialValue(data: SpiritEntity = SpiritEntity()){
         .padding(10.dp, 5.dp)) {
         SpiritSingleRacialValue(modifier = Modifier
             .wrapContentHeight()
-            .weight(1f), "精力", data.racePower)
+            .weight(1f), R.drawable.ic_race_energy, data.racePower)
         SpiritSingleRacialValue(modifier = Modifier
             .wrapContentHeight()
-            .weight(1f), "攻击", data.raceAttack)
+            .weight(1f), R.drawable.ic_race_attack, data.raceAttack)
         SpiritSingleRacialValue(modifier = Modifier
             .wrapContentHeight()
-            .weight(1f), "防御", data.raceDefense)
+            .weight(1f), R.drawable.ic_race_defense, data.raceDefense)
         SpiritSingleRacialValue(modifier = Modifier
             .wrapContentHeight()
-            .weight(1f), "魔攻", data.raceMagicAttack)
+            .weight(1f), R.drawable.ic_race_magic_attack, data.raceMagicAttack)
         SpiritSingleRacialValue(modifier = Modifier
             .wrapContentHeight()
-            .weight(1f), "魔抗", data.raceMagicDefense)
+            .weight(1f), R.drawable.ic_race_magic_defense, data.raceMagicDefense)
         SpiritSingleRacialValue(modifier = Modifier
             .wrapContentHeight()
-            .weight(1f), "速度", data.raceSpeed)
+            .weight(1f), R.drawable.ic_race_speed, data.raceSpeed)
     }
 }
 
@@ -244,6 +240,22 @@ fun SpiritSingleRacialValue(modifier: Modifier = Modifier, name: String = "??", 
         .background(Color.White)
         .border(1.dp, Color(0xFF83AAF7))) {
         Text(text = name, color = Color(0xFFEEEEEE), fontSize = 18.sp, textAlign = TextAlign.Center, modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(0xFF90C3FF))
+            .padding(10.dp))
+        Text(text = "$value", textAlign = TextAlign.Center, modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp))
+    }
+}
+
+@Composable
+fun SpiritSingleRacialValue(modifier: Modifier = Modifier, racePic: Int, value: Int = 100){
+    Column(modifier = modifier
+        .fillMaxWidth()
+        .background(Color.White)
+        .border(1.dp, Color(0xFF83AAF7))) {
+        Image(painter = painterResource(id = racePic), contentDescription = "race_value", modifier = Modifier
             .fillMaxWidth()
             .background(Color(0xFF90C3FF))
             .padding(10.dp))
@@ -291,9 +303,9 @@ fun SingleSkill(skill: Skill, navHostController: NavHostController){
     ) {
         Text(text = skill.name, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
         Text(text = "${skill.value}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
-        Text(text = "${skill.amount}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+        Text(text = "${skill.amount}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(0.8f))
         val type = skill.attributes.name + skill.skillType.name
-        Text(text = type, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+        Text(text = type.replace("系", "-"), fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
         Text(text = skill.additional_effects, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1.8f))
     }
     if (showSkillDialog) {

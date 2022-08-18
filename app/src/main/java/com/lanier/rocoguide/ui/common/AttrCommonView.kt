@@ -7,6 +7,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.SpiritAttributes
+import com.lanier.rocoguide.entity.SpiritEggGroup
 
 /**
  * Author: 芒硝
@@ -40,4 +41,34 @@ fun AttrImage(modifier: Modifier = Modifier, attr: SpiritAttributes) {
         21 -> R.drawable.ic_attr_21
         else -> R.drawable.ic_attr_0
     }), contentDescription = "attr", contentScale = ContentScale.Crop, modifier = modifier)
+}
+
+@Composable
+fun EggGroupImage(modifier: Modifier = Modifier, eg: SpiritEggGroup) {
+    Image(painter = painterResource(id = when(eg.id) {
+        2 -> R.drawable.ic_egg_group_plant
+        3 -> R.drawable.ic_egg_group_spirit
+        4 -> R.drawable.ic_egg_group_sky
+        5 -> R.drawable.ic_egg_group_immortal
+        6 -> R.drawable.ic_egg_group_clever
+        7 -> R.drawable.ic_egg_group_guard
+        8 -> R.drawable.ic_egg_group_power
+        9 -> R.drawable.ic_egg_group_ground
+        else -> R.drawable.ic_egg_group_unknow
+    }), contentDescription = "eggGroup", contentScale = ContentScale.Crop, modifier = modifier)
+}
+
+@Composable
+fun EggGroupImage(modifier: Modifier = Modifier, id: Int) {
+    Image(painter = painterResource(id = when(id) {
+        2 -> R.drawable.ic_egg_group_plant
+        3 -> R.drawable.ic_egg_group_spirit
+        4 -> R.drawable.ic_egg_group_sky
+        5 -> R.drawable.ic_egg_group_immortal
+        6 -> R.drawable.ic_egg_group_clever
+        7 -> R.drawable.ic_egg_group_guard
+        8 -> R.drawable.ic_egg_group_power
+        9 -> R.drawable.ic_egg_group_ground
+        else -> R.drawable.ic_egg_group_unknow
+    }), contentDescription = "eggGroup", contentScale = ContentScale.Crop, modifier = modifier)
 }
