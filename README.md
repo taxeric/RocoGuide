@@ -27,12 +27,12 @@ Compose实现的洛克王国攻略
 以精灵图鉴资源链接为例,将`编号`改为`100`,[下载](http://res.17roco.qq.com/res/combat/previews/100-idle.swf)对应的精灵swf后,在  
 1. 打开前提1的程序,选择打开下载的swf;  
 ![1](https://github.com/taxeric/RocoGuide/blob/master/screenshot/analyze_1.png)
-2. 点击左边的`精灵`后可以看到精灵画面,选择导出已选;  
+2. 点击左边的`精灵`子项后可以看到精灵画面,鼠标右键,选择导出已选;  
 ![2](https://github.com/taxeric/RocoGuide/blob/master/screenshot/analyze_2.png)
 3. 保存为png;  
 ![3](https://github.com/taxeric/RocoGuide/blob/master/screenshot/analyze_3.png)
-   
-BGM类似,保存为`.mp3`即可
+
+其他资源与之类似,您可以提取您想要的任何资源.例如,您想要提取背景音乐,保存swf后,找到对应的`子项`(可能是音频),选择保存为`.mp3`即可
 
 ## 插件开发
 项目支持插件化开发，您应该:
