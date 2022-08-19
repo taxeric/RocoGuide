@@ -117,7 +117,8 @@ fun EggDialog(groupName: String, groupId: Int, onDismiss: (Boolean) -> Unit){
     ) {
         Column(modifier = Modifier
             .clip(RoundedCornerShape(10.dp))
-            .background(MaterialTheme.colorScheme.background)) {
+            .background(MaterialTheme.colorScheme.background)
+            .padding(10.dp)) {
             Text(text = buildAnnotatedString {
                 append("组别: ")
                 withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {

@@ -166,7 +166,7 @@ fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
                             bottom.linkTo(parent.bottom)
                         })
                 }
-                if (data.secondaryAttributes.id != 0){
+                if (data.secondaryAttributes.id != null && data.secondaryAttributes.id != 0){
                     Spacer(modifier = Modifier
                         .width(8.dp)
                         .constrainAs(space) {
@@ -276,8 +276,8 @@ fun SpiritSkills(data: SpiritEntity, navHostController: NavHostController){
             .border(0.5.dp, Color.Yellow)) {
             Text(text = "技能", textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
             Text(text = "威力", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
-            Text(text = "PP", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
-            Text(text = "类型", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+            Text(text = "PP", textAlign = TextAlign.Center, modifier = Modifier.weight(0.8f))
+            Text(text = "类型", textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
             Text(text = "附加效果", textAlign = TextAlign.Center, modifier = Modifier.weight(1.8f))
         }
         data.skills.forEach {
