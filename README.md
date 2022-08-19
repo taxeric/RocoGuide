@@ -24,12 +24,12 @@ Compose实现的洛克王国攻略
 6. 将`swf`文件下载(链接复制后在浏览器打开一个新页面粘贴后回车)
 7. 将下载好的swf文件放入上述前提1的程序中即可
 #### 解析
-以http://res.17roco.qq.com/res/combat/previews/编号-idle.swf为例,将`编号`改为`100`,下载对应的精灵swf后,在  
-1. 打开前提1的程序,选择打开下载的swf;
+以精灵图鉴资源链接为例,将`编号`改为`100`,[下载](http://res.17roco.qq.com/res/combat/previews/100-idle.swf)对应的精灵swf后,在  
+1. 打开前提1的程序,选择打开下载的swf;  
 ![1](https://github.com/taxeric/RocoGuide/blob/master/screenshot/analyze_1.png)
-2. 点击左边的`精灵`后可以看到精灵画面,选择导出已选;
+2. 点击左边的`精灵`后可以看到精灵画面,选择导出已选;  
 ![2](https://github.com/taxeric/RocoGuide/blob/master/screenshot/analyze_2.png)
-3. 保存为png;
+3. 保存为png;  
 ![3](https://github.com/taxeric/RocoGuide/blob/master/screenshot/analyze_3.png)
    
 BGM类似,保存为`.mp3`即可
