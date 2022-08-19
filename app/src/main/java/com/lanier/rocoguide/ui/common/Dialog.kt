@@ -39,7 +39,7 @@ fun SkillDialog(content: String, onDismiss: () -> Unit){
     ) {
         Column {
             Spacer(modifier = Modifier.height(20.dp))
-            Text(text = content, color = Color.Black, fontSize = 16.sp, modifier = Modifier
+            Text(text = content, fontSize = 16.sp, modifier = Modifier
                 .padding(10.dp)
                 .fillMaxWidth())
             Spacer(modifier = Modifier.height(20.dp))
@@ -172,6 +172,33 @@ fun DataErrorDialog(type: Int, onDismiss: () -> Unit) {
                     .align(Alignment.End)
                     .padding(5.dp)
             ) {
+                Text(text = "确定")
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+    }
+}
+
+@Composable
+fun HomepageLuLuDialog(onDismiss: () -> Unit){
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(
+            dismissOnClickOutside = true,
+            dismissOnBackPress = true
+        )
+    ) {
+        Column(modifier = Modifier
+            .clip(RoundedCornerShape(10.dp))
+            .background(MaterialTheme.colorScheme.background)
+            .padding(10.dp)) {
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(text = "敬请期待~", fontSize = 16.sp, modifier = Modifier
+                .fillMaxWidth())
+            Spacer(modifier = Modifier.height(20.dp))
+            TextButton(onClick = onDismiss, modifier = Modifier
+                .align(Alignment.End)
+                .padding(5.dp, 2.dp)) {
                 Text(text = "确定")
             }
             Spacer(modifier = Modifier.height(5.dp))

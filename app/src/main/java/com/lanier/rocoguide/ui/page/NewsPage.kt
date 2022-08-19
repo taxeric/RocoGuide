@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -21,6 +22,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_WEB_VIEW
 import com.lanier.rocoguide.entity.NewsData
+import com.lanier.rocoguide.ui.common.HomepageLuLuDialog
 import com.lanier.rocoguide.ui.common.RefreshLazyColumn
 import com.lanier.rocoguide.vm.NewsViewModel
 import java.net.URLEncoder
@@ -33,17 +35,24 @@ import java.nio.charset.StandardCharsets
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsScreen(navController: NavController, title: String){
+    var luluDialog by remember {
+        mutableStateOf(false)
+    }
     Scaffold(
         modifier = Modifier.fillMaxWidth(),
         topBar = {
             SmallTopAppBar(
                 title = { Text(text = title) },
                 actions = {
-                    IconButton(onClick = {  }) {
+                    IconButton(onClick = {
+                        luluDialog = true
+                    }) {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_dimo_1),
+                            painter = painterResource(id = R.drawable.ic_lulu_max),
+                            contentScale = ContentScale.Crop,
                             contentDescription = "",
-                            modifier = Modifier.clip(RoundedCornerShape(50.dp))
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(50.dp))
                         )
                     }
                 }
@@ -51,6 +60,11 @@ fun NewsScreen(navController: NavController, title: String){
         }
     ) { innerPadding ->
         NewsMain(navController = navController, padding = innerPadding)
+    }
+    if (luluDialog) {
+        HomepageLuLuDialog {
+            luluDialog = false
+        }
     }
 }
 
@@ -86,7 +100,7 @@ fun NewsItem(navController: NavController, item: NewsData){
     ) {
         Text(
             text = item.title,
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onSurface,
             fontSize = 16.sp,
             textAlign = TextAlign.Start,
             modifier = Modifier
