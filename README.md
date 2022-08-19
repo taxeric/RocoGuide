@@ -12,9 +12,10 @@ Compose实现的洛克王国攻略
 
 ### 我想自己抓取资源
 #### 前提
+分为两步: 提取和解析,您需要准备:  
 1. JPEXS Free Flash Decompiler
 2. 建议下载360浏览器,下述步骤均为360浏览器调试
-#### 步骤
+#### 提取
 1. 进入洛克王国官网
 2. 键盘按下F12
 3. 选择[网络]
@@ -22,6 +23,16 @@ Compose实现的洛克王国攻略
 5. 在控制台会有相应`swf`或`xml`文件输出
 6. 将`swf`文件下载(链接复制后在浏览器打开一个新页面粘贴后回车)
 7. 将下载好的swf文件放入上述前提1的程序中即可
+#### 解析
+以http://res.17roco.qq.com/res/combat/previews/编号-idle.swf为例,将`编号`改为`100`,下载对应的精灵swf后,在  
+1. 打开前提1的程序,选择打开下载的swf;
+![1](https://github.com/taxeric/RocoGuide/blob/master/screenshot/analyze_1.png)
+2. 点击左边的`精灵`后可以看到精灵画面,选择导出已选;
+![2](https://github.com/taxeric/RocoGuide/blob/master/screenshot/analyze_2.png)
+3. 保存为png;
+![3](https://github.com/taxeric/RocoGuide/blob/master/screenshot/analyze_3.png)
+   
+BGM类似,保存为`.mp3`即可
 
 ## 插件开发
 项目支持插件化开发，您应该:
