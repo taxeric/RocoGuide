@@ -9,9 +9,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
@@ -53,10 +54,10 @@ fun OthersMain(navHostController: NavHostController, padding: PaddingValues){
         .build()
     Column(modifier = Modifier.padding(padding)) {
         Button(onClick = {
-            PluginLoader.loadAssetsPluginApk(context, ""){ result, msg ->
+            PluginLoader.loadAssetsPluginApk(context, "test.apk"){ result, msg, resources ->
                 if (result){
                     val intent = Intent().apply {
-                        component = ComponentName(context, "com.lanier.roco.MainActivity")
+                        component = ComponentName(context, "com.lanier.gplugin.MainActivity")
                     }
                     context.startActivity(intent)
                 } else {
