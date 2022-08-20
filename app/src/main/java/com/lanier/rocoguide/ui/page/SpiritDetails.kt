@@ -11,15 +11,23 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.geometry.toRect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -28,7 +36,11 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.google.gson.Gson
+import com.lanier.plugin_base.logI
 import com.lanier.rocoguide.R
+import com.lanier.rocoguide.base.ROUTE_PARAMS_SKILL
+import com.lanier.rocoguide.base.ROUTE_SCREEN_SKILL_DETAIL
 import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.entity.SpiritAttributes
 import com.lanier.rocoguide.entity.SpiritEntity
@@ -130,13 +142,13 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
                 .padding(10.dp, 5.dp))
         }
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = data.description, color = Color.Black, fontSize = 18.sp, modifier = Modifier
+        Text(text = data.description, fontSize = 18.sp, modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp))
         Spacer(modifier = Modifier.height(10.dp))
         SpiritRacialValue(data)
         Spacer(modifier = Modifier.height(10.dp))
-        SpiritSkills(data, navHostController)
+        SpiritSkillsV2(data, navHostController)
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = buildAnnotatedString {
             append("数据来自网络,如有纰漏请")
@@ -253,7 +265,6 @@ fun SpiritSingleRacialValue(modifier: Modifier = Modifier, name: String = "??", 
 fun SpiritSingleRacialValue(modifier: Modifier = Modifier, racePic: Int, value: Int = 100){
     Column(modifier = modifier
         .fillMaxWidth()
-        .background(Color.White)
         .border(1.dp, Color(0xFF83AAF7))) {
         Image(painter = painterResource(id = racePic), contentDescription = "race_value", modifier = Modifier
             .fillMaxWidth()
@@ -269,8 +280,7 @@ fun SpiritSingleRacialValue(modifier: Modifier = Modifier, racePic: Int, value: 
 fun SpiritSkills(data: SpiritEntity, navHostController: NavHostController){
     Column(modifier = Modifier
         .fillMaxWidth()
-        .padding(10.dp, 5.dp)
-        .background(Color.White)) {
+        .padding(10.dp, 5.dp)) {
         Row(modifier = Modifier
             .fillMaxWidth()
             .border(0.5.dp, Color.Yellow)) {
@@ -287,6 +297,26 @@ fun SpiritSkills(data: SpiritEntity, navHostController: NavHostController){
 }
 
 @Composable
+fun SpiritSkillsV2(data: SpiritEntity, navHostController: NavHostController){
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(10.dp, 5.dp)) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .border(0.5.dp, Color.Yellow)) {
+            Text(text = "技能", textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
+            Text(text = "威力", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+            Text(text = "PP", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+            Text(text = "描述", textAlign = TextAlign.Center, modifier = Modifier.weight(1.8f))
+        }
+        data.skills.forEach {
+            SingleSkillV2(it, navHostController)
+        }
+        Divider(color = Color.Red, modifier = Modifier.fillMaxWidth().height(1.dp))
+    }
+}
+
+@Composable
 fun SingleSkill(skill: Skill, navHostController: NavHostController){
     var showSkillDialog by remember {
         mutableStateOf(false)
@@ -296,6 +326,7 @@ fun SingleSkill(skill: Skill, navHostController: NavHostController){
     }
     Row(modifier = Modifier
         .fillMaxWidth()
+        .padding(0.dp, 2.dp)
         .clickable {
             dialogContent = skill.description
             showSkillDialog = true
@@ -312,5 +343,28 @@ fun SingleSkill(skill: Skill, navHostController: NavHostController){
         SkillDialog(dialogContent) {
             showSkillDialog = false
         }
+    }
+}
+
+@Composable
+fun SingleSkillV2(skill: Skill, navHostController: NavHostController){
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .height(80.dp)
+        .clickable {
+//            navHostController.currentBackStackEntry?.arguments?.putParcelable(ROUTE_PARAMS_SKILL, skill)
+            navHostController.navigate("$ROUTE_SCREEN_SKILL_DETAIL/${Gson().toJson(skill)}")
+        },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Divider(color = Color.Red, modifier = Modifier.fillMaxHeight().width(1.dp))
+        Text(text = skill.name, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
+        Text(text = "${skill.value}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+        Text(text = "${skill.amount}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
+        Text(text = skill.description, fontSize = 13.sp, textAlign = TextAlign.Start,
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1.8f))
+        Divider(color = Color.Red, modifier = Modifier.fillMaxHeight().width(1.dp))
     }
 }

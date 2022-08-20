@@ -22,8 +22,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.google.gson.Gson
+import com.lanier.plugin_base.logI
 import com.lanier.rocoguide.base.*
 import com.lanier.rocoguide.entity.Screen
+import com.lanier.rocoguide.entity.Skill
 
 /**
  * Create by Eric
@@ -124,6 +127,24 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
             val argument = requireNotNull(it.arguments)
             val id = argument.getInt(ROUTE_PARAMS_SPIRIT_ID)
             SpiritScreen(navController, id)
+        }
+        composable(
+            route = "${Screen.SkillDetail.route}/{${ROUTE_PARAMS_SKILL}}",
+            arguments = listOf(
+                navArgument(ROUTE_PARAMS_SKILL) {
+                    type = NavType.StringType
+                }
+            )
+        ){
+            val argument = requireNotNull(it.arguments)
+            val skill = argument.getString(ROUTE_PARAMS_SKILL)
+            val mSkill = if (skill.isNullOrEmpty()) {
+                Skill(name = "出错了")
+            } else {
+                skill.logI()
+                Gson().fromJson(skill, Skill::class.java)
+            }
+            SkillDetailScreen(navController, mSkill)
         }
         composable(
             route = "${Screen.SearchList.route}/{${ROUTE_PARAMS_KEYWORDS}}",
