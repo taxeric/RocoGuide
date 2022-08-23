@@ -53,6 +53,7 @@ fun NewsScreen(navController: NavController, title: String){
                             contentDescription = "",
                             modifier = Modifier
                                 .clip(RoundedCornerShape(50.dp))
+                                .size(30.dp)
                         )
                     }
                 }

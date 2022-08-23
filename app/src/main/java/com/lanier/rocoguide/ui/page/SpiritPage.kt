@@ -91,27 +91,24 @@ fun SpiritItem(navHostController: NavHostController, item: SpiritEntity){
         .clip(RoundedCornerShape(10.dp))
         .clickable {
             "search -> ${item.number}".logI()
-            navHostController.navigate("${ROUTE_SCREEN_SPIRIT_DETAIL}/${item.number}")
+            navHostController.navigate("${ROUTE_SCREEN_SPIRIT_DETAIL}/${item.id}")
         }
     ){
-        Box {
-            AsyncImage(model = item.avatar, contentDescription = "avatar", modifier = Modifier.height(150.dp))
-            Text(text = item.number, fontSize = 16.sp, color = Color.Black, modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(10.dp))
-        }
+        AsyncImage(model = item.avatar, contentDescription = "avatar", modifier = Modifier.height(150.dp))
         Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
             AttrImage(attr = item.primaryAttributes, modifier = Modifier
-                .width(30.dp)
-                .height(30.dp))
+                .width(20.dp)
+                .height(20.dp))
             item.secondaryAttributes.id?.let {
                 Spacer(modifier = Modifier.width(10.dp))
                 AttrImage(attr = item.secondaryAttributes, modifier = Modifier
-                    .width(30.dp)
-                    .height(30.dp))
+                    .width(20.dp)
+                    .height(20.dp))
             }
         }
-        Text(text = item.name, textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier
+        Text(text = item.number, textAlign = TextAlign.Center, fontSize = 13.sp, modifier = Modifier
+            .fillMaxWidth())
+        Text(text = item.name, textAlign = TextAlign.Center, modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth())
     }
