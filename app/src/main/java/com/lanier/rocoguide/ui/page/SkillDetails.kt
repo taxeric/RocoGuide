@@ -5,11 +5,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.lanier.plugin_base.logI
 import com.lanier.rocoguide.entity.Skill
+import com.lanier.rocoguide.ui.common.AttrImage
 
 /**
  * Create by Eric
@@ -46,27 +52,31 @@ fun SkillDetailImpl(paddingValues: PaddingValues, skill: Skill?) {
         if (skill == null) {
             Text(text = "出错了")
         } else {
-            Text(text = skill.name, fontSize = 18.sp)
-            Row {
-                Text(text = skill.attributes.name!!)
-                Text(text = skill.skillType.name)
+            Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                AttrImage(attr = skill.attributes, modifier = Modifier.size(24.dp))
+                Spacer(modifier = Modifier.width(2.dp))
+                Text(text = buildAnnotatedString {
+                    append(skill.attributes.name!!)
+                    withStyle(SpanStyle(color = MaterialTheme.colorScheme.surfaceTint)) {
+                        append(skill.skillType.name)
+                    }
+                }, fontSize = 18.sp)
             }
-            Text(text = skill.description)
-            Row {
-                Text(text = "威力: ")
-                Text(text = skill.value.toString())
+            Text(text = buildAnnotatedString {
+                append(skill.description)
+                append("\n\n")
+                append("附加效果: ")
+                withStyle(SpanStyle(color = MaterialTheme.colorScheme.onPrimaryContainer, fontSize = 16.sp)) {
+                    append(skill.additional_effects)
+                }
+            }, fontSize = 18.sp, modifier = Modifier.padding(8.dp))
+            Row(modifier = Modifier.padding(8.dp)) {
+                Text(text = "威力: ${skill.value}", modifier = Modifier.weight(1f))
+                Text(text = "PP: ${skill.amount}", modifier = Modifier.weight(1f))
             }
-            Row {
-                Text(text = "PP: ")
-                Text(text = skill.amount.toString())
-            }
-            Row {
-                Text(text = "是否必中: ")
-                Text(text = if (skill.isBe) "是" else "否")
-            }
-            Row {
-                Text(text = "能否遗传: ")
-                Text(text = if (skill.isGenetic) "是" else "否")
+            Row(modifier = Modifier.padding(8.dp)) {
+                Text(text = "是否必中: ${if (skill.isBe) "是" else "否"}", modifier = Modifier.weight(1f))
+                Text(text = "能否遗传: ${if (skill.isGenetic) "是" else "否"}", modifier = Modifier.weight(1f))
             }
         }
         "receive -> $skill".logI()

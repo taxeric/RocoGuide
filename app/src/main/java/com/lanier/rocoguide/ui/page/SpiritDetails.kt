@@ -207,7 +207,12 @@ fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
 @Composable
 fun SpiritEntityBaseInfo(data: SpiritEntity, modifier: Modifier){
     Column(modifier = modifier) {
-        Text(text = data.name, fontSize = 18.sp)
+        Text(text = data.name, fontSize = 20.sp)
+        Spacer(modifier = Modifier.height(10.dp))
+        Row {
+            Text(text = "编号: ")
+            Text(text = data.number)
+        }
         Spacer(modifier = Modifier.height(10.dp))
         Row(modifier = Modifier.fillMaxWidth()) {
             Text(text = "身高: ${data.height}m", modifier = Modifier.weight(1f))
@@ -312,7 +317,9 @@ fun SpiritSkillsV2(data: SpiritEntity, navHostController: NavHostController){
         data.skills.forEach {
             SingleSkillV2(it, navHostController)
         }
-        Divider(color = Color.Red, modifier = Modifier.fillMaxWidth().height(1.dp))
+        Divider(color = Color.Red, modifier = Modifier
+            .fillMaxWidth()
+            .height(1.dp))
     }
 }
 
@@ -357,7 +364,9 @@ fun SingleSkillV2(skill: Skill, navHostController: NavHostController){
         },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Divider(color = Color.Red, modifier = Modifier.fillMaxHeight().width(1.dp))
+        Divider(color = Color.Red, modifier = Modifier
+            .fillMaxHeight()
+            .width(1.dp))
         Text(text = skill.name, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
         Text(text = "${skill.value}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
         Text(text = "${skill.amount}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
@@ -365,6 +374,8 @@ fun SingleSkillV2(skill: Skill, navHostController: NavHostController){
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1.8f))
-        Divider(color = Color.Red, modifier = Modifier.fillMaxHeight().width(1.dp))
+        Divider(color = Color.Red, modifier = Modifier
+            .fillMaxHeight()
+            .width(1.dp))
     }
 }
