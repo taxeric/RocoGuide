@@ -14,6 +14,10 @@ fun String.logI(){
     Log.i(TAG, this)
 }
 
+fun String.logI(tag: String){
+    Log.i(tag, this)
+}
+
 fun String.logE(){
     Log.e(TAG, this)
 }
