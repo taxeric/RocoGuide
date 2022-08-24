@@ -1,25 +1,14 @@
 package com.lanier.rocoguide.ui.page
 
-import android.content.ComponentName
-import android.content.Intent
-import android.widget.Toast
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import coil.ImageLoader
-import coil.compose.rememberAsyncImagePainter
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
-import com.lanier.plugin_base.PluginLoader
-import com.lanier.rocoguide.R
+import com.lanier.rocoguide.ui.common.SingleTitle
 
 /**
  * Create by Eric
@@ -42,34 +31,37 @@ fun OtherScreen(navHostController: NavHostController, title: String){
 
 @Composable
 fun OthersMain(navHostController: NavHostController, padding: PaddingValues){
-    val context = LocalContext.current
-    val gifImageLoader = ImageLoader.Builder(context)
-        .components {
-            if (android.os.Build.VERSION.SDK_INT >= 28) {
-                add(ImageDecoderDecoder.Factory())
-            } else {
-                add(GifDecoder.Factory())
-            }
-        }
-        .build()
     Column(modifier = Modifier.padding(padding)) {
-        Button(onClick = {
-            PluginLoader.loadAssetsPluginApk(context, "test.apk"){ result, msg, resources ->
-                if (result){
-                    val intent = Intent().apply {
-                        component = ComponentName(context, "com.lanier.gplugin.MainActivity")
-                    }
-                    context.startActivity(intent)
-                } else {
-                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-                }
-            }
-        }) {
-            Text(text = "遗传")
-        }
-        val painter = rememberAsyncImagePainter(model = R.drawable.dimo, gifImageLoader)
-        Image(painter = painter, contentDescription = "")
-        val p1 = rememberAsyncImagePainter(model = R.drawable.ic_dimo_1)
-        Image(painter = p1, contentDescription = "")
+        OtherCS(navHostController)
+        Spacer(modifier = Modifier.height(10.dp))
+        OtherDT(navHostController)
     }
+}
+
+@Composable
+fun OtherCS(navHostController: NavHostController){
+    Column(modifier = Modifier.fillMaxWidth()) {
+        SingleTitle(title = "CS")
+        OtherHorizontalTextItem("技能大全")
+    }
+}
+
+@Composable
+fun OtherDT(navHostController: NavHostController){
+    Column(modifier = Modifier.fillMaxWidth()) {
+        SingleTitle(title = "DT")
+        OtherHorizontalTextItem("版本")
+        OtherHorizontalTextItem("关于")
+    }
+}
+
+@Composable
+private fun OtherHorizontalTextItem(title: String, click: () -> Unit = {}){
+    Text(text = title, modifier = Modifier
+        .fillMaxWidth()
+        .background(MaterialTheme.colorScheme.background)
+        .clickable {
+            click()
+        }
+        .padding(10.dp))
 }

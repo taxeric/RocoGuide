@@ -62,7 +62,7 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
     val eggGroup = spirit.group.name
     val eggGroupId = spirit.group.id
     var showEggDialog by remember {
-        mutableStateOf(layEggsEnable)
+        mutableStateOf(false)
     }
     var showErrorDialog by remember {
         mutableStateOf(false)
