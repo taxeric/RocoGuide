@@ -1,17 +1,28 @@
 package com.lanier.rocoguide.ui.page
 
+import android.app.Activity
+import android.content.pm.PackageManager
+import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.core.content.PackageManagerCompat
 import androidx.navigation.NavHostController
+import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_SKILL_LIST
 import com.lanier.rocoguide.ui.common.SingleTitle
+import com.lanier.rocoguide.ui.common.TitleText
 
 /**
  * Create by Eric
@@ -55,8 +66,8 @@ fun OtherCS(navHostController: NavHostController){
 fun OtherDT(navHostController: NavHostController){
     Column(modifier = Modifier.fillMaxWidth()) {
         SingleTitle(title = "DT", 0.5f)
-        VersionText("版本")
-        OtherHorizontalTextItem("关于")
+        VersionText()
+        AboutText()
     }
 }
 
@@ -72,7 +83,24 @@ private fun OtherHorizontalTextItem(title: String, click: () -> Unit = {}){
 }
 
 @Composable
-fun VersionText(title: String, click: () -> Unit = {}){
+fun AboutText(){
+    val clipboardManager = LocalClipboardManager.current
+    val context = LocalContext.current
+    TitleText("关于",
+        stringResource(id = R.string.about),
+        titleSize = 16.sp,
+        titleWeight = null,
+        textColor = MaterialTheme.colorScheme.outline
+    ) {
+        clipboardManager.setText(buildAnnotatedString { append("LBA2460") })
+        Toast.makeText(context, "已复制微信号", Toast.LENGTH_SHORT).show()
+    }
+}
+
+@Composable
+fun VersionText(click: () -> Unit = {}){
+    val context = LocalContext.current
+    val pi = context.packageManager.getPackageInfo(context.packageName, 0)
     ConstraintLayout(modifier = Modifier
         .fillMaxWidth()
         .background(MaterialTheme.colorScheme.background)
@@ -82,12 +110,12 @@ fun VersionText(title: String, click: () -> Unit = {}){
         .padding(10.dp)
     ) {
         val (idKey, idValue) = createRefs()
-        Text(text = title, modifier = Modifier.constrainAs(idKey) {
+        Text(text = "版本", modifier = Modifier.constrainAs(idKey) {
             start.linkTo(parent.start)
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
         })
-        Text(text = "1.0.0", fontSize = 14.sp,
+        Text(text = pi.versionName, fontSize = 14.sp,
             color = MaterialTheme.colorScheme.surfaceTint,
             modifier = Modifier.constrainAs(idValue) {
                 end.linkTo(parent.end)
