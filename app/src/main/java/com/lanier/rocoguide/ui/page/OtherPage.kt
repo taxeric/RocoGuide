@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.lanier.rocoguide.R
+import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_PERSONALITY
 import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_SKILL_LIST
 import com.lanier.rocoguide.ui.common.CommonBaseScaffold
 import com.lanier.rocoguide.ui.common.SingleTitle
@@ -47,6 +48,9 @@ fun OtherCS(navHostController: NavHostController){
         SingleTitle(title = "CS", 0.5f)
         OtherHorizontalTextItem("技能大全") {
             navHostController.navigate(ROUTE_SCREEN_MAIN_SKILL_LIST)
+        }
+        OtherHorizontalTextItem("性格修正") {
+            navHostController.navigate(ROUTE_SCREEN_MAIN_PERSONALITY)
         }
     }
 }

@@ -119,6 +119,9 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
         composable(Screen.SkillList.route) {
             SkillScreen(navController, title = Screen.SkillList.title)
         }
+        composable(Screen.Personality.route) {
+            PersonalityScreen(navController, title = Screen.Personality.title)
+        }
         composable(
             route = "${Screen.SpiritDetail.route}/{${ROUTE_PARAMS_SPIRIT_ID}}",
             arguments = listOf(

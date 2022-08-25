@@ -73,3 +73,15 @@ data class SkillType(
     val id: Int = 0,
     val name: String = ""
 )
+
+/**
+ * 性格
+ *
+ * @param type 0-平衡 1-+攻击 2-+防御 3-+魔攻 4-+魔抗 5-+速度
+ */
+data class PersonalityEntity(
+    val name: String,
+    val raise: String,
+    val down: String,
+    val type: Int = 0
+)

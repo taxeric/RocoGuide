@@ -8,6 +8,7 @@ const val ROUTE_SCREEN_MAIN_NEWS_LIST = "screenNews"
 const val ROUTE_SCREEN_MAIN_SPIRIT_LIST = "screenSpirit"
 const val ROUTE_SCREEN_MAIN_OTHER_LIST = "screenOther"
 const val ROUTE_SCREEN_MAIN_SKILL_LIST = "skillList"
+const val ROUTE_SCREEN_MAIN_PERSONALITY = "personality"
 
 const val ROUTE_SCREEN_SPIRIT_DETAIL = "spiritDetail"
 const val ROUTE_PARAMS_SPIRIT_ID = "spiritId"
