@@ -116,6 +116,9 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
         composable(Screen.OtherList.route) {
             OtherScreen(navController, title = Screen.OtherList.title)
         }
+        composable(Screen.SkillList.route) {
+            SkillScreen(navController, title = Screen.SkillList.title)
+        }
         composable(
             route = "${Screen.SpiritDetail.route}/{${ROUTE_PARAMS_SPIRIT_ID}}",
             arguments = listOf(
@@ -147,16 +150,20 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
             SkillDetailScreen(navController, mSkill)
         }
         composable(
-            route = "${Screen.SearchList.route}/{${ROUTE_PARAMS_KEYWORDS}}",
+            route = "${Screen.SearchList.route}/{${ROUTE_PARAMS_KEYWORDS}}/{${ROUTE_PARAMS_SEARCH_TYPE}}",
             arguments = listOf(
                 navArgument(ROUTE_PARAMS_KEYWORDS) {
                     type = NavType.StringType
+                },
+                navArgument(ROUTE_PARAMS_SEARCH_TYPE) {
+                    type = NavType.IntType
                 }
             )
         ) {
             val argument = requireNotNull(it.arguments)
             val keywords = argument.getString(ROUTE_PARAMS_KEYWORDS)?: ""
-            SearchSpiritScreen(navController, keywords)
+            val type = argument.getInt(ROUTE_PARAMS_SEARCH_TYPE)
+            SearchBaseScreen(navController, keywords, type)
         }
         composable(
             route = "${Screen.WebViewPage.route}/{${ROUTE_PARAMS_WEB_VIEW_TITLE}}/{${ROUTE_PARAMS_WEB_VIEW_URL}}",

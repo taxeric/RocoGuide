@@ -7,12 +7,14 @@ package com.lanier.rocoguide.base
 const val ROUTE_SCREEN_MAIN_NEWS_LIST = "screenNews"
 const val ROUTE_SCREEN_MAIN_SPIRIT_LIST = "screenSpirit"
 const val ROUTE_SCREEN_MAIN_OTHER_LIST = "screenOther"
+const val ROUTE_SCREEN_MAIN_SKILL_LIST = "skillList"
 
 const val ROUTE_SCREEN_SPIRIT_DETAIL = "spiritDetail"
 const val ROUTE_PARAMS_SPIRIT_ID = "spiritId"
 
 const val ROUTE_SCREEN_SEARCH_LIST = "searchSpirit"
 const val ROUTE_PARAMS_KEYWORDS = "keywords"
+const val ROUTE_PARAMS_SEARCH_TYPE = "searchType"
 
 const val ROUTE_SCREEN_SKILL_DETAIL = "skillDetail"
 const val ROUTE_PARAMS_SKILL = "mSkill"

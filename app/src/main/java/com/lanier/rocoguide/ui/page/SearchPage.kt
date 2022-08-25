@@ -19,14 +19,39 @@ import com.lanier.rocoguide.vm.factory.SearchVMFactory
  * Desc  :
  */
 @Composable
+fun SearchBaseScreen(navController: NavHostController, keywords: String, type: Int){
+    when (type) {
+        Search.Spirit.type -> {
+            SearchSpiritScreen(navController, keywords)
+        }
+        Search.Skill.type -> {
+            SearchSkillScreen(navController, keywords)
+        }
+    }
+}
+
+@Composable
 fun SearchSpiritScreen(navController: NavHostController, keywords: String) {
     val vm = viewModel<SearchViewModel>(factory = SearchVMFactory(keywords))
-    val list = vm.searchResult.collectAsLazyPagingItems()
+    val list = vm.searchSpiritResult.collectAsLazyPagingItems()
     SearchBaseScaffold(type = Search.Spirit, onBack = {
         navController.popBackStack()
     }) {
         Column(modifier = Modifier.padding(it)) {
             SpiritMainListImpl(list = list, navHostController = navController)
+        }
+    }
+}
+
+@Composable
+fun SearchSkillScreen(navController: NavHostController, keywords: String) {
+    val vm = viewModel<SearchViewModel>(factory = SearchVMFactory(keywords))
+    val list = vm.searchSkillResult.collectAsLazyPagingItems()
+    SearchBaseScaffold(type = Search.Skill, onBack = {
+        navController.popBackStack()
+    }) {
+        Column(modifier = Modifier.padding(it)) {
+            SkillMainListImpl(list = list, navHostController = navController)
         }
     }
 }

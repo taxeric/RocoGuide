@@ -16,7 +16,7 @@ import com.lanier.rocoguide.entity.SpiritEggGroup
  * Desc  :
  */
 @Composable
-fun AttrImage(modifier: Modifier = Modifier, attr: SpiritAttributes) {
+fun AttrImage(modifier: Modifier = Modifier, attr: SpiritAttributes, contentScale: ContentScale = ContentScale.Crop) {
     Image(painter = painterResource(id = when (attr.id) {
         1 -> R.drawable.ic_attr_1
         2 -> R.drawable.ic_attr_2
@@ -40,7 +40,7 @@ fun AttrImage(modifier: Modifier = Modifier, attr: SpiritAttributes) {
         20 -> R.drawable.ic_attr_20
         21 -> R.drawable.ic_attr_21
         else -> R.drawable.ic_attr_0
-    }), contentDescription = "attr", contentScale = ContentScale.Crop, modifier = modifier)
+    }), contentDescription = "attr", contentScale = contentScale, modifier = modifier)
 }
 
 @Composable

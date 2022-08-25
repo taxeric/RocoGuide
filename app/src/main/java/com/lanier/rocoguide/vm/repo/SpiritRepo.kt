@@ -3,9 +3,6 @@ package com.lanier.rocoguide.vm.repo
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.lanier.lib_net.RetrofitHelper
-import com.lanier.rocoguide.base.net.Net
 import com.lanier.rocoguide.entity.SpiritEntity
 import com.lanier.rocoguide.vm.repo.remote.SpiritRemoteData
 import com.lanier.rocoguide.vm.source.SpiritSource
@@ -19,13 +16,13 @@ import kotlinx.coroutines.flow.Flow
  */
 class SpiritRepo {
 
-    private val remoteRepo = SpiritRemoteData()
+    private val remoteData = SpiritRemoteData()
 
     fun getAllSpirit(): Flow<PagingData<SpiritEntity>>{
         return Pager(
             PagingConfig(20, prefetchDistance = 3),
         ) {
-            SpiritSource(remoteRepo)
+            SpiritSource(remoteData)
         }.flow
     }
 
@@ -33,9 +30,9 @@ class SpiritRepo {
         return Pager(
             PagingConfig(20, prefetchDistance = 3),
         ) {
-            SpiritSource(remoteRepo, keywords)
+            SpiritSource(remoteData, keywords)
         }.flow
     }
 
-    suspend fun searchSpiritById(id: Int) = remoteRepo.getSpiritById(id)
+    suspend fun searchSpiritById(id: Int) = remoteData.getSpiritById(id)
 }

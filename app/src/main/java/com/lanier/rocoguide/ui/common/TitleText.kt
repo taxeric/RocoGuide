@@ -21,14 +21,14 @@ import androidx.compose.ui.unit.sp
  * Desc  :
  */
 @Composable
-fun SingleTitle(title: String){
+fun SingleTitle(title: String, dividerHeight: Float = 1f){
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(10.dp, 0.dp)) {
         Text(text = title, fontSize = 18.sp, fontWeight = FontWeight.Bold)
         Divider(modifier = Modifier
             .fillMaxWidth()
-            .height(1.dp)
+            .height(dividerHeight.dp)
             .background(color = MaterialTheme.colorScheme.inversePrimary))
     }
 }

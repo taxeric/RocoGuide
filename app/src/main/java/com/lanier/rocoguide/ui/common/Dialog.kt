@@ -54,7 +54,7 @@ fun SkillDialog(content: String, onDismiss: () -> Unit){
 }
 
 @Composable
-fun SearchDialog(type: Search, onDismiss: (String) -> Unit) {
+fun SearchDialog(type: Search, label: String = "", onDismiss: (String) -> Unit) {
     Dialog(
         onDismissRequest = { onDismiss("") },
         properties = DialogProperties(
@@ -81,7 +81,7 @@ fun SearchDialog(type: Search, onDismiss: (String) -> Unit) {
                     mDesc = it
                 },
                 label = {
-                    Text(text = "精灵名")
+                    Text(text = label)
                 }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp)

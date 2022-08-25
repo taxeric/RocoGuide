@@ -7,10 +7,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -19,7 +17,6 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
-import com.lanier.plugin_base.logI
 import com.lanier.rocoguide.base.ROUTE_SCREEN_SEARCH_LIST
 import com.lanier.rocoguide.base.ROUTE_SCREEN_SPIRIT_DETAIL
 import com.lanier.rocoguide.entity.Search
@@ -59,10 +56,10 @@ fun SpiritScreen(navHostController: NavHostController, title: String){
         SpiritMainList(navHostController, innerPadding)
     }
     if (showSearchDialog) {
-        SearchDialog(type = Search.Spirit) {
+        SearchDialog(type = Search.Spirit, label = "精灵名") {
             showSearchDialog = false
             if (it.isNotEmpty()) {
-                navHostController.navigate("${ROUTE_SCREEN_SEARCH_LIST}/$it")
+                navHostController.navigate("${ROUTE_SCREEN_SEARCH_LIST}/$it/${Search.Spirit.type}")
             }
         }
     }
@@ -90,7 +87,7 @@ fun SpiritItem(navHostController: NavHostController, item: SpiritEntity){
         .height(210.dp)
         .clip(RoundedCornerShape(10.dp))
         .clickable {
-            "search -> ${item.number}".logI()
+//            "search -> ${item.number}".logI()
             navHostController.navigate("${ROUTE_SCREEN_SPIRIT_DETAIL}/${item.id}")
         }
     ){
