@@ -34,20 +34,6 @@ Compose实现的洛克王国攻略
 
 其他资源与之类似,您可以提取您想要的任何资源.例如,您想要提取背景音乐,保存swf后,找到对应的`子项`(可能是音频),选择保存为`.mp3`即可
 
-## 插件开发
-项目支持插件化开发，您应该:
-1. 本地Compose项目调试至基本无异常
-2. 克隆该项目
-3. 在本地项目中引入克隆下来的项目内的`lib_plugin_base`模块
-4. 将本地项目的`MainAcitity: ComponentActivity()`改为`MainActivity: IPluginActivityInterface()`
-5. 将本地项目的`AndroidManifest.xml`的`MainActivity`相关节点注释
-6. 项目完成后打包(apk格式),发送至xxx
-
-**注1: 建议使用Compose开发，使用非Compose开发可能产生未经检查的异常**  
-**注2: 您的compose相关依赖版本请与`lib_plugin_base`一致**
-
-## 目前开发完成的插件
-
 ## 开源库
 - [Compose-WebView: 适用于Compose的浏览器控件](https://google.github.io/accompanist/webview/)
 - [Compose-refresh: 适用于Compose的下拉刷新框架](https://google.github.io/accompanist/swiperefresh/)
