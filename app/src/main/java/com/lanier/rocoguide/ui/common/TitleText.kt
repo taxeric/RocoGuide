@@ -29,8 +29,8 @@ fun SingleTitle(title: String, dividerHeight: Float = 1f){
         Text(text = title, fontSize = 18.sp, fontWeight = FontWeight.Bold)
         Divider(modifier = Modifier
             .fillMaxWidth()
-            .height(dividerHeight.dp)
-            .background(color = MaterialTheme.colorScheme.inversePrimary))
+            .height(dividerHeight.dp),
+            color = MaterialTheme.colorScheme.inversePrimary)
     }
 }
 

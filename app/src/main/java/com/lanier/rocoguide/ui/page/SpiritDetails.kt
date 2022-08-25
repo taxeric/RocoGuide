@@ -161,13 +161,16 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
-    Card(elevation = CardDefaults.cardElevation(defaultElevation = 5.dp), modifier = modifier.background(Color.White)) {
+    Box(modifier = modifier
+        .clip(RoundedCornerShape(5.dp))
+        .background(Color.Yellow)) {
         Column(modifier = Modifier.height(200.dp)) {
             AsyncImage(model = data.avatar, contentDescription = "avatar", modifier = Modifier.height(170.dp))
-            ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+            ConstraintLayout(modifier = Modifier
+                .fillMaxSize()
+                .padding(4.dp, 0.dp)) {
                 val (attr1, attr2, space, eggGroup) = createRefs()
                 if (data.primaryAttributes.id != 0){
                     AttrImage(attr = data.primaryAttributes, modifier = Modifier
@@ -207,19 +210,16 @@ fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
 @Composable
 fun SpiritEntityBaseInfo(data: SpiritEntity, modifier: Modifier){
     Column(modifier = modifier) {
-        Text(text = data.name, fontSize = 20.sp)
+//        Text(text = data.name, fontSize = 20.sp)
         Spacer(modifier = Modifier.height(10.dp))
-        Row {
-            Text(text = "编号: ")
-            Text(text = data.number)
-        }
+        Text(text = "编号: ${data.number}")
         Spacer(modifier = Modifier.height(10.dp))
         Row(modifier = Modifier.fillMaxWidth()) {
             Text(text = "身高: ${data.height}m", modifier = Modifier.weight(1f))
             Text(text = "体重: ${data.weight}kg", modifier = Modifier.weight(1f))
         }
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = data.hobby)
+        Text(text = "爱好: ${data.hobby}")
     }
 }
 
@@ -288,7 +288,7 @@ fun SpiritSkills(data: SpiritEntity, navHostController: NavHostController){
         .padding(10.dp, 5.dp)) {
         Row(modifier = Modifier
             .fillMaxWidth()
-            .border(0.5.dp, Color.Yellow)) {
+            .border(0.5.dp, Color(0xFF83AAF7))) {
             Text(text = "技能", textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
             Text(text = "威力", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
             Text(text = "PP", textAlign = TextAlign.Center, modifier = Modifier.weight(0.8f))
@@ -308,18 +308,18 @@ fun SpiritSkillsV2(data: SpiritEntity, navHostController: NavHostController){
         .padding(10.dp, 5.dp)) {
         Row(modifier = Modifier
             .fillMaxWidth()
-            .border(0.5.dp, Color.Yellow)) {
+            .border(0.5.dp, Color(0xFF83AAF7))) {
             Text(text = "技能", textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
             Text(text = "威力", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
             Text(text = "PP", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
             Text(text = "描述", textAlign = TextAlign.Center, modifier = Modifier.weight(1.8f))
         }
-        data.skills.forEach {
-            SingleSkillV2(it, navHostController)
+        data.skills.forEachIndexed { index, skill ->
+            SingleSkillV2(skill, navHostController)
         }
-        Divider(color = Color.Red, modifier = Modifier
+        Divider(color = Color(0xFF83AAF7), modifier = Modifier
             .fillMaxWidth()
-            .height(1.dp))
+            .height(0.5.dp))
     }
 }
 
@@ -359,14 +359,13 @@ fun SingleSkillV2(skill: Skill, navHostController: NavHostController){
         .fillMaxWidth()
         .height(80.dp)
         .clickable {
-//            navHostController.currentBackStackEntry?.arguments?.putParcelable(ROUTE_PARAMS_SKILL, skill)
             navHostController.navigate("$ROUTE_SCREEN_SKILL_DETAIL/${Gson().toJson(skill)}")
         },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Divider(color = Color.Red, modifier = Modifier
+        Divider(color = Color(0xFF83AAF7), modifier = Modifier
             .fillMaxHeight()
-            .width(1.dp))
+            .width(0.5.dp))
         Text(text = skill.name, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
         Text(text = "${skill.value}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
         Text(text = "${skill.amount}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
@@ -374,8 +373,8 @@ fun SingleSkillV2(skill: Skill, navHostController: NavHostController){
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1.8f))
-        Divider(color = Color.Red, modifier = Modifier
+        Divider(color = Color(0xFF83AAF7), modifier = Modifier
             .fillMaxHeight()
-            .width(1.dp))
+            .width(0.5.dp))
     }
 }
