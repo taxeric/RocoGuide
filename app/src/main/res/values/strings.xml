@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">RocoGuide</string>
 
-    <string name="about">本项目数据来自网络.如您想参与开发(APP、管理后台、服务等,我们希望您有一定的编程经验),或有其他建议,
-        请联系vx:LBA2460 或 Eric1248389474 :)</string>
+    <string name="waitingPerfection">Waiting for perfection</string>
+    <string name="about">本项目数据来自网络,且项目仅用于个人调试新语言新技术,不作为正式产品上架商店.如您想参与开发(APP、管理后台、服务等,我们希望您有一定的编程经验),或有其他建议,请联系vx:LBA2460 或 Eric1248389474 :)</string>
 </resources>

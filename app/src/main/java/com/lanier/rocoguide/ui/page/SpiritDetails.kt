@@ -4,45 +4,30 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.geometry.toRect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.google.gson.Gson
-import com.lanier.plugin_base.logI
 import com.lanier.rocoguide.R
-import com.lanier.rocoguide.base.ROUTE_PARAMS_SKILL
 import com.lanier.rocoguide.base.ROUTE_SCREEN_SKILL_DETAIL
 import com.lanier.rocoguide.entity.Skill
-import com.lanier.rocoguide.entity.SpiritAttributes
 import com.lanier.rocoguide.entity.SpiritEntity
 import com.lanier.rocoguide.ui.common.*
 import com.lanier.rocoguide.vm.SpiritDetailViewModel
@@ -51,7 +36,6 @@ import com.lanier.rocoguide.vm.SpiritDetailViewModel
  * Create by Eric
  * on 2022/7/26
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
     val vm = viewModel<SpiritDetailViewModel>()
@@ -70,42 +54,27 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
     LaunchedEffect(key1 = Unit) {
         vm.getSpiritById(spiritId)
     }
-    Scaffold(
-        modifier = Modifier.fillMaxWidth(),
-        topBar = {
-            SmallTopAppBar(
-                title = { Text(text = title) },
-                navigationIcon = {
-                    IconButton(onClick = {
-                        navHostController.popBackStack()
-                    }) {
-                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "back")
-                    }
-                },
-                actions = {
-                    if (id == -1) {
-                        IconButton(onClick = {
-                            showErrorDialog = true
-                        }) {
-                            Icon(imageVector = Icons.Filled.Warning, contentDescription = "warning")
-                        }
-                    }
-                    if (layEggsEnable){
-                        IconButton(onClick = {
-                            showEggDialog = true
-                        }) {
-                            Image(
-                                painter = painterResource(id = R.drawable.ic_lay_egg),
-                                contentDescription = "egg",
-                                modifier = Modifier.clip(RoundedCornerShape(50.dp))
-                            )
-                        }
-                    }
-                }
-            )
-        },
-    ) { innerPadding ->
-        SpiritDetailData(innerPadding, navHostController, spirit)
+    EnableBackBaseScaffoldWithActions(title = title, onBack = { navHostController.popBackStack() }, actions = {
+        if (id == -1) {
+            IconButton(onClick = {
+                showErrorDialog = true
+            }) {
+                Icon(imageVector = Icons.Filled.Warning, contentDescription = "warning")
+            }
+        }
+        if (layEggsEnable){
+            IconButton(onClick = {
+                showEggDialog = true
+            }) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_lay_egg),
+                    contentDescription = "egg",
+                    modifier = Modifier.clip(RoundedCornerShape(50.dp))
+                )
+            }
+        }
+    }) {
+        SpiritDetailData(it, navHostController, spirit)
     }
     if (showErrorDialog) {
         DataErrorDialog(type = spirit.id) {
@@ -308,7 +277,7 @@ fun SpiritSkillsV2(data: SpiritEntity, navHostController: NavHostController){
         .padding(10.dp, 5.dp)) {
         Row(modifier = Modifier
             .fillMaxWidth()
-            .border(0.5.dp, Color(0xFF83AAF7))) {
+            .border(0.3.dp, Color(0xFF83AAF7))) {
             Text(text = "技能", textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
             Text(text = "威力", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
             Text(text = "PP", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))

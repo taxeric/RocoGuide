@@ -22,6 +22,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_WEB_VIEW
 import com.lanier.rocoguide.entity.NewsData
+import com.lanier.rocoguide.ui.common.CommonBaseScaffold
 import com.lanier.rocoguide.ui.common.HomepageLuLuDialog
 import com.lanier.rocoguide.ui.common.RefreshLazyColumn
 import com.lanier.rocoguide.vm.NewsViewModel
@@ -32,35 +33,26 @@ import java.nio.charset.StandardCharsets
  * Create by Eric
  * on 2022/7/25
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsScreen(navController: NavController, title: String){
     var luluDialog by remember {
         mutableStateOf(false)
     }
-    Scaffold(
-        modifier = Modifier.fillMaxWidth(),
-        topBar = {
-            SmallTopAppBar(
-                title = { Text(text = title) },
-                actions = {
-                    IconButton(onClick = {
-                        luluDialog = true
-                    }) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_lulu_max),
-                            contentScale = ContentScale.Crop,
-                            contentDescription = "",
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(50.dp))
-                                .size(30.dp)
-                        )
-                    }
-                }
+    CommonBaseScaffold(title = title, actions = {
+        IconButton(onClick = {
+            luluDialog = true
+        }) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_lulu_max),
+                contentScale = ContentScale.Crop,
+                contentDescription = "",
+                modifier = Modifier
+                    .clip(RoundedCornerShape(50.dp))
+                    .size(30.dp)
             )
         }
-    ) { innerPadding ->
-        NewsMain(navController = navController, padding = innerPadding)
+    }) {
+        NewsMain(navController = navController, padding = it)
     }
     if (luluDialog) {
         HomepageLuLuDialog {

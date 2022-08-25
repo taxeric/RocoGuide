@@ -22,9 +22,7 @@ import com.lanier.rocoguide.base.ROUTE_SCREEN_SKILL_DETAIL
 import com.lanier.rocoguide.entity.Search
 import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.entity.SkillsList
-import com.lanier.rocoguide.ui.common.AttrImage
-import com.lanier.rocoguide.ui.common.RefreshLazyColumn
-import com.lanier.rocoguide.ui.common.SearchDialog
+import com.lanier.rocoguide.ui.common.*
 import com.lanier.rocoguide.vm.SkillViewModel
 
 /**
@@ -33,40 +31,21 @@ import com.lanier.rocoguide.vm.SkillViewModel
  * Date  : 2022/8/25 9:50
  * Desc  :
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SkillScreen(navHostController: NavHostController, title: String){
     var showSearchDialog by remember {
         mutableStateOf(false)
     }
-    Scaffold(
-        modifier = Modifier.fillMaxWidth(),
-        topBar = {
-            Column {
-                SmallTopAppBar(
-                    title = { Text(text = title) },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            navHostController.popBackStack()
-                        }) {
-                            Icon(
-                                imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = "",
-                            )
-                        }
-                    },
-                    actions = {
-                        IconButton(onClick = {
-                            showSearchDialog = true
-                        }) {
-                            Icon(imageVector = Icons.Filled.Search, contentDescription = "search")
-                        }
-                    }
-                )
-            }
+    EnableBackBaseScaffoldWithActions(title = title, onBack = {
+        navHostController.popBackStack()
+    }, actions = {
+        IconButton(onClick = {
+            showSearchDialog = true
+        }) {
+            Icon(imageVector = Icons.Filled.Search, contentDescription = "search")
         }
-    ) { innerPadding ->
-        SkillMainList(navHostController, innerPadding)
+    }) {
+        SkillMainList(navHostController, it)
     }
     if (showSearchDialog) {
         SearchDialog(type = Search.Skill, label = "技能名") {

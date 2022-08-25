@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.Search
 import com.lanier.rocoguide.entity.UpdateData
 import com.lanier.rocoguide.entity.UpdateEntity
@@ -193,7 +195,7 @@ fun HomepageLuLuDialog(onDismiss: () -> Unit){
             .background(MaterialTheme.colorScheme.background)
             .padding(10.dp)) {
             Spacer(modifier = Modifier.height(20.dp))
-            Text(text = "敬请期待~", fontSize = 16.sp, modifier = Modifier
+            Text(text = stringResource(id = R.string.waitingPerfection), fontSize = 16.sp, modifier = Modifier
                 .fillMaxWidth())
             Spacer(modifier = Modifier.height(20.dp))
             TextButton(onClick = onDismiss, modifier = Modifier

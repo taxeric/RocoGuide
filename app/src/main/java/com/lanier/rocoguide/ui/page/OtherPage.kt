@@ -1,9 +1,6 @@
 package com.lanier.rocoguide.ui.page
 
-import android.app.Activity
-import android.content.pm.PackageManager
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,10 +14,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.core.content.PackageManagerCompat
 import androidx.navigation.NavHostController
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_SKILL_LIST
+import com.lanier.rocoguide.ui.common.CommonBaseScaffold
 import com.lanier.rocoguide.ui.common.SingleTitle
 import com.lanier.rocoguide.ui.common.TitleText
 
@@ -28,18 +25,10 @@ import com.lanier.rocoguide.ui.common.TitleText
  * Create by Eric
  * on 2022/7/25
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OtherScreen(navHostController: NavHostController, title: String){
-    Scaffold(
-        modifier = Modifier.fillMaxWidth(),
-        topBar = {
-            SmallTopAppBar(
-                title = { Text(text = title) },
-            )
-        }
-    ){ innerPadding ->
-        OthersMain(navHostController, padding = innerPadding)
+    CommonBaseScaffold(title = title) {
+        OthersMain(navHostController, padding = it)
     }
 }
 
