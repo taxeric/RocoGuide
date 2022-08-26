@@ -3,6 +3,7 @@ package com.lanier.rocoguide.ui.page
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -14,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -24,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.gson.Gson
 import com.lanier.plugin_base.logI
+import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.*
 import com.lanier.rocoguide.entity.Screen
 import com.lanier.rocoguide.entity.Skill
@@ -89,7 +92,14 @@ fun BottomBar(bottomState: MutableState<Boolean>, navController: NavHostControll
                         }
                     },
                     icon = {
-                        Icon(imageVector = Icons.Filled.Home, contentDescription = "home")
+                        if (item.resId != -1) {
+                            Image(
+                                painter = painterResource(id = item.resId),
+                                contentDescription = ""
+                            )
+                        } else {
+                            Icon(imageVector = Icons.Filled.Home, contentDescription = "home")
+                        }
                     },
                     label = {
                         Text(text = item.title)

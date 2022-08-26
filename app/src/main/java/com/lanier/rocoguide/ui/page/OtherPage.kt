@@ -86,7 +86,7 @@ fun AboutText(){
         textColor = MaterialTheme.colorScheme.outline
     ) {
         clipboardManager.setText(buildAnnotatedString { append("LBA2460") })
-        Toast.makeText(context, "已复制微信号", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Copied!", Toast.LENGTH_SHORT).show()
     }
 }
 
