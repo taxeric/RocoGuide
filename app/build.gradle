@@ -92,10 +92,8 @@ dependencies {
     implementation("io.coil-kt:coil-gif:$coil_version")
     implementation("io.coil-kt:coil-compose:$coil_version")
 
-    //glance
-    //RemoteViews
+    //RemoteViews Glance
     implementation "androidx.core:core-remoteviews:1.0.0-alpha03"
-    //Glance
     implementation "androidx.glance:glance-appwidget:1.0.0-alpha03"
 
     //work manager
