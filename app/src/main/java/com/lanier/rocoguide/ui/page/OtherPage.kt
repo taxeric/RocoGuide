@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import com.lanier.plugin_base.logI
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_PERSONALITY
 import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_SKILL_LIST
@@ -59,6 +60,7 @@ fun OtherCS(navHostController: NavHostController){
 fun OtherDT(navHostController: NavHostController){
     Column(modifier = Modifier.fillMaxWidth()) {
         SingleTitle(title = "DT", 0.5f)
+        GlanceTips()
         VersionText()
         AboutText()
     }
@@ -73,6 +75,14 @@ private fun OtherHorizontalTextItem(title: String, click: () -> Unit = {}){
             click()
         }
         .padding(10.dp))
+}
+
+@Composable
+fun GlanceTips(){
+    TitleText(title = "小部件", text = stringResource(id = R.string.glance_tips),
+        titleSize = 16.sp,
+        titleWeight = null,
+        textColor = MaterialTheme.colorScheme.outline,)
 }
 
 @Composable
