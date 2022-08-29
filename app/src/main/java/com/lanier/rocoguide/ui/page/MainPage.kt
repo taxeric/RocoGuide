@@ -26,11 +26,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.gson.Gson
 import com.lanier.plugin_base.logI
-import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.*
 import com.lanier.rocoguide.entity.Screen
 import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.ui.page.genetic.GeneticDetailScreen
+import com.lanier.rocoguide.ui.page.genetic.GeneticScreen
 
 /**
  * Create by Eric
@@ -132,6 +132,9 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
         }
         composable(Screen.Personality.route) {
             PersonalityScreen(navController, title = Screen.Personality.title)
+        }
+        composable(Screen.GeneticList.route) {
+            GeneticScreen(navController, title = Screen.GeneticList.title)
         }
         composable(
             route = "${Screen.GeneticDetail.route}/{${ROUTE_PARAMS_GROUP_ID}}/{${ROUTE_PARAMS_GROUP_TITLE}}",

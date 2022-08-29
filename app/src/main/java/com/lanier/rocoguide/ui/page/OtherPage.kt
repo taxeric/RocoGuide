@@ -17,6 +17,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.lanier.plugin_base.logI
 import com.lanier.rocoguide.R
+import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_GENETIC
 import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_PERSONALITY
 import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_SKILL_LIST
 import com.lanier.rocoguide.ui.common.CommonBaseScaffold
@@ -52,6 +53,9 @@ fun OtherCS(navHostController: NavHostController){
         }
         OtherHorizontalTextItem("性格修正") {
             navHostController.navigate(ROUTE_SCREEN_MAIN_PERSONALITY)
+        }
+        OtherHorizontalTextItem("遗传图鉴") {
+            navHostController.navigate(ROUTE_SCREEN_MAIN_GENETIC)
         }
     }
 }
