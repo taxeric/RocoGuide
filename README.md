@@ -7,7 +7,8 @@ Compose实现的洛克王国攻略
 - [4399技能查询](http://news.4399.com/luoke/jinengsearch/)
 - [洛克王国论坛](https://17roco.gamebbs.qq.com/)
 - 洛克王国官方公众号
-- 精灵图鉴资源链接: http://res.17roco.qq.com/res/combat/previews/编号-idle.swf
+- 精灵图鉴资源链接1: http://res.17roco.qq.com/res/combat/previews/编号-idle.swf
+- 精灵图鉴资源链接2: https://res.17roco.qq.com/res/combat/icons/编号-.png
 - BGM资源链接: http://res.17roco.qq.com/res/music/new_编号(01-103).swf
    - 可能有新增,本条链接来自论坛
 
