@@ -5,6 +5,7 @@ Compose实现的洛克王国攻略
 本项目数据来自:
 - [百度百科](https://baike.baidu.com/item/%E6%B4%9B%E5%85%8B%E7%8E%8B%E5%9B%BD%E5%AE%A0%E7%89%A9%E5%A4%A7%E5%85%A8/4962564)
 - [4399技能查询](http://news.4399.com/luoke/jinengsearch/)
+- [洛克王国论坛](https://17roco.gamebbs.qq.com/)
 - 洛克王国官方公众号
 - 精灵图鉴资源链接: http://res.17roco.qq.com/res/combat/previews/编号-idle.swf
 - BGM资源链接: http://res.17roco.qq.com/res/music/new_编号(01-103).swf
@@ -41,13 +42,18 @@ Compose实现的洛克王国攻略
 - [Compose-navigation: 适用于Compose的路由框架](https://developer.android.google.cn/guide/navigation/navigation-getting-started)
 - [Coil: 基于kt的图片加载库](https://github.com/coil-kt/coil/blob/main/README-zh.md)
 - Compose-constraintlayout: 适用于Compose的约束布局
+- [Compose-glance: 适用于Compose的小部件库](https://developer.android.com/reference/kotlin/androidx/glance/package-summary)
+- [WorkManager: 适用用于持久性工作的推荐解决方案](https://developer.android.com/topic/libraries/architecture/workmanager)
+- [Jsoup: 适用于Java的html解析器](https://jsoup.org/)
 
 ## 测试名单
 - [bbyyxx2](https://github.com/bbyyxx2)
 - [XiaoAnXA](https://github.com/XiaoAnXA)
+- love****fe61(惊鸿照影)
+- shen****i111(琳)
 
 ## 鸣谢
-- [XiaoAnXA](https://github.com/XiaoAnXA),为本项目提供服务器数据及接口支持
+- [XiaoAnXA](https://github.com/XiaoAnXA),为本项目提供接口支持
 
 ## 推荐阅读
 - compose开发助手
