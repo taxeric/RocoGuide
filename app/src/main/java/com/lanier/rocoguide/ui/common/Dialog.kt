@@ -127,7 +127,7 @@ fun EggDialog(groupName: String, groupId: Int, onDismiss: (Boolean) -> Unit){
                     append(groupName)
                 }
                 append("\n")
-                append("可遗传技能,是否前往遗传图鉴?")
+                append("可能会遗传技能,是否前往遗传图鉴?")
             }, modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.height(20.dp))
             Row(modifier = Modifier
@@ -202,6 +202,31 @@ fun HomepageLuLuDialog(onDismiss: () -> Unit){
                 .align(Alignment.End)
                 .padding(5.dp, 2.dp)) {
                 Text(text = "确定")
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+    }
+}
+
+@Composable
+fun GeneticDialog(onDismiss: (Int) -> Unit){
+    Dialog(
+        onDismissRequest = { onDismiss(-1) },
+        properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+    ) {
+        Column(modifier = Modifier
+            .clip(RoundedCornerShape(5.dp))
+            .background(Color.White)) {
+            Text(text = "调试", fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(8.dp))
+            Spacer(modifier = Modifier.height(10.dp))
+            TextButton(onClick = { onDismiss(0) }, modifier = Modifier.fillMaxWidth()){
+                Text(text = "三代精灵")
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            TextButton(onClick = { onDismiss(-1) }, modifier = Modifier
+                .align(Alignment.End)
+                .padding(5.dp)) {
+                Text(text = "Cancel")
             }
             Spacer(modifier = Modifier.height(5.dp))
         }

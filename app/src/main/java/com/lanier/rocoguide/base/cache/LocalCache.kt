@@ -1,6 +1,12 @@
 package com.lanier.rocoguide.base.cache
 
-import com.lanier.rocoguide.entity.PersonalityEntity
+import com.google.gson.Gson
+import com.lanier.rocoguide.entity.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import java.io.File
 
 /**
  * Author: 芒硝
@@ -65,5 +71,61 @@ object LocalCache {
             add(PersonalityEntity("急躁", "+10% 速度", "-10% 防御", 5))
         }
     // </editor-fold>
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="遗传">
+    private val gson = Gson()
+    private val geneticStringBuilder = StringBuilder()
+    private val geneticGroupMap = LinkedHashMap<String, SpiritEggGroup>()
+    private val geneticSpiritMap = LinkedHashMap<String, List<GeneticSpiritData>>()
+
+    fun getGeneticDataById(id: String): List<GeneticSpiritData> {
+        if (geneticSpiritMap.containsKey(id)){
+            return geneticSpiritMap[id]!!
+        }
+        return emptyList()
+    }
+
+    suspend fun initSpiritDataById(file: File, groupId: String, complete: (Boolean) -> Unit = {}) {
+        val document = Jsoup.parse(file, )
+        withContext(Dispatchers.IO) {
+            initData(document, groupId)
+        }
+        complete(true)
+    }
+
+    private fun initData(document: Document?, groupId: String) {
+        document?.run {
+            geneticStringBuilder.delete(0, geneticStringBuilder.length)
+            geneticStringBuilder.append("{\"groupId\":\"${groupId}\",\"data\":[")
+            val trs = this.select("table").select("tr")
+            trs.forEachIndexed {index, tr ->
+                val tds = tr.select("td")
+                if (tds.size == 3){
+                    if (tds[2].text().contains("遗传") && tds[2].text().contains("技能")){
+                        return@forEachIndexed
+                    }
+                    geneticStringBuilder.append("{")
+                    geneticStringBuilder.append("\"father\":{\"name\":\"").append(tds[0].text()).append("\",\"male\":true},")
+                    geneticStringBuilder.append("\"mother\":{\"name\":\"").append(tds[1].text()).append("\",\"male\":false},")
+                    geneticStringBuilder.append("\"skills\":[")
+                    val skills = tds[2].text().split("、")
+                    skills.forEachIndexed { index1, skill ->
+                        geneticStringBuilder.append("{\"name\":\"").append(skill).append("\"}")
+                        if (index1 != skills.size - 1){
+                            geneticStringBuilder.append(",")
+                        }
+                    }
+                    geneticStringBuilder.append("]}")
+                }
+                if (index != trs.size - 1){
+                    geneticStringBuilder.append(",")
+                }
+            }
+            geneticStringBuilder.append("]}")
+            val base = gson.fromJson(geneticStringBuilder.toString(), BaseSpiritEntity::class.java)
+            geneticSpiritMap[groupId] = base.data
+        }
+    }
     // </editor-fold>
 }

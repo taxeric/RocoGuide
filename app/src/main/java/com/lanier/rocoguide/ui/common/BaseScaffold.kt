@@ -22,6 +22,7 @@ fun CommonBaseScaffold(
     title: String,
     actions: @Composable RowScope.() -> Unit = {},
     showNavigationIcon: Boolean = false,
+    snackbarHost: @Composable () -> Unit = {},
     onBack: () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit
 ){
@@ -42,7 +43,8 @@ fun CommonBaseScaffold(
                 },
                 actions = actions
             )
-        }
+        },
+        snackbarHost = snackbarHost
     ) { innerPadding ->
         content(innerPadding)
     }
@@ -89,6 +91,19 @@ fun EnableBackBaseScaffoldWithActions(
     content: @Composable (PaddingValues) -> Unit
 ){
     CommonBaseScaffold(title = title, showNavigationIcon = true, onBack = onBack, actions = actions) {
+        content(it)
+    }
+}
+
+@Composable
+fun EnableBackBaseScaffoldWithActions(
+    title: String,
+    onBack: () -> Unit,
+    actions: @Composable RowScope.() -> Unit,
+    content: @Composable (PaddingValues) -> Unit,
+    snackbar: @Composable () -> Unit
+){
+    CommonBaseScaffold(title = title, showNavigationIcon = true, onBack = onBack, actions = actions, snackbarHost = snackbar) {
         content(it)
     }
 }

@@ -4,8 +4,11 @@ import com.lanier.rocoguide.entity.NewsList
 import com.lanier.rocoguide.entity.SkillsList
 import com.lanier.rocoguide.entity.SpiritDetailEntity
 import com.lanier.rocoguide.entity.SpiritList
+import okhttp3.ResponseBody
 import retrofit2.http.GET
 import retrofit2.http.Query
+import retrofit2.http.Streaming
+import retrofit2.http.Url
 
 /**
  * Create by Eric
@@ -37,4 +40,10 @@ interface APIService {
         @Query("keywords") keywords: String = "",
         @Query("amount") amount: Int = 20
     ): SkillsList
+
+    @Streaming
+    @GET
+    suspend fun getFileStream(
+        @Url url: String
+    ): ResponseBody
 }

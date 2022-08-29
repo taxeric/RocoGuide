@@ -18,7 +18,10 @@ object RetrofitHelper {
         .build()
     private lateinit var mRetrofit: Retrofit
 
+    var baseUrl: String = ""
+
     fun initHelper(baseUrl: String){
+        this.baseUrl = baseUrl
         if (!::mRetrofit.isInitialized){
             mRetrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)

@@ -26,6 +26,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.google.gson.Gson
 import com.lanier.rocoguide.R
+import com.lanier.rocoguide.base.ROUTE_SCREEN_GENETIC_DETAIL
 import com.lanier.rocoguide.base.ROUTE_SCREEN_SKILL_DETAIL
 import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.entity.SpiritEntity
@@ -84,7 +85,7 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
     if (showEggDialog) {
         EggDialog(eggGroup, eggGroupId) {
             if (it) {
-                //TODO 遗传图鉴
+                navHostController.navigate("${ROUTE_SCREEN_GENETIC_DETAIL}/$eggGroupId/$eggGroup")
             }
             showEggDialog = false
         }

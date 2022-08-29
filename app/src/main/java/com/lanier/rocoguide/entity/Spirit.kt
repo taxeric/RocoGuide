@@ -42,7 +42,8 @@ data class SpiritEntity(
     val raceSpeed: Int = 0,
     val secondaryAttributes: SpiritAttributes = SpiritAttributes(),
     val skills: List<Skill> = emptyList(),
-    val weight: Double = 0.0
+    val weight: Double = 0.0,
+    val male: Boolean = true
 )
 
 data class Skill(

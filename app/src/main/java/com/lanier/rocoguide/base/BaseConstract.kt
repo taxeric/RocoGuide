@@ -13,6 +13,10 @@ const val ROUTE_SCREEN_MAIN_PERSONALITY = "personality"
 const val ROUTE_SCREEN_SPIRIT_DETAIL = "spiritDetail"
 const val ROUTE_PARAMS_SPIRIT_ID = "spiritId"
 
+const val ROUTE_SCREEN_GENETIC_DETAIL = "geneticDetail"
+const val ROUTE_PARAMS_GROUP_ID = "groupId"
+const val ROUTE_PARAMS_GROUP_TITLE = "groupTitle"
+
 const val ROUTE_SCREEN_SEARCH_LIST = "searchSpirit"
 const val ROUTE_PARAMS_KEYWORDS = "keywords"
 const val ROUTE_PARAMS_SEARCH_TYPE = "searchType"
