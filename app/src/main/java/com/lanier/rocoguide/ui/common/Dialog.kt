@@ -2,9 +2,7 @@ package com.lanier.rocoguide.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,7 +13,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,8 +20,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.Search
-import com.lanier.rocoguide.entity.UpdateData
-import com.lanier.rocoguide.entity.UpdateEntity
 
 /**
  * Create by Eric
@@ -127,13 +122,10 @@ fun EggDialog(groupName: String, groupId: Int, onDismiss: (Boolean) -> Unit){
                     append(groupName)
                 }
                 append("\n")
-                append("可能会遗传技能,是否前往遗传图鉴?")
+                append(stringResource(id = R.string.lay_egg_tips))
             }, modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.height(20.dp))
-            Row(modifier = Modifier
-                .align(Alignment.End)
-                .padding(5.dp)
-                .align(Alignment.End)
+            Row(modifier = Modifier.align(Alignment.End)
             ) {
                 TextButton(onClick = { onDismiss(false) }, modifier = Modifier) {
                     Text(text = "取消")
@@ -195,7 +187,7 @@ fun HomepageLuLuDialog(onDismiss: () -> Unit){
             .background(MaterialTheme.colorScheme.background)
             .padding(10.dp)) {
             Spacer(modifier = Modifier.height(20.dp))
-            Text(text = stringResource(id = R.string.waitingPerfection), fontSize = 16.sp, modifier = Modifier
+            Text(text = stringResource(id = R.string.waiting_perfection), fontSize = 16.sp, modifier = Modifier
                 .fillMaxWidth())
             Spacer(modifier = Modifier.height(20.dp))
             TextButton(onClick = onDismiss, modifier = Modifier

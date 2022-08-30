@@ -1,5 +1,6 @@
 package com.lanier.rocoguide.ui.page.genetic
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
@@ -11,16 +12,20 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.GeneticSpiritData
 import com.lanier.rocoguide.entity.SpiritEggGroup
 import com.lanier.rocoguide.ui.common.EnableBackBaseScaffoldWithActions
@@ -68,15 +73,43 @@ fun GeneticDetailImpl(navHostController: NavHostController, paddingValues: Paddi
         vm.getGeneticData(group)
     }
     Column(modifier = Modifier.padding(paddingValues)) {
-        LazyColumn{
-            if (list.isEmpty()) {
-                item {
-                    Text(text = "数据还未初始化或出错了", modifier = Modifier.fillMaxWidth())
-                }
-            } else {
-                items(list) {
-                    GeneticDetailItem(it)
-                }
+        GeneticDetailList(list)
+    }
+}
+
+@Composable
+fun GeneticDetailList(list: List<GeneticSpiritData>) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_male),
+            contentDescription = "雄性",
+            modifier = Modifier.weight(2.2f)
+        )
+        Image(
+            painter = painterResource(id = R.drawable.ic_female),
+            contentDescription = "雌性",
+            modifier = Modifier.weight(2.2f)
+        )
+        Column(modifier = Modifier.weight(3f)) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_genetic),
+                contentDescription = "遗传技能"
+            )
+        }
+    }
+    LazyColumn {
+        if (list.isEmpty()) {
+            item {
+                Text(text = "数据还未初始化或出错了", modifier = Modifier.fillMaxWidth())
+            }
+        } else {
+            items(list) {
+                GeneticDetailItem(it)
             }
         }
     }
@@ -89,8 +122,8 @@ fun GeneticDetailItem(data: GeneticSpiritData){
         .wrapContentHeight(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = data.father.name, fontSize = 12.sp, modifier = Modifier.weight(2.2f))
-        Text(text = data.mother.name, fontSize = 12.sp, modifier = Modifier.weight(2.2f))
+        Text(text = data.father.name, textAlign = TextAlign.Center, fontSize = 12.sp, modifier = Modifier.weight(2.2f))
+        Text(text = data.mother.name, textAlign = TextAlign.Center, fontSize = 12.sp, modifier = Modifier.weight(2.2f))
         Row(modifier = Modifier
             .weight(3f)
             .horizontalScroll(
@@ -102,7 +135,7 @@ fun GeneticDetailItem(data: GeneticSpiritData){
                     modifier = Modifier
                         .padding(if (index == 0) 0.dp else 5.dp, 2.dp, 0.dp, 2.dp)
                         .clip(RoundedCornerShape(5.dp))
-                        .background(Color(0xFFE8E8E8))
+                        .background(MaterialTheme.colorScheme.inverseOnSurface)
                         .padding(1.dp)
                 )
             }

@@ -1,9 +1,6 @@
 package com.lanier.rocoguide.base.net
 
-import com.lanier.rocoguide.entity.NewsList
-import com.lanier.rocoguide.entity.SkillsList
-import com.lanier.rocoguide.entity.SpiritDetailEntity
-import com.lanier.rocoguide.entity.SpiritList
+import com.lanier.rocoguide.entity.*
 import okhttp3.ResponseBody
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -40,6 +37,9 @@ interface APIService {
         @Query("keywords") keywords: String = "",
         @Query("amount") amount: Int = 20
     ): SkillsList
+
+    @GET("api/group/v1/list")
+    suspend fun getSpiritEggGroup(): EggGroupList
 
     @Streaming
     @GET

@@ -24,6 +24,13 @@ data class SkillsList(
     val data: List<Skill> = emptyList()
 )
 
+data class EggGroupList(
+    val code: Int = 0,
+    val msg: String = "",
+    val data: List<SpiritEggGroup> = emptyList(),
+    val total: Int = 0
+)
+
 data class SpiritEntity(
     val avatar: String = "",
     val description: String = "",

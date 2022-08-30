@@ -1,17 +1,22 @@
 package com.lanier.rocoguide.ui.page.genetic
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.lanier.rocoguide.ui.common.EnableBackBaseScaffoldWithActions
-import com.lanier.rocoguide.ui.common.GeneticDialog
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.lanier.rocoguide.base.ROUTE_SCREEN_GENETIC_DETAIL
+import com.lanier.rocoguide.entity.SpiritEggGroup
+import com.lanier.rocoguide.ui.common.*
+import com.lanier.rocoguide.vm.EggGroupViewModel
 
 /**
  * Author: 芒硝
@@ -21,33 +26,45 @@ import com.lanier.rocoguide.ui.common.GeneticDialog
  */
 @Composable
 fun GeneticScreen(navHostController: NavHostController, title: String){
-    var showGeneticDialog by remember {
-        mutableStateOf(false)
-    }
-    EnableBackBaseScaffoldWithActions(
+    EnableBackBaseScaffold(
         title = title,
         onBack = { navHostController.popBackStack() },
-        actions = {
-            IconButton(onClick = {
-                showGeneticDialog = true
-            }) {
-                Icon(imageVector = Icons.Filled.Warning, contentDescription = "")
-            }
-        },
     ) {
         GeneticGroupImpl(navHostController, paddingValues = it)
-    }
-    if (showGeneticDialog) {
-        GeneticDialog {
-            if (it == 0) {
-            }
-            showGeneticDialog = false
-        }
     }
 }
 
 @Composable
 fun GeneticGroupImpl(navHostController: NavHostController, paddingValues: PaddingValues){
+    val vm = viewModel<EggGroupViewModel>()
+    val list = vm.eggGroupFlow.collectAsLazyPagingItems()
     Column(modifier = Modifier.padding(paddingValues)) {
+        GeneticGroupList(navHostController, list)
+    }
+}
+
+@Composable
+fun GeneticGroupList(navHostController: NavHostController, list: LazyPagingItems<SpiritEggGroup>){
+    RefreshLazyColumn(data = list, ) { index, data ->
+        GeneticEggGroupItem(index, data, navHostController)
+    }
+}
+
+@Composable
+fun GeneticEggGroupItem(index: Int, data: SpiritEggGroup, navHostController: NavHostController){
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .clickable {
+            if (data.id != 1) {
+                navHostController.navigate("$ROUTE_SCREEN_GENETIC_DETAIL/${data.id}/${data.name}")
+            }
+        }
+        .padding(10.dp),
+        verticalAlignment = Alignment.CenterVertically) {
+        Column(modifier = Modifier.weight(0.3f), horizontalAlignment = Alignment.CenterHorizontally) {
+            EggGroupImage(eg = data, contentScale = ContentScale.Crop, modifier = Modifier.size(24.dp))
+        }
+        Text(text = data.name, modifier = Modifier.weight(0.5f))
+        Text(text = "#${index + 1}", fontWeight = FontWeight.Bold, modifier = Modifier.weight(0.2f))
     }
 }
