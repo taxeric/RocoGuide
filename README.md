@@ -13,7 +13,6 @@ Compose实现的洛克王国攻略
 - 精灵图鉴资源链接2: https://res.17roco.qq.com/res/combat/icons/编号-.png
    - 为仓库内未选择精灵样式
 - BGM资源链接: http://res.17roco.qq.com/res/music/new_编号(01-103).swf
-   - 可能有新增,本条链接来自论坛
 - 成长图标链接: https://res.17roco.qq.com/res/titile/编号(0-25).swf
 - 守护兽图标链接: https://res.17roco.qq.com/res/guardianPet/100000101.swf
    - 101-108: 无皮肤守护兽
