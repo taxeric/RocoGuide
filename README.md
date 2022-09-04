@@ -7,10 +7,42 @@ Compose实现的洛克王国攻略
 - [4399技能查询](http://news.4399.com/luoke/jinengsearch/)
 - [洛克王国论坛](https://17roco.gamebbs.qq.com/)
 - 洛克王国官方公众号
+
+### 更多细节
 - 精灵图鉴资源链接1: http://res.17roco.qq.com/res/combat/previews/编号-idle.swf
 - 精灵图鉴资源链接2: https://res.17roco.qq.com/res/combat/icons/编号-.png
+   - 为仓库内未选择精灵样式
 - BGM资源链接: http://res.17roco.qq.com/res/music/new_编号(01-103).swf
    - 可能有新增,本条链接来自论坛
+- 成长图标链接: https://res.17roco.qq.com/res/titile/编号(0-25).swf
+- 守护兽图标链接: https://res.17roco.qq.com/res/guardianPet/100000101.swf
+   - 101-108: 无皮肤守护兽
+   - 201-208: 皮肤1
+   - 301-308: 皮肤2
+- 相关属性图标链接: https://res.17roco.qq.com/plugins/WorldMap/icons/00001.png
+   - 00001-00017: 地图上可以捕捉的属性图标
+   - 00018-00030: 异常状态图标(烧伤、寄生等)
+   - 00031-00036: 6项种族值图标
+- 孵出来的蛋蛋图片链接: https://res.17roco.qq.com/res/egg/编号(0-15).png
+   - 8、9、11、13暂无
+- HP药剂图片链接: https://res.17roco.qq.com/res/item/编号(16842754-16842763、16842774、16842775).png
+   - 含潘多诺格HP药剂
+- PP药剂图片链接: https://res.17roco.qq.com/res/item/编号(16908290-16908296).png
+   - 含潘多诺格PP药剂
+- 异常状态药剂图片链接: https://res.17roco.qq.com/res/item/编号(16973826-16973833).png
+- 咕噜球图片链接: https://res.17roco.qq.com/res/item/编号(17039362-17039376).png
+   - 17039367为国王球;17039371暂无
+- 经验果图片链接1: https://res.17roco.qq.com/res/item/编号(17170435-17170453,17170464-17170475).png
+- 经验果图片链接2: https://res.17roco.qq.com/res/item/编号(17170481-17170487).png
+   - 为1万经验果-魔方糖果
+- 经验果图片链接3: https://res.17roco.qq.com/res/item/编号(17235972-17235975).png
+   - 分别为`小成长果实`、`奇妙果`、`魔力果`、`怪蛋酱汁`
+- 经验果图片链接4: https://res.17roco.qq.com/res/item/17498114.png
+   - 为`升级果`~~(神奇糖果)~~
+- 刷新天赋值果实图片链接: https://res.17roco.qq.com/res/item/编号(17367043-17367047).png
+- 努力值果实图片链接: https://res.17roco.qq.com/res/item/编号(17563651-17563657).png
+   - 17563651为遗忘果实
+
 
 ### 我想自己抓取资源
 #### 前提
