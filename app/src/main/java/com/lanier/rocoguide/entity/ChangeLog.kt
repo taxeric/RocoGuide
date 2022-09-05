@@ -21,5 +21,6 @@ data class ChangeLogData(
     val url: String = "",
     val versionCode: Int = 0,
     val versionName: String = "",
-    val isNewestVersion: Boolean = false
+    val isNewestVersion: Boolean = false,
+    val isDownloading: Boolean = false
 )

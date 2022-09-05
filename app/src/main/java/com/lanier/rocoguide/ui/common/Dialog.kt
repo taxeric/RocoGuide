@@ -239,6 +239,7 @@ fun ChangeLogDialog(
     url: String,
     mandatory: Boolean,
     size: String,
+    isDownloading: Boolean = false,
     onCheckEnable: (Boolean) -> Unit = {},
     onNegativeEvent: (Boolean) -> Unit = {},
     onPositiveEvent: (String) -> Unit = {},
@@ -308,25 +309,32 @@ fun ChangeLogDialog(
             }
             Spacer(modifier = Modifier.height(10.dp))
             Row(modifier = Modifier.align(Alignment.End)) {
-                TextButton(onClick = {
-                    onCheckEnable(checkEnable)
-                    onNegativeEvent(mandatory)
-                    onDismiss()
-                }) {
-                    val negativeButton = if (mandatory) {
-                        "退出"
-                    } else {
-                        "稍后"
+                if (!isDownloading) {
+                    TextButton(onClick = {
+                        onCheckEnable(checkEnable)
+                        onNegativeEvent(mandatory)
+                        onDismiss()
+                    }) {
+                        val negativeButton = if (mandatory) {
+                            "退出"
+                        } else {
+                            "稍后"
+                        }
+                        Text(text = negativeButton)
                     }
-                    Text(text = negativeButton)
                 }
                 Spacer(modifier = Modifier.width(5.dp))
                 TextButton(onClick = {
                     onCheckEnable(checkEnable)
                     onPositiveEvent(url)
                     onDismiss()
-                }) {
-                    Text(text = "立即下载")
+                }, enabled = !isDownloading) {
+                    val downloadStr = if (isDownloading) {
+                        "正在下载"
+                    } else {
+                        "立即下载"
+                    }
+                    Text(text = downloadStr)
                 }
             }
         }

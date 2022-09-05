@@ -51,6 +51,7 @@ fun UpdateView(){
     if (showUpdateDialog) {
         ChangeLogDialog(log, url, mandatory, size,
             onPositiveEvent = {
+                LocalCache.newestData = LocalCache.newestData.copy(isDownloading = true)
                 //下载
             },
             onNegativeEvent = {

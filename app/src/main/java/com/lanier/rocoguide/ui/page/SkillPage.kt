@@ -1,5 +1,6 @@
 package com.lanier.rocoguide.ui.page
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -10,12 +11,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.gson.Gson
+import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_SEARCH_LIST
 import com.lanier.rocoguide.base.ROUTE_SCREEN_SKILL_DETAIL
 import com.lanier.rocoguide.entity.Search
@@ -73,18 +77,45 @@ fun SkillMainListImpl(list: LazyPagingItems<Skill>, navHostController: NavHostCo
 
 @Composable
 fun SkillItem(navHostController: NavHostController, item: Skill){
-    Row(modifier = Modifier
+    ConstraintLayout(modifier = Modifier
         .fillMaxWidth()
         .height(48.dp)
         .clickable {
             navHostController.navigate("$ROUTE_SCREEN_SKILL_DETAIL/${Gson().toJson(item)}")
         },
-        verticalAlignment = Alignment.CenterVertically
     ){
+        val (attrPic, name, type) = createRefs()
         AttrImage(attr = item.attributes, contentScale = ContentScale.Fit,
             modifier = Modifier
                 .size(36.dp)
-                .padding(10.dp, 0.dp))
-        Text(text = item.name, modifier = Modifier.padding(10.dp, 0.dp))
+                .padding(10.dp, 0.dp)
+                .constrainAs(attrPic) {
+                    start.linkTo(parent.start)
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                })
+        Text(text = item.name, modifier = Modifier
+            .padding(10.dp, 0.dp)
+            .constrainAs(name) {
+                start.linkTo(attrPic.end)
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+            })
+        if (item.skillType.id < 3) {
+            Image(
+                painter = painterResource(id = if (item.skillType.id == 1)
+                    R.drawable.ic_attack_phycical
+                else R.drawable.ic_attack_magic),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(24.dp)
+                    .constrainAs(type){
+                        end.linkTo(parent.end)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                    }
+                    .padding(10.dp, 0.dp)
+            )
+        }
     }
 }
