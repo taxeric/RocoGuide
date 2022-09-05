@@ -1,5 +1,5 @@
 # RocoGuide
-Compose实现的洛克王国攻略
+Compose实现的洛克王国指南
 
 ## 数据
 本项目数据来自:
