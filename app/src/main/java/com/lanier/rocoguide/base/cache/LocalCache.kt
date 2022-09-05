@@ -128,4 +128,8 @@ object LocalCache {
         }
     }
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="版本">
+    var newestData = ChangeLogData(isNewestVersion = false)
+    // </editor-fold>
 }

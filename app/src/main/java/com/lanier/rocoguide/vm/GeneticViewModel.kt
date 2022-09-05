@@ -3,14 +3,14 @@ package com.lanier.rocoguide.vm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lanier.lib_net.RetrofitHelper
-import com.lanier.plugin_base.logE
-import com.lanier.plugin_base.logI
 import com.lanier.rocoguide.base.cache.LocalCache
 import com.lanier.rocoguide.base.net.Net
 import com.lanier.rocoguide.entity.GeneticSpiritData
 import com.lanier.rocoguide.entity.SpiritEggGroup
 import com.lanier.rocoguide.utils.copyStreamToFile
 import com.lanier.rocoguide.utils.defaultLocalJsonDataPath
+import com.lanier.rocoguide.utils.logE
+import com.lanier.rocoguide.utils.logI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

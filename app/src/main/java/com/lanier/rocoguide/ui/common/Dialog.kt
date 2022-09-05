@@ -1,8 +1,11 @@
 package com.lanier.rocoguide.ui.common
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -225,91 +228,107 @@ fun GeneticDialog(onDismiss: (Int) -> Unit){
     }
 }
 
-/*@OptIn(ExperimentalMaterial3Api::class)
+/**
+ * 不建议在 [onNegativeEvent] 和 [onPositiveEvent] 方法块内进行dismiss操作
+ * 对话框的消失只建议在 [onDismiss] 方法块执行
+ */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VersionUpdateDialog(
-    data: UpdateData,
-    onDismiss: () -> Unit = {},
-    onCheckEnable: (Boolean) -> Unit,
-    onClick: (url: String) -> Unit
+fun ChangeLogDialog(
+    log: String,
+    url: String,
+    mandatory: Boolean,
+    size: String,
+    onCheckEnable: (Boolean) -> Unit = {},
+    onNegativeEvent: (Boolean) -> Unit = {},
+    onPositiveEvent: (String) -> Unit = {},
+    onDismiss: () -> Unit
 ) {
-    if (data.type == 0 || data.type == 1) {
-        var checkEnable by remember {
-            mutableStateOf(false)
-        }
-        Dialog(
-            onDismissRequest = onDismiss,
-            properties = DialogProperties(
-                dismissOnBackPress = data.mandatory != 1 && data.type != 1,
-                dismissOnClickOutside = data.mandatory != 1 && data.type != 1
-            )
+    var checkEnable by remember {
+        mutableStateOf(false)
+    }
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(
+            dismissOnBackPress = !mandatory,
+            dismissOnClickOutside = !mandatory
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .clip(RoundedCornerShape(5.dp))
+                .background(MaterialTheme.colorScheme.background)
+                .padding(10.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(5.dp))
-                    .background(Color.White)
-                    .padding(10.dp)
-            ) {
-                val title = if (data.type == 0) {
-                    "公告"
-                } else {
-                    "版本更新"
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = "版本更新",
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 19.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(text = "本次更新了以下内容:", fontSize = 14.sp, color = MaterialTheme.colorScheme.primary)
+            Text(text = buildAnnotatedString {
+                withStyle(SpanStyle(fontSize = 13.sp, color = MaterialTheme.colorScheme.onBackground)) {
+                    append(log)
                 }
-                Spacer(modifier = Modifier.height(20.dp))
-                Text(
-                    text = title,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    text = buildAnnotatedString {
-                        append(data.log)
-                        append("\n")
-                        if (data.type == 1) {
-                            if (data.mandatory == 1) {
-                                withStyle(SpanStyle(color = Color.Black, fontSize = 16.sp)) {
-                                    append("本版为强制更新\n")
-                                }
-                            }
-                            append("文件大小: ${(data.size / 1024 / 1024).toDouble()} MB")
-                        }
-                    }, modifier = Modifier
-                        .fillMaxWidth()
-                        .height(400.dp)
-                        .verticalScroll(
-                            rememberScrollState()
-                        )
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Row {
-                    Checkbox(checked = checkEnable, onCheckedChange = { checkEnable = it })
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Text(text = "本版不再提示")
-                }
-                Spacer(modifier = Modifier.height(20.dp))
-                Row(modifier = Modifier.align(Alignment.End)) {
-                    TextButton(onClick = {
-                        onCheckEnable(checkEnable)
-                        onClick(
-                            if (data.type == 1) {
-                                data.url
-                            } else {
-                                ""
-                            }
-                        )
-                        onDismiss()
-                    }) {
-                        val text = if (data.type == 0) {
-                            "确定"
-                        } else {
-                            "立即下载"
-                        }
-                        Text(text = text)
+                append("\n")
+                if (mandatory) {
+                    withStyle(SpanStyle(color = MaterialTheme.colorScheme.surfaceTint, fontSize = 14.sp)) {
+                        append("本版为强制更新\n")
                     }
+                }
+            }, fontSize = 14.sp,
+                modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp)
+                .padding(20.dp, 0.dp)
+                .verticalScroll(rememberScrollState()))
+            Text(text = buildAnnotatedString {
+                withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                    append("文件大小:")
+                }
+                withStyle(SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
+                    append(size)
+                }
+            }, fontSize = 14.sp)
+            Spacer(modifier = Modifier.height(10.dp))
+            if (!mandatory) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(checked = checkEnable, onCheckedChange = { checkEnable = it })
+                    Text(text = "本版不再提示", fontSize = 13.sp, color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier
+                            .press {
+                                checkEnable = !checkEnable
+                            }
+                            .padding(0.dp, 2.dp, 2.dp, 2.dp))
+                }
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(modifier = Modifier.align(Alignment.End)) {
+                TextButton(onClick = {
+                    onCheckEnable(checkEnable)
+                    onNegativeEvent(mandatory)
+                    onDismiss()
+                }) {
+                    val negativeButton = if (mandatory) {
+                        "退出"
+                    } else {
+                        "稍后"
+                    }
+                    Text(text = negativeButton)
+                }
+                Spacer(modifier = Modifier.width(5.dp))
+                TextButton(onClick = {
+                    onCheckEnable(checkEnable)
+                    onPositiveEvent(url)
+                    onDismiss()
+                }) {
+                    Text(text = "立即下载")
                 }
             }
         }
     }
-}*/
+}

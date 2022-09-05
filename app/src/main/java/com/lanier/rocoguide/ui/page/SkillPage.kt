@@ -16,12 +16,10 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.gson.Gson
-import com.lanier.plugin_base.logE
 import com.lanier.rocoguide.base.ROUTE_SCREEN_SEARCH_LIST
 import com.lanier.rocoguide.base.ROUTE_SCREEN_SKILL_DETAIL
 import com.lanier.rocoguide.entity.Search
 import com.lanier.rocoguide.entity.Skill
-import com.lanier.rocoguide.entity.SkillsList
 import com.lanier.rocoguide.ui.common.*
 import com.lanier.rocoguide.vm.SkillViewModel
 

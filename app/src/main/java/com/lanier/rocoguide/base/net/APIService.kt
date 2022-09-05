@@ -13,6 +13,12 @@ import retrofit2.http.Url
  */
 interface APIService {
 
+    @GET("api/changeLog/v1/version")
+    suspend fun getNewestVersion(): ChangeLogEntity
+
+    @GET("api/changeLog/v1/bulletin")
+    suspend fun getNewestBulletin(): ChangeLogEntity
+
     @GET("api/news/v1/page")
     suspend fun getNewsList(
         @Query("page") page: Int,

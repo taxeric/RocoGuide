@@ -10,14 +10,14 @@ import android.util.Log
  */
 private const val TAG = "PLUGIN_BASE"
 
-fun String.logI(){
+internal fun String.logI(){
     Log.i(TAG, this)
 }
 
-fun String.logI(tag: String){
+internal fun String.logI(tag: String){
     Log.i(tag, this)
 }
 
-fun String.logE(){
+internal fun String.logE(){
     Log.e(TAG, this)
 }

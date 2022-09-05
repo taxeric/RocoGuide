@@ -2,7 +2,6 @@ package com.lanier.rocoguide.vm.source
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.lanier.plugin_base.logI
 import com.lanier.rocoguide.entity.SpiritEntity
 import com.lanier.rocoguide.entity.SpiritList
 import com.lanier.rocoguide.vm.repo.remote.SpiritRemoteData

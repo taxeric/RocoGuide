@@ -15,3 +15,12 @@ fun Modifier.longPress(longPressEvent: () -> Unit): Modifier {
         detectTapGestures(onLongPress = { longPressEvent() })
     }
 }
+
+/**
+ * 点击事件,不带波纹效果
+ */
+fun Modifier.press(pressEvent: () -> Unit): Modifier {
+    return pointerInput(this){
+        detectTapGestures(onPress = { pressEvent() })
+    }
+}

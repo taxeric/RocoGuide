@@ -18,11 +18,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
-import com.lanier.plugin_base.logI
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_GENETIC
 import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_PERSONALITY
 import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_SKILL_LIST
+import com.lanier.rocoguide.base.cache.LocalCache
+import com.lanier.rocoguide.ui.common.ChangeLogDialog
 import com.lanier.rocoguide.ui.common.CommonBaseScaffold
 import com.lanier.rocoguide.ui.common.SingleTitle
 import com.lanier.rocoguide.ui.common.TitleText
@@ -75,7 +76,8 @@ fun OtherDT(navHostController: NavHostController){
 
 @Composable
 private fun OtherHorizontalItem(title: String, click: () -> Unit = {}){
-    Row(modifier = Modifier.fillMaxWidth()
+    Row(modifier = Modifier
+        .fillMaxWidth()
         .clickable {
             click()
         },
@@ -114,14 +116,17 @@ fun AboutText(){
 }
 
 @Composable
-fun VersionText(click: () -> Unit = {}){
+fun VersionText(){
     val context = LocalContext.current
     val pi = context.packageManager.getPackageInfo(context.packageName, 0)
+    var showUpdateDialog by remember {
+        mutableStateOf(false)
+    }
     ConstraintLayout(modifier = Modifier
         .fillMaxWidth()
         .background(MaterialTheme.colorScheme.background)
         .clickable {
-            click()
+            showUpdateDialog = true
         }
         .padding(10.dp)
     ) {
@@ -138,5 +143,15 @@ fun VersionText(click: () -> Unit = {}){
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
         })
+    }
+    if (showUpdateDialog) {
+        val cache = LocalCache.newestData
+        if (cache.isNewestVersion) {
+            ChangeLogDialog(cache.log, cache.url, cache.mandatory, cache.size) {
+                showUpdateDialog = false
+            }
+        } else {
+            showUpdateDialog = false
+        }
     }
 }

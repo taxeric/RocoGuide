@@ -25,7 +25,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.gson.Gson
-import com.lanier.plugin_base.logI
 import com.lanier.rocoguide.base.*
 import com.lanier.rocoguide.entity.Screen
 import com.lanier.rocoguide.entity.Skill
@@ -177,7 +176,6 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
             val mSkill = if (skill.isNullOrEmpty()) {
                 Skill(name = "出错了")
             } else {
-                skill.logI()
                 Gson().fromJson(skill, Skill::class.java)
             }
             SkillDetailScreen(navController, mSkill)

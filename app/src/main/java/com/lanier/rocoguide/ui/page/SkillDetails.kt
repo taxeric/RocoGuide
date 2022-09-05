@@ -11,10 +11,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.lanier.plugin_base.logI
 import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.ui.common.AttrImage
 import com.lanier.rocoguide.ui.common.EnableBackBaseScaffold
+import com.lanier.rocoguide.utils.logI
 
 /**
  * Create by Eric
