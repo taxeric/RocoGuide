@@ -1,5 +1,6 @@
 package com.lanier.rocoguide.ui.page
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -7,8 +8,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -17,6 +20,7 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
+import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_SEARCH_LIST
 import com.lanier.rocoguide.base.ROUTE_SCREEN_SPIRIT_DETAIL
 import com.lanier.rocoguide.entity.Search
@@ -78,7 +82,10 @@ fun SpiritItem(navHostController: NavHostController, item: SpiritEntity){
             navHostController.navigate("${ROUTE_SCREEN_SPIRIT_DETAIL}/${item.id}")
         }
     ){
-        AsyncImage(model = item.avatar, contentDescription = "avatar", modifier = Modifier.height(150.dp))
+        Box(modifier = Modifier.height(150.dp), contentAlignment = Alignment.Center) {
+            Image(painter = painterResource(id = R.drawable.ic_spirit_main_bg), contentDescription = "")
+            AsyncImage(model = item.avatar, contentDescription = "avatar", )
+        }
         Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
             AttrImage(attr = item.primaryAttributes, modifier = Modifier
                 .width(20.dp)

@@ -47,7 +47,6 @@ fun NewsScreen(navController: NavController, title: String){
                 contentScale = ContentScale.Crop,
                 contentDescription = "",
                 modifier = Modifier
-                    .clip(RoundedCornerShape(50.dp))
                     .size(30.dp)
             )
         }

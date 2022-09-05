@@ -50,7 +50,7 @@ fun GeneticDetailScreen(navHostController: NavHostController, id: Int, title: St
             IconButton(onClick = {
                 showGeneticDialog = true
             }) {
-                Icon(imageVector = Icons.Filled.Warning, contentDescription = "")
+                Image(painter = painterResource(id = R.drawable.ic_lay_egg_1), contentDescription = "")
             }
         },
     ) {
