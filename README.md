@@ -46,7 +46,7 @@ Compose实现的洛克王国指南
 ### 我想自己抓取资源
 #### 前提
 分为两步: 提取和解析,您需要准备:  
-1. JPEXS Free Flash Decompiler
+1. [JPEXS Free Flash Decompiler](https://github.com/jindrapetrik/jpexs-decompiler/releases/latest)
 2. 建议下载360浏览器,下述步骤均为360浏览器调试
 #### 提取
 1. 进入洛克王国官网
