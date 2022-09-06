@@ -49,14 +49,14 @@ fun UpdateView(){
         showUpdateDialog = true
     }
     if (showUpdateDialog) {
-        ChangeLogDialog(log, url, mandatory, size,
+        ChangeLogDialog(log, url, mandatory, size, LocalCache.newestData.isDownloading,
             onPositiveEvent = {
                 LocalCache.newestData = LocalCache.newestData.copy(isDownloading = true)
                 //下载
             },
-            onNegativeEvent = {
+            onNegativeEvent = {isMandatory, isDownloading ->
                 //如果是强制更新则退出,否则只dis对话框
-                if (it) {
+                if (isMandatory) {
                     (context as ComponentActivity).finish()
                 }
             }

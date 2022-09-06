@@ -147,7 +147,11 @@ fun VersionText(){
     if (showUpdateDialog) {
         val cache = LocalCache.newestData
         if (cache.isNewestVersion) {
-            ChangeLogDialog(cache.log, cache.url, cache.mandatory, cache.size) {
+            ChangeLogDialog(cache.log, cache.url, cache.mandatory, cache.size, cache.isDownloading,
+                onPositiveEvent = {
+                    LocalCache.newestData = LocalCache.newestData.copy(isDownloading = true)
+                    //下载
+                }) {
                 showUpdateDialog = false
             }
         } else {

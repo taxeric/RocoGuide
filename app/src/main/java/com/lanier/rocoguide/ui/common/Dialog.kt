@@ -241,7 +241,7 @@ fun ChangeLogDialog(
     size: String,
     isDownloading: Boolean = false,
     onCheckEnable: (Boolean) -> Unit = {},
-    onNegativeEvent: (Boolean) -> Unit = {},
+    onNegativeEvent: (Boolean, Boolean) -> Unit = {_, _ ->},
     onPositiveEvent: (String) -> Unit = {},
     onDismiss: () -> Unit
 ) {
@@ -309,19 +309,21 @@ fun ChangeLogDialog(
             }
             Spacer(modifier = Modifier.height(10.dp))
             Row(modifier = Modifier.align(Alignment.End)) {
-                if (!isDownloading) {
-                    TextButton(onClick = {
-                        onCheckEnable(checkEnable)
-                        onNegativeEvent(mandatory)
-                        onDismiss()
-                    }) {
-                        val negativeButton = if (mandatory) {
+                TextButton(onClick = {
+                    onCheckEnable(checkEnable)
+                    onNegativeEvent(mandatory, isDownloading)
+                    onDismiss()
+                }) {
+                    val negativeButton = if (isDownloading)
+                        "关闭"
+                    else {
+                        if (mandatory) {
                             "退出"
                         } else {
                             "稍后"
                         }
-                        Text(text = negativeButton)
                     }
+                    Text(text = negativeButton)
                 }
                 Spacer(modifier = Modifier.width(5.dp))
                 TextButton(onClick = {
