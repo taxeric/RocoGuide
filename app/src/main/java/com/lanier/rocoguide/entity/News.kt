@@ -16,9 +16,10 @@ data class NewsList(
 @Serializable
 data class NewsData(
     val content: String = "",
-    val create_time: Long = 0L,
+    val createTime: String = "",
     val title: String = "",
     val type: Int = 1,
-    val update_time: Long = 0L,
-    val url: String = ""
+    val updateTime: String = "",
+    val url: String = "",
+    val externalContent: String = ""
 )

@@ -144,10 +144,14 @@ fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
                     .width(20.dp)
                     .height(20.dp))
                 data.secondaryAttributes.id?.let {
-                    Spacer(modifier = Modifier.width(10.dp))
-                    AttrImage(attr = data.secondaryAttributes, modifier = Modifier
-                        .width(20.dp)
-                        .height(20.dp))
+                    if (it != -1) {
+                        Spacer(modifier = Modifier.width(10.dp))
+                        AttrImage(
+                            attr = data.secondaryAttributes, modifier = Modifier
+                                .width(20.dp)
+                                .height(20.dp)
+                        )
+                    }
                 }
             }
         }

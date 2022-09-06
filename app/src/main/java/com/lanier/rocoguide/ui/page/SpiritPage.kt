@@ -91,10 +91,14 @@ fun SpiritItem(navHostController: NavHostController, item: SpiritEntity){
                 .width(20.dp)
                 .height(20.dp))
             item.secondaryAttributes.id?.let {
-                Spacer(modifier = Modifier.width(10.dp))
-                AttrImage(attr = item.secondaryAttributes, modifier = Modifier
-                    .width(20.dp)
-                    .height(20.dp))
+                if (it != -1) {
+                    Spacer(modifier = Modifier.width(10.dp))
+                    AttrImage(
+                        attr = item.secondaryAttributes, modifier = Modifier
+                            .width(20.dp)
+                            .height(20.dp)
+                    )
+                }
             }
         }
         Text(text = item.number, textAlign = TextAlign.Center, fontSize = 13.sp, modifier = Modifier

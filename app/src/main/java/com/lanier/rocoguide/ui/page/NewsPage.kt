@@ -3,14 +3,16 @@ package com.lanier.rocoguide.ui.page
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -59,7 +61,9 @@ fun NewsScreen(navController: NavController, title: String){
 
 @Composable
 fun NewsMain(navController: NavController, padding: PaddingValues){
-    Column(modifier = Modifier.padding(padding)) {
+    Column(modifier = Modifier
+        .padding(padding)
+        .background(Color(if (isSystemInDarkTheme()) 0xFF111111 else 0xFFEDEDED))) {
         NewsList(navController = navController)
     }
 }
@@ -70,6 +74,7 @@ fun NewsList(navController: NavController){
     val list = vm.newsFlow.collectAsLazyPagingItems()
     RefreshLazyColumn(modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(10.dp),
+        contentPadding = PaddingValues(10.dp),
         data = list){index, data ->
         NewsItem(navController = navController, item = data)
     }
@@ -77,25 +82,23 @@ fun NewsList(navController: NavController){
 
 @Composable
 fun NewsItem(navController: NavController, item: NewsData){
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-            .background(MaterialTheme.colorScheme.background)
-            .clickable {
-                val encodeUrl = URLEncoder.encode(item.url, StandardCharsets.UTF_8.toString())
-                navController.navigate("${ROUTE_SCREEN_WEB_VIEW}/正文/$encodeUrl")
-            },
-    ) {
-        Text(
-            text = item.title,
-            color = MaterialTheme.colorScheme.onSurface,
-            fontSize = 16.sp,
-            textAlign = TextAlign.Start,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(10.dp, 0.dp)
-        )
-//        Icon(imageVector = Icons.Filled.AddCircle)
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .clip(RoundedCornerShape(10.dp))
+        .background(Color(if (isSystemInDarkTheme()) 0xFF1C1B20 else 0xFFFEFBFF))) {
+        Text(text = item.updateTime, color = MaterialTheme.colorScheme.outline,
+            fontSize = 14.sp, modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp, 5.dp))
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(text = item.title, color = MaterialTheme.colorScheme.onSurface,
+            fontSize = 16.sp, modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(0.dp, 0.dp, 10.dp, 10.dp))
+                .clickable {
+                    val encodeUrl = URLEncoder.encode(item.url, StandardCharsets.UTF_8.toString())
+                    navController.navigate("${ROUTE_SCREEN_WEB_VIEW}/正文/$encodeUrl")
+                }
+                .padding(10.dp))
     }
 }
