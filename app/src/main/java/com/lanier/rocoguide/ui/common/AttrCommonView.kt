@@ -44,6 +44,38 @@ fun AttrImage(modifier: Modifier = Modifier, attr: SpiritAttributes, contentScal
 }
 
 @Composable
+fun EggImage(modifier: Modifier = Modifier, eg: SpiritEggGroup, contentScale: ContentScale = ContentScale.Crop) {
+    Image(painter = painterResource(id = when(eg.id) {
+        2 -> R.drawable.ic_egg_plant
+        3 -> R.drawable.ic_egg_spirit
+        4 -> R.drawable.ic_egg_sky
+        5 -> R.drawable.ic_egg_immortal
+        6 -> R.drawable.ic_egg_clever
+        7 -> R.drawable.ic_egg_guard
+        8 -> R.drawable.ic_egg_power
+        9 -> R.drawable.ic_egg_ground
+        10 -> R.drawable.ic_egg_animal
+        else -> R.drawable.ic_egg_group_unknow
+    }), contentDescription = "egg", contentScale = contentScale, modifier = modifier)
+}
+
+@Composable
+fun EggImage(modifier: Modifier = Modifier, id: Int, contentScale: ContentScale = ContentScale.Crop) {
+    Image(painter = painterResource(id = when(id) {
+        2 -> R.drawable.ic_egg_plant
+        3 -> R.drawable.ic_egg_spirit
+        4 -> R.drawable.ic_egg_sky
+        5 -> R.drawable.ic_egg_immortal
+        6 -> R.drawable.ic_egg_clever
+        7 -> R.drawable.ic_egg_guard
+        8 -> R.drawable.ic_egg_power
+        9 -> R.drawable.ic_egg_ground
+        10 -> R.drawable.ic_egg_animal
+        else -> R.drawable.ic_egg_group_unknow
+    }), contentDescription = "egg", contentScale = contentScale, modifier = modifier)
+}
+
+@Composable
 fun EggGroupImage(modifier: Modifier = Modifier, eg: SpiritEggGroup, contentScale: ContentScale = ContentScale.Crop) {
     Image(painter = painterResource(id = when(eg.id) {
         2 -> R.drawable.ic_egg_group_plant

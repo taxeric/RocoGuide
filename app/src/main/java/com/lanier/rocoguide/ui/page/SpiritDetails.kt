@@ -68,10 +68,9 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
             IconButton(onClick = {
                 showEggDialog = true
             }) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_genetic),
+                EggImage(
+                    id = eggGroupId,
                     contentScale = ContentScale.Crop,
-                    contentDescription = "egg",
                     modifier = Modifier.clip(RoundedCornerShape(50.dp))
                 )
             }
