@@ -139,40 +139,16 @@ fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
         .background(Color.Yellow)) {
         Column(modifier = Modifier.height(200.dp)) {
             AsyncImage(model = data.avatar, contentDescription = "avatar", modifier = Modifier.height(170.dp))
-            ConstraintLayout(modifier = Modifier
-                .fillMaxSize()
-                .padding(4.dp, 0.dp)) {
-                val (attr1, attr2, space, eggGroup) = createRefs()
-                if (data.primaryAttributes.id != 0){
-                    AttrImage(attr = data.primaryAttributes, modifier = Modifier
-                        .width(20.dp)
-                        .constrainAs(attr1) {
-                            start.linkTo(parent.start)
-                            top.linkTo(parent.top)
-                            bottom.linkTo(parent.bottom)
-                        })
-                }
-                if (data.secondaryAttributes.id != null && data.secondaryAttributes.id != 0){
-                    Spacer(modifier = Modifier
-                        .width(8.dp)
-                        .constrainAs(space) {
-                            start.linkTo(attr1.end)
-                        })
+            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
+                AttrImage(attr = data.primaryAttributes, modifier = Modifier
+                    .width(20.dp)
+                    .height(20.dp))
+                data.secondaryAttributes.id?.let {
+                    Spacer(modifier = Modifier.width(10.dp))
                     AttrImage(attr = data.secondaryAttributes, modifier = Modifier
                         .width(20.dp)
-                        .constrainAs(attr2) {
-                            start.linkTo(space.end)
-                            top.linkTo(parent.top)
-                            bottom.linkTo(parent.bottom)
-                        })
+                        .height(20.dp))
                 }
-                EggGroupImage(eg = data.group, modifier = Modifier
-                    .width(20.dp)
-                    .constrainAs(eggGroup) {
-                        end.linkTo(parent.end)
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                    })
             }
         }
     }

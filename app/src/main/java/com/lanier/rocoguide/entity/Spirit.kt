@@ -1,5 +1,7 @@
 package com.lanier.rocoguide.entity
 
+import androidx.annotation.DrawableRes
+
 /**
  * Create by Eric
  * on 2022/7/26
@@ -69,7 +71,8 @@ data class Skill(
 
 data class SpiritEggGroup(
     val id: Int = 0,
-    val name: String = ""
+    val name: String = "",
+    @DrawableRes val res: Int = -1
 )
 
 data class SpiritAttributes(

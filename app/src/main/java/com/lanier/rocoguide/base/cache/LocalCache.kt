@@ -1,6 +1,7 @@
 package com.lanier.rocoguide.base.cache
 
 import com.google.gson.Gson
+import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -131,5 +132,16 @@ object LocalCache {
 
     // <editor-fold defaultstate="collapsed" desc="版本">
     var newestData = ChangeLogData(isNewestVersion = false)
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="更多组别">
+    val defaultUnknownEggGroup = mutableListOf<SpiritEggGroup>().apply {
+        add(SpiritEggGroup(-99, res = R.drawable.ic_egg_unknow_1))
+        add(SpiritEggGroup(-99, res = R.drawable.ic_egg_unknow_2))
+        add(SpiritEggGroup(-99, res = R.drawable.ic_egg_unknow_3))
+        add(SpiritEggGroup(-99, res = R.drawable.ic_egg_unknow_4))
+        add(SpiritEggGroup(-99, res = R.drawable.ic_egg_unknow_5))
+        add(SpiritEggGroup(-99, res = R.drawable.ic_egg_unknow_6))
+    }
     // </editor-fold>
 }
