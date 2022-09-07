@@ -2,6 +2,7 @@ package com.lanier.rocoguide.vm.source
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.lanier.rocoguide.base.cache.LocalCache
 import com.lanier.rocoguide.entity.EggGroupList
 import com.lanier.rocoguide.entity.SpiritEggGroup
 import com.lanier.rocoguide.vm.repo.EggGroupRepo
@@ -18,6 +19,9 @@ class EggGroupSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SpiritEggGroup> {
         val nextPage = params.key ?: 1
         val response = repo.getEggGroup().getOrDefault(EggGroupList())
+        response.data.forEach {
+            it.randomBackgroundColor = LocalCache.generateRandomColor()
+        }
         if (response.code == 200) {
             return LoadResult.Page(response.data, null, if (response.data.size >= response.total) null else nextPage + 1)
         }

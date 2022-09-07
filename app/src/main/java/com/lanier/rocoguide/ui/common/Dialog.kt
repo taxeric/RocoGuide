@@ -1,5 +1,9 @@
 package com.lanier.rocoguide.ui.common
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -228,6 +233,39 @@ fun GeneticDialog(onDismiss: (Int) -> Unit){
     }
 }
 
+@Deprecated("无法实现bottomSheetDialog的效果")
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun SkillDialog(onDismiss: () -> Unit){
+    val transitionState = remember {
+        MutableTransitionState(false).apply {
+            targetState = true
+        }
+    }
+    Dialog(
+        onDismissRequest = {
+            transitionState.apply {
+                targetState = false
+            }
+            onDismiss()
+        },
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
+        AnimatedVisibility(
+            visibleState = transitionState,
+            enter = slideInVertically(initialOffsetY = {it}),
+            exit = slideOutVertically(targetOffsetY = {it})
+        ) {
+            Column(modifier = Modifier
+                .height(200.dp)
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background)
+                .clip(RoundedCornerShape(10.dp, 10.dp, 0.dp, 0.dp))) {
+            }
+        }
+    }
+}
+
 /**
  * 不建议在 [onNegativeEvent] 和 [onPositiveEvent] 方法块内进行dismiss操作
  * 对话框的消失只建议在 [onDismiss] 方法块执行
@@ -283,10 +321,10 @@ fun ChangeLogDialog(
                 }
             }, fontSize = 14.sp,
                 modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp)
-                .padding(20.dp, 0.dp)
-                .verticalScroll(rememberScrollState()))
+                    .fillMaxWidth()
+                    .height(150.dp)
+                    .padding(20.dp, 0.dp)
+                    .verticalScroll(rememberScrollState()))
             Text(text = buildAnnotatedString {
                 withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {
                     append("文件大小:")

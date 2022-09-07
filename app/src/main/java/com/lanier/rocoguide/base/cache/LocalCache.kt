@@ -1,5 +1,6 @@
 package com.lanier.rocoguide.base.cache
 
+import android.graphics.Color
 import com.google.gson.Gson
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.*
@@ -8,6 +9,8 @@ import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.File
+import java.util.*
+import kotlin.collections.LinkedHashMap
 
 /**
  * Author: 芒硝
@@ -134,7 +137,7 @@ object LocalCache {
     var newestData = ChangeLogData(isNewestVersion = false)
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="更多组别">
+    // <editor-fold defaultstate="collapsed" desc="组别">
     val defaultUnknownEggGroup = mutableListOf<SpiritEggGroup>().apply {
         add(SpiritEggGroup(-99, res = R.drawable.ic_egg_unknow_1))
         add(SpiritEggGroup(-99, res = R.drawable.ic_egg_unknow_2))
@@ -142,6 +145,13 @@ object LocalCache {
         add(SpiritEggGroup(-99, res = R.drawable.ic_egg_unknow_4))
         add(SpiritEggGroup(-99, res = R.drawable.ic_egg_unknow_5))
         add(SpiritEggGroup(-99, res = R.drawable.ic_egg_unknow_6))
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="随机色">
+    fun generateRandomColor(): Int {
+        val rnd = Random()
+        return Color.argb(127, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
     }
     // </editor-fold>
 }

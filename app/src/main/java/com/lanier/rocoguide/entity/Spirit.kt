@@ -1,5 +1,6 @@
 package com.lanier.rocoguide.entity
 
+import android.graphics.Color
 import androidx.annotation.DrawableRes
 
 /**
@@ -73,7 +74,9 @@ data class SpiritEggGroup(
     val id: Int = 0,
     val name: String = "",
     @DrawableRes val res: Int = -1
-)
+){
+    var randomBackgroundColor: Int = Color.argb(255, 255, 255, 255)
+}
 
 data class SpiritAttributes(
     val id: Int? = 0,
