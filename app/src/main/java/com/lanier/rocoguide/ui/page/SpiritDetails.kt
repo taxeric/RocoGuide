@@ -1,16 +1,24 @@
 package com.lanier.rocoguide.ui.page
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -21,23 +29,22 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.google.gson.Gson
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_GENETIC_DETAIL
-import com.lanier.rocoguide.base.ROUTE_SCREEN_SKILL_DETAIL
 import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.entity.SpiritEntity
 import com.lanier.rocoguide.ui.common.*
 import com.lanier.rocoguide.vm.SpiritDetailViewModel
+import kotlinx.coroutines.launch
 
 /**
  * Create by Eric
  * on 2022/7/26
  */
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
     val vm = viewModel<SpiritDetailViewModel>()
@@ -53,30 +60,82 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
     var showErrorDialog by remember {
         mutableStateOf(false)
     }
+    var showSkillDetail by remember {
+        mutableStateOf(Skill())
+    }
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+    )
+    val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
         vm.getSpiritById(spiritId)
     }
-    EnableBackBaseScaffoldWithActions(title = title, onBack = { navHostController.popBackStack() }, actions = {
-        if (id == -1) {
-            IconButton(onClick = {
-                showErrorDialog = true
-            }) {
-                Icon(imageVector = Icons.Filled.Warning, contentDescription = "warning")
+    BottomSheetScaffold(
+        scaffoldState = bottomSheetScaffoldState,
+        sheetPeekHeight = 0.dp,
+        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+        sheetContent = {
+            SkillDetailImpl(skill = showSkillDetail,
+                showName = true,
+                paddingValues = PaddingValues(10.dp, 10.dp),
+                modifier = Modifier
+                    .height(480.dp)
+                    .background(androidx.compose.material3.MaterialTheme.colorScheme.background))
+        },
+        backgroundColor = androidx.compose.material3.MaterialTheme.colorScheme.background,
+        topBar = {
+            SmallTopAppBar(
+                title = { Text(text = title) },
+                navigationIcon = {
+                    IconButton(onClick = { navHostController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "",
+                        )
+                    }
+                },
+                actions = {
+                    if (id == -1) {
+                        IconButton(onClick = {
+                            showErrorDialog = true
+                        }) {
+                            Icon(imageVector = Icons.Filled.Warning, contentDescription = "warning")
+                        }
+                    }
+                    if (layEggsEnable){
+                        IconButton(onClick = {
+                            showEggDialog = true
+                        }) {
+                            EggImage(
+                                id = eggGroupId,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier.clip(RoundedCornerShape(50.dp))
+                            )
+                        }
+                    }
+                }
+            )
+        },
+        modifier = Modifier.pointerInput(Unit){
+            detectTapGestures(onTap = {
+                coroutineScope.launch {
+                    if (bottomSheetScaffoldState.bottomSheetState.isExpanded) {
+                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                    }
+                }
+            })
+        }
+    ) {
+        SpiritDetailData(it, navHostController, spirit) {skill ->
+            coroutineScope.launch {
+                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                    showSkillDetail = skill
+                    bottomSheetScaffoldState.bottomSheetState.expand()
+                } else {
+                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                }
             }
         }
-        if (layEggsEnable){
-            IconButton(onClick = {
-                showEggDialog = true
-            }) {
-                EggImage(
-                    id = eggGroupId,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.clip(RoundedCornerShape(50.dp))
-                )
-            }
-        }
-    }) {
-        SpiritDetailData(it, navHostController, spirit)
     }
     if (showErrorDialog) {
         DataErrorDialog(type = spirit.id) {
@@ -94,12 +153,12 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
 }
 
 @Composable
-fun SpiritDetailData(paddingValues: PaddingValues, navHostController: NavHostController, spirit: SpiritEntity){
-    SpiritDetailImpl(paddingValues, spirit, navHostController)
+fun SpiritDetailData(paddingValues: PaddingValues, navHostController: NavHostController, spirit: SpiritEntity, onClickSkill: (Skill) -> Unit = {}){
+    SpiritDetailImpl(paddingValues, spirit, navHostController, onClickSkill)
 }
 
 @Composable
-fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostController: NavHostController){
+fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostController: NavHostController, onClickSkill: (Skill) -> Unit = {}){
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(paddingValues)
@@ -119,7 +178,7 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
         Spacer(modifier = Modifier.height(10.dp))
         SpiritRacialValue(data)
         Spacer(modifier = Modifier.height(10.dp))
-        SpiritSkillsV2(data, navHostController)
+        SpiritSkillsV2(data, navHostController, onClickSkill)
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = buildAnnotatedString {
             append("数据来自网络,如有纰漏请")
@@ -253,7 +312,7 @@ fun SpiritSkills(data: SpiritEntity, navHostController: NavHostController){
 }
 
 @Composable
-fun SpiritSkillsV2(data: SpiritEntity, navHostController: NavHostController){
+fun SpiritSkillsV2(data: SpiritEntity, navHostController: NavHostController, onClickSkill: (Skill) -> Unit = {}){
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(10.dp, 5.dp)) {
@@ -266,7 +325,7 @@ fun SpiritSkillsV2(data: SpiritEntity, navHostController: NavHostController){
             Text(text = "描述", textAlign = TextAlign.Center, modifier = Modifier.weight(1.8f))
         }
         data.skills.forEachIndexed { index, skill ->
-            SingleSkillV2(skill, navHostController)
+            SingleSkillV2(skill, navHostController, onClickSkill)
         }
         Divider(color = Color(0xFF83AAF7), modifier = Modifier
             .fillMaxWidth()
@@ -305,12 +364,13 @@ fun SingleSkill(skill: Skill, navHostController: NavHostController){
 }
 
 @Composable
-fun SingleSkillV2(skill: Skill, navHostController: NavHostController){
+fun SingleSkillV2(skill: Skill, navHostController: NavHostController, onClickSkill: (Skill) -> Unit = {}){
     Row(modifier = Modifier
         .fillMaxWidth()
         .height(80.dp)
         .clickable {
-            navHostController.navigate("$ROUTE_SCREEN_SKILL_DETAIL/${Gson().toJson(skill)}")
+//            navHostController.navigate("$ROUTE_SCREEN_SKILL_DETAIL/${Gson().toJson(skill)}")
+            onClickSkill(skill)
         },
         verticalAlignment = Alignment.CenterVertically
     ) {
