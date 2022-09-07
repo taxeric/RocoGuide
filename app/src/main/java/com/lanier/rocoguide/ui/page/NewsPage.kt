@@ -8,16 +8,22 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
+import coil.ImageLoader
+import coil.compose.AsyncImage
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_WEB_VIEW
 import com.lanier.rocoguide.entity.NewsData
@@ -37,17 +43,31 @@ fun NewsScreen(navController: NavController, title: String){
     var luluDialog by remember {
         mutableStateOf(false)
     }
+    val context = LocalContext.current
+    val sdkVersion = context.applicationInfo.targetSdkVersion
     CommonBaseScaffold(title = title, actions = {
         IconButton(onClick = {
             luluDialog = true
         }) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_lulu_max),
-                contentScale = ContentScale.Crop,
-                contentDescription = "",
-                modifier = Modifier
-                    .size(30.dp)
-            )
+            Box(modifier = Modifier.size(30.dp), contentAlignment = Alignment.Center) {
+                val imageLoader = ImageLoader.Builder(context)
+                    .components {
+                        if (sdkVersion >= 28) {
+                            add(ImageDecoderDecoder.Factory())
+                        } else {
+                            add(GifDecoder.Factory())
+                        }
+                    }
+                    .build()
+                AsyncImage(model = R.drawable.ic_lulu_bg, contentDescription = "", imageLoader = imageLoader,
+                    modifier = Modifier.fillMaxSize())
+                Image(
+                    painter = painterResource(id = R.drawable.ic_lulu_max),
+                    contentScale = ContentScale.Crop,
+                    contentDescription = "",
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         }
     }) {
         NewsMain(navController = navController, padding = it)

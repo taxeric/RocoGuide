@@ -6,6 +6,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.*
@@ -16,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -95,8 +97,8 @@ fun BottomBar(bottomState: MutableState<Boolean>, navController: NavHostControll
                         if (item.resId != -1) {
                             Image(
                                 painter = painterResource(id = item.resId),
-                                contentDescription = ""
-                            )
+                                contentDescription = "",
+                                modifier = Modifier.size(24.dp))
                         } else {
                             Icon(imageVector = Icons.Filled.Home, contentDescription = "home")
                         }
