@@ -9,7 +9,7 @@ import com.lanier.rocoguide.base.*
  * on 2022/7/25
  */
 sealed class Screen (val route: String, val title: String = "", @DrawableRes val resId: Int = -1) {
-    object NewsList : Screen(ROUTE_SCREEN_MAIN_NEWS_LIST, "情报")
+    object NewsList : Screen(ROUTE_SCREEN_MAIN_NEWS_LIST, "情报", R.drawable.ic_roco_head_pic)
     object SpiritList : Screen(ROUTE_SCREEN_MAIN_SPIRIT_LIST, "精灵", R.drawable.ic_altas)
     object OtherList: Screen(ROUTE_SCREEN_MAIN_OTHER_LIST, "其他", R.drawable.ic_other)
     object SpiritDetail: Screen(ROUTE_SCREEN_SPIRIT_DETAIL, "精灵详情")

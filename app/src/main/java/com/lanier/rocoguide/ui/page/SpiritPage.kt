@@ -1,7 +1,9 @@
 package com.lanier.rocoguide.ui.page
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -11,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -60,14 +63,14 @@ fun SpiritScreen(navHostController: NavHostController, title: String){
 fun SpiritMainList(navHostController: NavHostController, paddingValues: PaddingValues){
     val vm = viewModel<SpiritViewModel>()
     val list = vm.spiritMainListFlow.collectAsLazyPagingItems()
-    Column(modifier = Modifier.padding(paddingValues)) {
+    Column(modifier = Modifier.padding(paddingValues).background(Color(if (isSystemInDarkTheme()) 0xFF111111 else 0xFFEDEDED))) {
         SpiritMainListImpl(list, navHostController)
     }
 }
 
 @Composable
 fun SpiritMainListImpl(list: LazyPagingItems<SpiritEntity>, navHostController: NavHostController){
-    RefreshLazyVerticalGrid(data = list, contentPadding = PaddingValues(10.dp, 0.dp)) { index, data ->
+    RefreshLazyVerticalGrid(data = list, contentPadding = PaddingValues(10.dp, 10.dp)) { index, data ->
         SpiritItem(navHostController, item = data)
     }
 }
@@ -78,9 +81,9 @@ fun SpiritItem(navHostController: NavHostController, item: SpiritEntity){
         .height(210.dp)
         .clip(RoundedCornerShape(10.dp))
         .clickable {
-//            "search -> ${item.number}".logI()
             navHostController.navigate("${ROUTE_SCREEN_SPIRIT_DETAIL}/${item.id}")
         }
+        .background(Color(if (isSystemInDarkTheme()) 0xFF1C1B20 else 0xFFFEFBFF))
     ){
         Box(modifier = Modifier.height(150.dp), contentAlignment = Alignment.Center) {
             Image(painter = painterResource(id = R.drawable.ic_spirit_main_bg), contentDescription = "")

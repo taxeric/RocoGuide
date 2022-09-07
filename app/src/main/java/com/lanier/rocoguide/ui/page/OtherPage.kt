@@ -83,7 +83,8 @@ private fun OtherHorizontalItem(title: String, click: () -> Unit = {}){
         },
         verticalAlignment = Alignment.CenterVertically) {
         Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(painter = painterResource(id = R.drawable.ic_gulu_base_bg), contentDescription = "")
+            Image(painter = painterResource(id = R.drawable.ic_gulu_base_bg_1), contentDescription = "",
+                modifier = Modifier.size(24.dp))
         }
         Text(text = title, modifier = Modifier
             .weight(9f)

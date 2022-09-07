@@ -4,12 +4,11 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,11 +16,10 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -293,6 +291,13 @@ fun ChangeLogDialog(
             dismissOnClickOutside = !mandatory
         )
     ) {
+        val inlineContentMap = mapOf(
+            "star" to InlineTextContent(
+                Placeholder(25.sp, 25.sp, PlaceholderVerticalAlign.Center)
+            ){
+                Image(painter = painterResource(id = R.drawable.ic_star), contentDescription = null)
+            }
+        )
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(5.dp))
@@ -300,15 +305,22 @@ fun ChangeLogDialog(
                 .padding(10.dp)
         ) {
             Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = "版本更新",
-                color = MaterialTheme.colorScheme.onBackground,
-                fontSize = 19.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.fillMaxWidth()
-            )
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(text = "版本更新",
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontSize = 19.sp,
+                    fontWeight = FontWeight.Bold,)
+                Spacer(modifier = Modifier.width(10.dp))
+                Image(painter = painterResource(id = R.drawable.ic_lulu_normal_1), contentDescription = "",
+                    modifier = Modifier.size(36.dp))
+            }
             Spacer(modifier = Modifier.height(10.dp))
-            Text(text = "本次更新了以下内容:", fontSize = 14.sp, color = MaterialTheme.colorScheme.primary)
+            Text(text = buildAnnotatedString {
+                appendInlineContent("star")
+                withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                    append("更新内容:")
+                }
+            }, fontSize = 14.sp, color = MaterialTheme.colorScheme.primary, inlineContent = inlineContentMap)
             Text(text = buildAnnotatedString {
                 withStyle(SpanStyle(fontSize = 13.sp, color = MaterialTheme.colorScheme.onBackground)) {
                     append(log)
@@ -323,16 +335,17 @@ fun ChangeLogDialog(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(150.dp)
-                    .padding(20.dp, 0.dp)
+                    .padding(28.dp, 0.dp)
                     .verticalScroll(rememberScrollState()))
             Text(text = buildAnnotatedString {
+                appendInlineContent("star")
                 withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {
                     append("文件大小:")
                 }
                 withStyle(SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
                     append(size)
                 }
-            }, fontSize = 14.sp)
+            }, fontSize = 14.sp, inlineContent = inlineContentMap)
             Spacer(modifier = Modifier.height(10.dp))
             if (!mandatory) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
