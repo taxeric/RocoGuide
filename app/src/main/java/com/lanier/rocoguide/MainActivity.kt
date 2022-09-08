@@ -13,6 +13,7 @@ import com.lanier.rocoguide.service.DownloadService
 import com.lanier.rocoguide.ui.common.UpdateView
 import com.lanier.rocoguide.ui.page.MainHome
 import com.lanier.rocoguide.ui.theme.RocoGuideTheme
+import com.lanier.rocoguide.utils.NotificationUtil
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
                 }
                 UpdateView {
                     val testUrl = "http://xxx/res/apk/xxx.apk"
+                    NotificationUtil.makeNotification()
                     startService(Intent(this, DownloadService::class.java)
                         .putExtra(DownloadService.PARAMS_URL, testUrl))
                 }

@@ -39,13 +39,20 @@ sealed class DownloadStatus{
     data class Complete(val success: Boolean, val file: File): DownloadStatus()
 }
 
-suspend fun downloadApk(url: String): Flow<DownloadStatus> = withContext(Dispatchers.IO){
-    val responseBody = withContext(Dispatchers.Default) {
+suspend fun downloadFile(
+    url: String,
+    onStartDownload: (String) -> Unit = {},
+    onFailure: (Throwable) -> Unit = {}
+): Flow<DownloadStatus> = withContext(Dispatchers.IO){
+    val responseBody = try {
         Net.downloadService.getFileStream(url)
+    } catch (e: Exception) {
+        onFailure(e)
+        return@withContext emptyFlow()
     }
     "download size -> ${responseBody.contentLength()}".logE()
     val path = File(defaultLocalApkDataPath)
-    if (!path.exists()){
+    if (!path.exists()) {
         path.mkdir()
     }
     val filename = url.substring(url.lastIndexOf("/") + 1, url.length)
@@ -54,22 +61,26 @@ suspend fun downloadApk(url: String): Flow<DownloadStatus> = withContext(Dispatc
     if (outputFile.exists()) {
         outputFile.delete()
     }
+    onStartDownload(filename)
     try {
-        return@withContext responseBody.downloadFileWithProgress(outputFile)
+        return@withContext responseBody.downloadFileWithProgress(outputFile, onFailure)
     } catch (e: Exception) {
-        "download err -> ${e.message}".logE()
+        onFailure(e)
     }
     emptyFlow()
 }
 
-private fun ResponseBody.downloadFileWithProgress(outputFile: File): Flow<DownloadStatus> = flow {
+private fun ResponseBody.downloadFileWithProgress(
+    outputFile: File,
+    onFailure: (Throwable) -> Unit = {}
+): Flow<DownloadStatus> = flow {
     emit(DownloadStatus.Progress(0))
     var success: Boolean
     kotlin.runCatching {
         byteStream().use { inputStream ->
             outputFile.outputStream().use { outputStream ->
                 val totalBytes = contentLength()
-                val buffer = ByteArray(8 * 1024)
+                val buffer = ByteArray(4 * 1024)
                 var progressBytes = 0L
                 while (true) {
                     val byteCount = inputStream.read(buffer)
@@ -83,11 +94,11 @@ private fun ResponseBody.downloadFileWithProgress(outputFile: File): Flow<Downlo
                 when {
                     progressBytes < totalBytes -> {
                         success = false
-                        "download failed -> missing bytes".logE()
+                        onFailure(Throwable("download failed -> missing bytes"))
                     }
                     progressBytes > totalBytes -> {
                         success = false
-                        "download failed -> too many bytes".logE()
+                        onFailure(Throwable("download failed -> too many bytes"))
                     }
                     else -> success = true
                 }
@@ -95,7 +106,7 @@ private fun ResponseBody.downloadFileWithProgress(outputFile: File): Flow<Downlo
             emit(DownloadStatus.Complete(success, outputFile))
         }
     }.onFailure {
-        "download failed -> ${it.message}".logE()
+        onFailure(it)
     }
 }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
@@ -116,6 +127,6 @@ fun Context.installApk(file: File){
         }
         startActivity(intent)
     }.onFailure {
-        "failed -> ${it.message}".logE()
+        "install failed -> ${it.message}".logE()
     }
 }

@@ -29,6 +29,7 @@ import com.lanier.rocoguide.ui.common.ChangeLogDialog
 import com.lanier.rocoguide.ui.common.CommonBaseScaffold
 import com.lanier.rocoguide.ui.common.SingleTitle
 import com.lanier.rocoguide.ui.common.TitleText
+import com.lanier.rocoguide.utils.NotificationUtil
 
 /**
  * Create by Eric
@@ -154,8 +155,9 @@ fun VersionText(){
                 onPositiveEvent = {
 //                    LocalCache.newestData = LocalCache.newestData.copy(isDownloading = true)
                     //下载
-                    val testUrl = "http://110.42.184.245:8080/res/apk/Seal-1.2.0-arm64-v8a-release.apk"
+                    val testUrl = "http://xxx/res/apk/xxx.apk"
 //                    LocalCache.newestData = LocalCache.newestData.copy(isDownloading = true)
+                    NotificationUtil.makeNotification()
                     context.startService(
                         Intent(context, DownloadService::class.java)
                         .putExtra(DownloadService.PARAMS_URL, testUrl))

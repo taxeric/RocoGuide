@@ -57,23 +57,4 @@ object RetrofitHelper {
             Result.failure(e)
         }
     }
-
-    suspend fun <T> launch(
-        block: suspend () -> T,
-        result: (Result<T>) -> Unit,
-        complete: () -> Unit = {}
-    ){
-        withContext(Dispatchers.Default) {
-            try {
-                val t = block()
-                result(Result.success(t))
-            } catch (e: Exception) {
-                result(Result.failure(e))
-            } finally {
-                withContext(Dispatchers.Main) {
-                    complete()
-                }
-            }
-        }
-    }
 }
