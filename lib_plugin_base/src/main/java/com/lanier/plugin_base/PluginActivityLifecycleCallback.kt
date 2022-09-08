@@ -13,11 +13,10 @@ import android.os.Bundle
  */
 class PluginActivityLifecycleCallback: Application.ActivityLifecycleCallbacks {
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        "check host activity".logE()
-        val mInstrumentation = Activity::class.java.getDeclaredField("mInstrumentation")
+/*        val mInstrumentation = Activity::class.java.getDeclaredField("mInstrumentation")
         mInstrumentation.isAccessible = true
         val originInstrumentation = mInstrumentation.get(activity) as Instrumentation
-        mInstrumentation.set(activity, PluginInstrumentation(originInstrumentation))
+        mInstrumentation.set(activity, PluginInstrumentation(originInstrumentation))*/
     }
 
     override fun onActivityStarted(activity: Activity) {
