@@ -32,6 +32,10 @@ class GeneticViewModel: ViewModel() {
         currentGeneticList.tryEmit(emptyList())
         val url = "${RetrofitHelper.baseUrl}res/other/html/${buildUrl(group.id)}"
         "url -> $url".logI()
+        val path = File(defaultLocalJsonDataPath)
+        if (!path.exists()){
+            path.mkdir()
+        }
         val outputFile = File(defaultLocalJsonDataPath, "${group.name}.html")
         if (outputFile.exists()){
             analyzeData(outputFile, group.id.toString())

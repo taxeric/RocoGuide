@@ -1,5 +1,6 @@
 package com.lanier.rocoguide.ui.page
 
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,6 +24,7 @@ import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_GENETIC
 import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_PERSONALITY
 import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_SKILL_LIST
 import com.lanier.rocoguide.base.cache.LocalCache
+import com.lanier.rocoguide.service.DownloadService
 import com.lanier.rocoguide.ui.common.ChangeLogDialog
 import com.lanier.rocoguide.ui.common.CommonBaseScaffold
 import com.lanier.rocoguide.ui.common.SingleTitle
@@ -150,8 +152,13 @@ fun VersionText(){
         if (cache.isNewestVersion) {
             ChangeLogDialog(cache.log, cache.url, cache.mandatory, cache.size, cache.isDownloading,
                 onPositiveEvent = {
-                    LocalCache.newestData = LocalCache.newestData.copy(isDownloading = true)
+//                    LocalCache.newestData = LocalCache.newestData.copy(isDownloading = true)
                     //下载
+                    val testUrl = "http://110.42.184.245:8080/res/apk/Seal-1.2.0-arm64-v8a-release.apk"
+//                    LocalCache.newestData = LocalCache.newestData.copy(isDownloading = true)
+                    context.startService(
+                        Intent(context, DownloadService::class.java)
+                        .putExtra(DownloadService.PARAMS_URL, testUrl))
                 }) {
                 showUpdateDialog = false
             }

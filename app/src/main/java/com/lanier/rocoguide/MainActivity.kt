@@ -1,5 +1,6 @@
 package com.lanier.rocoguide
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -7,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import com.lanier.rocoguide.base.cache.LocalCache
+import com.lanier.rocoguide.service.DownloadService
 import com.lanier.rocoguide.ui.common.UpdateView
 import com.lanier.rocoguide.ui.page.MainHome
 import com.lanier.rocoguide.ui.theme.RocoGuideTheme
@@ -23,7 +26,11 @@ class MainActivity : ComponentActivity() {
                 ) {
                     MainHome()
                 }
-                UpdateView()
+                UpdateView {
+                    val testUrl = "http://xxx/res/apk/xxx.apk"
+                    startService(Intent(this, DownloadService::class.java)
+                        .putExtra(DownloadService.PARAMS_URL, testUrl))
+                }
             }
         }
     }

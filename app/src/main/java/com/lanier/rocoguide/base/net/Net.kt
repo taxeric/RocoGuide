@@ -11,4 +11,8 @@ object Net {
     val service by lazy {
         RetrofitHelper.createService(APIService::class.java)
     }
+
+    val downloadService by lazy {
+        RetrofitHelper.createService(APIService::class.java, false)
+    }
 }

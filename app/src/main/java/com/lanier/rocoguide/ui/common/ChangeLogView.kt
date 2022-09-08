@@ -1,6 +1,5 @@
 package com.lanier.rocoguide.ui.common
 
-import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -21,7 +20,7 @@ import com.lanier.rocoguide.vm.ChangeLogViewModel
  * Desc  :
  */
 @Composable
-fun UpdateView(){
+fun UpdateView(onClickDownload: (String) -> Unit = {}){
     val vm = viewModel<ChangeLogViewModel>()
     val context = LocalContext.current
     var showUpdateDialog by remember {
@@ -51,8 +50,8 @@ fun UpdateView(){
     if (showUpdateDialog) {
         ChangeLogDialog(log, url, mandatory, size, LocalCache.newestData.isDownloading,
             onPositiveEvent = {
-                LocalCache.newestData = LocalCache.newestData.copy(isDownloading = true)
                 //下载
+                onClickDownload(it)
             },
             onNegativeEvent = {isMandatory, isDownloading ->
                 //如果是强制更新则退出,否则只dis对话框

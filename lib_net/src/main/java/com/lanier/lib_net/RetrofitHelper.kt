@@ -16,7 +16,11 @@ object RetrofitHelper {
         .newBuilder()
         .addInterceptor(PrintInterceptor())
         .build()
+    private val defaultNoPrintClient = OkHttpClient()
+        .newBuilder().build()
+
     private lateinit var mRetrofit: Retrofit
+    private lateinit var mRetrofitWithoutPrint: Retrofit
 
     var baseUrl: String = ""
 
@@ -29,9 +33,19 @@ object RetrofitHelper {
                 .client(defaultClient)
                 .build()
         }
+        if (!::mRetrofitWithoutPrint.isInitialized){
+            mRetrofitWithoutPrint = Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(defaultNoPrintClient)
+                .build()
+        }
     }
 
-    fun <S> createService(clazz: Class<S>): S = mRetrofit.create(clazz)
+    fun <S> createService(clazz: Class<S>, withPrint: Boolean = true): S = if (withPrint)
+        mRetrofit.create(clazz)
+    else
+        mRetrofitWithoutPrint.create(clazz)
 
     suspend fun <T> launch(block: suspend () -> T): Result<T>{
         return try {
