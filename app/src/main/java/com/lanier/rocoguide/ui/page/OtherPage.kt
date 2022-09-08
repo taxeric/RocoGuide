@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import com.lanier.lib_net.RetrofitHelper
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_GENETIC
 import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_PERSONALITY
@@ -155,11 +156,11 @@ fun VersionText(){
             ChangeLogDialog(cache.log, cache.url, cache.mandatory, cache.size, cache.isDownloading,
                 onPositiveEvent = {
                     //下载
-                    val testUrl = "http://xxx/res/apk/xxx.apk"
+                    val url = "${RetrofitHelper.baseUrl}$it"
                     NotificationUtil.makeNotification()
                     context.startService(
                         Intent(context, DownloadService::class.java)
-                        .putExtra(DownloadService.PARAMS_URL, testUrl))
+                        .putExtra(DownloadService.PARAMS_URL, url))
                 }) {
                 showUpdateDialog = false
             }

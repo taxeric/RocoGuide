@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.lanier.rocoguide.R
+import com.lanier.rocoguide.base.ROUTE_SCREEN_GENETIC_MORE
 import com.lanier.rocoguide.entity.GeneticSpiritData
 import com.lanier.rocoguide.entity.SpiritEggGroup
 import com.lanier.rocoguide.ui.common.EnableBackBaseScaffoldWithActions
@@ -59,6 +60,7 @@ fun GeneticDetailScreen(navHostController: NavHostController, id: Int, title: St
     if (showGeneticDialog) {
         GeneticDialog {
             if (it == 0) {
+                navHostController.navigate("$ROUTE_SCREEN_GENETIC_MORE/$id")
             }
             showGeneticDialog = false
         }

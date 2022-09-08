@@ -69,7 +69,7 @@ fun GeneticEggGroupItem(index: Int, data: SpiritEggGroup, navHostController: Nav
         .background(Color(data.randomBackgroundColor))
         .clickable {
             if (data.id != 1) {
-//                navHostController.navigate("$ROUTE_SCREEN_GENETIC_DETAIL/${data.id}/${data.name}")
+                navHostController.navigate("$ROUTE_SCREEN_GENETIC_DETAIL/${data.id}/${data.name}")
             }
         }
         .padding(10.dp),

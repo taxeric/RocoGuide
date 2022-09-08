@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -214,7 +215,7 @@ fun GeneticDialog(onDismiss: (Int) -> Unit){
     ) {
         Column(modifier = Modifier
             .clip(RoundedCornerShape(5.dp))
-            .background(Color.White)) {
+            .background(MaterialTheme.colorScheme.background)) {
             Text(text = "调试", fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(8.dp))
             Spacer(modifier = Modifier.height(10.dp))
             TextButton(onClick = { onDismiss(0) }, modifier = Modifier.fillMaxWidth()){
@@ -227,6 +228,35 @@ fun GeneticDialog(onDismiss: (Int) -> Unit){
                 Text(text = "Cancel")
             }
             Spacer(modifier = Modifier.height(5.dp))
+        }
+    }
+}
+
+@Composable
+fun GeneticMoreDialog(onDismiss: () -> Unit){
+    Dialog(
+        onDismissRequest = { onDismiss() },
+        properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+    ) {
+        Column(modifier = Modifier
+            .clip(RoundedCornerShape(5.dp))
+            .background(MaterialTheme.colorScheme.background)) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = "多代遗传", textAlign = TextAlign.Center, fontSize = 19.sp, fontWeight = FontWeight.Bold,
+                modifier = Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = stringResource(id = R.string.genetic_more), fontSize = 13.sp, modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+                .height(180.dp)
+                .verticalScroll(rememberScrollState()))
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(onClick = onDismiss, modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)) {
+                Text(text = "确定")
+            }
+            Spacer(modifier = Modifier.height(10.dp))
         }
     }
 }

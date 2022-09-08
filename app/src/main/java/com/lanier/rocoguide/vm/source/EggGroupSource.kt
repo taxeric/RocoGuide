@@ -17,12 +17,20 @@ class EggGroupSource(
     override fun getRefreshKey(state: PagingState<Int, SpiritEggGroup>): Int = 1
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SpiritEggGroup> {
+        if (LocalCache.localCacheEggGroupInfo.isNotEmpty()) {
+            LocalCache.localCacheEggGroupInfo.forEach {
+                it.randomBackgroundColor = LocalCache.generateRandomColor()
+            }
+            return LoadResult.Page(LocalCache.localCacheEggGroupInfo, null, null)
+        }
         val nextPage = params.key ?: 1
         val response = repo.getEggGroup().getOrDefault(EggGroupList())
         response.data.forEach {
             it.randomBackgroundColor = LocalCache.generateRandomColor()
         }
         if (response.code == 200) {
+            LocalCache.localCacheEggGroupInfo.clear()
+            LocalCache.localCacheEggGroupInfo.addAll(response.data)
             return LoadResult.Page(response.data, null, if (response.data.size >= response.total) null else nextPage + 1)
         }
         return LoadResult.Error(Throwable(response.msg))

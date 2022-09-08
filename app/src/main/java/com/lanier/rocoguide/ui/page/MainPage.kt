@@ -31,6 +31,7 @@ import com.lanier.rocoguide.base.*
 import com.lanier.rocoguide.entity.Screen
 import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.ui.page.genetic.GeneticDetailScreen
+import com.lanier.rocoguide.ui.page.genetic.GeneticResultScreen
 import com.lanier.rocoguide.ui.page.genetic.GeneticScreen
 
 /**
@@ -152,6 +153,18 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
             val id = argument.getInt(ROUTE_PARAMS_GROUP_ID)
             val title = argument.getString(ROUTE_PARAMS_GROUP_TITLE)?:"出错了"
             GeneticDetailScreen(navController, title = title, id = id)
+        }
+        composable(
+            route = "${Screen.GeneticMore.route}/{${ROUTE_PARAMS_GROUP_ID}}",
+            arguments = listOf(
+                navArgument(ROUTE_PARAMS_GROUP_ID) {
+                    type = NavType.IntType
+                }
+            )
+        ) {
+            val argument = requireNotNull(it.arguments)
+            val id = argument.getInt(ROUTE_PARAMS_GROUP_ID)
+            GeneticResultScreen(navController, title = Screen.GeneticMore.title, groupId = id)
         }
         composable(
             route = "${Screen.SpiritDetail.route}/{${ROUTE_PARAMS_SPIRIT_ID}}",

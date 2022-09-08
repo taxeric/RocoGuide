@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import com.lanier.lib_net.RetrofitHelper
 import com.lanier.rocoguide.base.cache.LocalCache
 import com.lanier.rocoguide.service.DownloadService
 import com.lanier.rocoguide.ui.common.UpdateView
@@ -28,10 +29,10 @@ class MainActivity : ComponentActivity() {
                     MainHome()
                 }
                 UpdateView {
-                    val testUrl = "http://xxx/res/apk/xxx.apk"
+                    val url = "${RetrofitHelper.baseUrl}$it"
                     NotificationUtil.makeNotification()
                     startService(Intent(this, DownloadService::class.java)
-                        .putExtra(DownloadService.PARAMS_URL, testUrl))
+                        .putExtra(DownloadService.PARAMS_URL, url))
                 }
             }
         }
