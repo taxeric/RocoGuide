@@ -30,6 +30,7 @@ import com.lanier.rocoguide.ui.common.CommonBaseScaffold
 import com.lanier.rocoguide.ui.common.SingleTitle
 import com.lanier.rocoguide.ui.common.TitleText
 import com.lanier.rocoguide.utils.NotificationUtil
+import com.lanier.rocoguide.utils.installApk
 
 /**
  * Create by Eric
@@ -153,10 +154,8 @@ fun VersionText(){
         if (cache.isNewestVersion) {
             ChangeLogDialog(cache.log, cache.url, cache.mandatory, cache.size, cache.isDownloading,
                 onPositiveEvent = {
-//                    LocalCache.newestData = LocalCache.newestData.copy(isDownloading = true)
                     //下载
                     val testUrl = "http://xxx/res/apk/xxx.apk"
-//                    LocalCache.newestData = LocalCache.newestData.copy(isDownloading = true)
                     NotificationUtil.makeNotification()
                     context.startService(
                         Intent(context, DownloadService::class.java)
