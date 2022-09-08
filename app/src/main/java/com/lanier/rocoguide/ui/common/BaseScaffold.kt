@@ -16,9 +16,16 @@ import com.lanier.rocoguide.entity.Search
  * Date  : 2022/8/8 15:18
  * Desc  :
  */
+sealed class TitleBarSize{
+    object Small: TitleBarSize()
+    object Medium: TitleBarSize()
+    object Large: TitleBarSize()
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommonBaseScaffold(
+    titleBarSize: TitleBarSize = TitleBarSize.Small,
     title: String,
     actions: @Composable RowScope.() -> Unit = {},
     showNavigationIcon: Boolean = false,
@@ -29,20 +36,50 @@ fun CommonBaseScaffold(
     Scaffold(
         modifier = Modifier.fillMaxWidth(),
         topBar = {
-            SmallTopAppBar(
-                title = { Text(text = title) },
-                navigationIcon = {
-                    if (showNavigationIcon) {
-                        IconButton(onClick = onBack) {
-                            Icon(
-                                imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = "",
-                            )
+            when (titleBarSize) {
+                is TitleBarSize.Large -> LargeTopAppBar(
+                    title = { Text(text = title) },
+                    navigationIcon = {
+                        if (showNavigationIcon) {
+                            IconButton(onClick = onBack) {
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowBack,
+                                    contentDescription = "",
+                                )
+                            }
                         }
-                    }
-                },
-                actions = actions
-            )
+                    },
+                    actions = actions
+                )
+                is TitleBarSize.Medium -> MediumTopAppBar(
+                    title = { Text(text = title) },
+                    navigationIcon = {
+                        if (showNavigationIcon) {
+                            IconButton(onClick = onBack) {
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowBack,
+                                    contentDescription = "",
+                                )
+                            }
+                        }
+                    },
+                    actions = actions
+                )
+                else -> SmallTopAppBar(
+                    title = { Text(text = title) },
+                    navigationIcon = {
+                        if (showNavigationIcon) {
+                            IconButton(onClick = onBack) {
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowBack,
+                                    contentDescription = "",
+                                )
+                            }
+                        }
+                    },
+                    actions = actions
+                )
+            }
         },
         snackbarHost = snackbarHost
     ) { innerPadding ->
