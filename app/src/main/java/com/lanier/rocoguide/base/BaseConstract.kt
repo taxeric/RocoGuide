@@ -28,6 +28,8 @@ const val ROUTE_PARAMS_SEARCH_TYPE = "searchType"
 const val ROUTE_SCREEN_SKILL_DETAIL = "skillDetail"
 const val ROUTE_PARAMS_SKILL = "mSkill"
 
+const val ROUTE_SCREEN_THANKS = "thank"
+
 const val ROUTE_SCREEN_WEB_VIEW = "webView"
 const val ROUTE_PARAMS_WEB_VIEW_TITLE = "webViewTitle"
 const val ROUTE_PARAMS_WEB_VIEW_URL = "webViewUrl"

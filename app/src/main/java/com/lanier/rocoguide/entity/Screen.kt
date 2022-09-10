@@ -21,6 +21,7 @@ sealed class Screen (val route: String, val title: String = "", @DrawableRes val
     object GeneticList: Screen(ROUTE_SCREEN_MAIN_GENETIC, "遗传图鉴")
     object GeneticDetail: Screen(ROUTE_SCREEN_GENETIC_DETAIL, )
     object GeneticMore: Screen(ROUTE_SCREEN_GENETIC_MORE, "多代遗传")
+    object Thank: Screen(ROUTE_SCREEN_THANKS, "鸣谢")
     object WebViewPage: Screen(ROUTE_SCREEN_WEB_VIEW, )
 }
 

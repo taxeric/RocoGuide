@@ -1,6 +1,5 @@
 package com.lanier.rocoguide.ui.common
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Divider
@@ -51,7 +50,7 @@ fun TitleTextWithRipple(
     Column(modifier = Modifier
         .fillMaxWidth()
         .clickable { onClick() }
-        .padding(16.dp, 20.dp)
+        .padding(24.dp, 20.dp)
     ) {
         Text(text = title, style = MaterialTheme.typography.titleMedium.copy(fontSize = titleSize), fontWeight = titleWeight)
         Spacer(modifier = Modifier.height(spacerHeight))

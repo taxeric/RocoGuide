@@ -124,16 +124,20 @@ fun DarkThemeDialog(onDismiss: () -> Unit){
                 .clip(RoundedCornerShape(10.dp))
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            SingleChoiceItem(text = "跟随系统", selected = darkValue == SettingsHelper.PreferenceDarkTheme.FOLLOW_SYSTEM){
+            Spacer(modifier = Modifier.height(8.dp))
+            SingleChoiceItem(text = "跟随系统", modifier = Modifier.padding(10.dp, 0.dp),
+                selected = darkValue == SettingsHelper.PreferenceDarkTheme.FOLLOW_SYSTEM){
                 darkValue = SettingsHelper.PreferenceDarkTheme.FOLLOW_SYSTEM
             }
-            SingleChoiceItem(text = "Day", selected = darkValue == SettingsHelper.PreferenceDarkTheme.OFF){
+            SingleChoiceItem(text = "Day", modifier = Modifier.padding(10.dp, 0.dp),
+                selected = darkValue == SettingsHelper.PreferenceDarkTheme.OFF){
                 darkValue = SettingsHelper.PreferenceDarkTheme.OFF
             }
-            SingleChoiceItem(text = "Dark", selected = darkValue == SettingsHelper.PreferenceDarkTheme.ON){
+            SingleChoiceItem(text = "Dark", modifier = Modifier.padding(10.dp, 0.dp),
+                selected = darkValue == SettingsHelper.PreferenceDarkTheme.ON){
                 darkValue = SettingsHelper.PreferenceDarkTheme.ON
             }
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             Row(modifier = Modifier.align(Alignment.End)) {
                 TextButton(onClick = {
                     SettingsHelper.switchDarkThemeMode(darkTheme.darkThemeValue)

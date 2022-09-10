@@ -281,4 +281,36 @@ object LocalCache {
         return Color.argb(127, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
     }
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="感谢名单">
+    data class ThankEntity(
+        val name: String,
+        val desc: String,
+        val url: String
+    )
+    val thanksList = mutableListOf<ThankEntity>().apply {
+        add(ThankEntity("Compose-WebView",
+            "适用于Compose的浏览器控件",
+            "https://google.github.io/accompanist/webview/"))
+        add(ThankEntity("Compose-Refresh",
+            "适用于Compose的下拉刷新框架",
+            "https://google.github.io/accompanist/swiperefresh/"))
+        add(ThankEntity("Compose-Paging3",
+            "适用于Compose的数据分页库",
+            "https://developer.android.google.cn/topic/libraries/architecture/paging/v3-overview"))
+        add(ThankEntity("Compose-Navigation",
+            "适用于Compose的路由框架",
+            "https://developer.android.google.cn/guide/navigation/navigation-getting-started"))
+        add(ThankEntity("Compose-Coil",
+            "适用于Compose的图片加载控件",
+            "https://github.com/coil-kt/coil/blob/main/README-zh.md"))
+        add(ThankEntity("Compose-Glance",
+            "适用于Compose的小部件开发框架",
+            "https://developer.android.com/reference/kotlin/androidx/glance/package-summary"))
+        add(ThankEntity("Jsoup",
+            "适用于Java的html解析器",
+            "https://jsoup.org/"))
+    }
+    // </editor-fold>
+
 }

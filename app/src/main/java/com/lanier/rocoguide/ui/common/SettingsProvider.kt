@@ -56,5 +56,12 @@ object SettingsHelper {
                 darkThemeValue == ON
             }
         }
+
+        @Composable
+        fun getDarkThemeDesc() = when (darkThemeValue) {
+            FOLLOW_SYSTEM -> "跟随系统"
+            ON -> "开启"
+            else -> "关闭"
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.lanier.rocoguide.ui.page.settings
 
 import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,10 +27,13 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.lanier.lib_net.RetrofitHelper
 import com.lanier.rocoguide.R
+import com.lanier.rocoguide.base.ROUTE_SCREEN_THANKS
 import com.lanier.rocoguide.base.cache.LocalCache
 import com.lanier.rocoguide.service.DownloadService
 import com.lanier.rocoguide.ui.common.*
 import com.lanier.rocoguide.ui.theme.DarkMode
+import com.lanier.rocoguide.ui.theme.LocalDarkTheme
+import com.lanier.rocoguide.ui.theme.icons.FolderOpen
 import com.lanier.rocoguide.utils.NotificationUtil
 
 /**
@@ -44,23 +48,36 @@ fun SettingsScreen(navHostController: NavHostController, title: String){
         onBack = { navHostController.popBackStack() },
         showNavigationIcon = true,
         titleBarSize = TitleBarSize.Large) {
-        SettingsScreenImpl(paddingValues = it)
+        SettingsScreenImpl(navHostController = navHostController, paddingValues = it)
     }
 }
 
 @Composable
-fun SettingsScreenImpl(paddingValues: PaddingValues){
+fun SettingsScreenImpl(navHostController: NavHostController, paddingValues: PaddingValues){
     Column(modifier = Modifier
         .padding(paddingValues)
         .verticalScroll(rememberScrollState())
     ) {
-        SingleTitle(title = "Preferences")
+        PreferenceSubtitle(text = "Preferences")
         DarkTheme()
-        SingleTitle(title = "Others")
+        DownloadNewestVersionPath()
+        PreferenceSubtitle(text = "Others")
         VersionText()
         GlanceTips()
+        ReadMe()
+        Thank(navHostController)
         AboutText()
     }
+}
+
+@Composable
+fun DownloadNewestVersionPath(){
+    PreferenceItem(
+        title = "更新路径",
+        description = "设定新版本安装包下载路径,默认为本地缓存路径,随应用删除而删除",
+        icon = Icons.Outlined.FolderOpen,
+        enabled = false
+    )
 }
 
 @Composable
@@ -70,9 +87,8 @@ fun DarkTheme(){
     }
     PreferenceItem(
         title = "暗色模式" ,
-        description = "desc",
+        description = LocalDarkTheme.current.getDarkThemeDesc(),
         icon = Icons.Outlined.DarkMode,
-        enabled = true
     ){
         showDarkDialog = true
     }
@@ -80,6 +96,23 @@ fun DarkTheme(){
         DarkThemeDialog {
             showDarkDialog = false
         }
+    }
+}
+
+@Composable
+fun ReadMe(){
+    val context = LocalContext.current
+    val url = "https://gitee.com/lanier/roco-guide"
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    TitleTextWithRipple(title = "README", text = stringResource(id = R.string.readme)) {
+        context.startActivity(intent)
+    }
+}
+
+@Composable
+fun Thank(navHostController: NavHostController){
+    TitleTextWithRipple(title = "鸣谢", text = stringResource(id = R.string.thank)){
+        navHostController.navigate(ROUTE_SCREEN_THANKS)
     }
 }
 
@@ -93,7 +126,7 @@ fun AboutText(){
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
     TitleTextWithRipple("关于", stringResource(id = R.string.about)) {
-        clipboardManager.setText(buildAnnotatedString { append("LBA2460") })
+        clipboardManager.setText(buildAnnotatedString { append("TEJBMjQ2MA") })
         Toast.makeText(context, "Copied!", Toast.LENGTH_SHORT).show()
     }
 }

@@ -142,6 +142,9 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
         composable(Screen.Settings.route) {
             SettingsScreen(navController, title = Screen.Settings.title)
         }
+        composable(Screen.Thank.route) {
+            ThankScreen(navController, title = Screen.Thank.title)
+        }
         composable(
             route = "${Screen.GeneticDetail.route}/{${ROUTE_PARAMS_GROUP_ID}}/{${ROUTE_PARAMS_GROUP_TITLE}}",
             arguments = listOf(
