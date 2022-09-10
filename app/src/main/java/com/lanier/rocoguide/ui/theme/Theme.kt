@@ -86,23 +86,27 @@ private val GuideDarkColors = darkColorScheme(
 @Immutable
 data class ExtendColors(
     val defaultMainBackground: Color,
-    val defaultLazyItemBackground: Color
+    val defaultLazyItemBackground: Color,
+    val defaultRacialValueColor: Color
 )
 
 val LocalExtendedColors = staticCompositionLocalOf {
     ExtendColors(
         defaultMainBackground = Color.Unspecified,
-        defaultLazyItemBackground = Color.Unspecified
+        defaultLazyItemBackground = Color.Unspecified,
+        defaultRacialValueColor = Color.Unspecified
     )
 }
 
 private val localExtendLightColors = ExtendColors(
     defaultMainBackground = local_default_main_background_light,
-    defaultLazyItemBackground = local_default_lazy_item_light
+    defaultLazyItemBackground = local_default_lazy_item_light,
+    defaultRacialValueColor = local_default_racial_value_light
 )
 private val localExtendDarkColors = ExtendColors(
     defaultMainBackground = local_default_main_background_dark,
-    defaultLazyItemBackground = local_default_lazy_item_dark
+    defaultLazyItemBackground = local_default_lazy_item_dark,
+    defaultRacialValueColor = local_default_racial_value_dark
 )
 // </editor-fold>
 

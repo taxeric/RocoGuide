@@ -72,6 +72,8 @@ val md_theme_dark_surfaceTint = Color(0xFFC2C1FF)
 
 val local_default_main_background_light = Color(0xFFEDEDED)
 val local_default_lazy_item_light = Color(0xFFFEFBFF)
+val local_default_racial_value_light = Color(0xFF4E4CCE)
 
 val local_default_main_background_dark = Color(0xFF111111)
 val local_default_lazy_item_dark = Color(0xFF1C1B20)
+val local_default_racial_value_dark = Color(0xFFC2C1FF)

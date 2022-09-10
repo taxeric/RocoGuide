@@ -1,5 +1,8 @@
 package com.lanier.rocoguide.ui.page
 
+import androidx.annotation.DrawableRes
+import androidx.compose.animation.*
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -13,6 +16,8 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,7 +42,10 @@ import com.lanier.rocoguide.base.ROUTE_SCREEN_GENETIC_DETAIL
 import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.entity.SpiritEntity
 import com.lanier.rocoguide.ui.common.*
+import com.lanier.rocoguide.ui.theme.ExtendedTheme
+import com.lanier.rocoguide.utils.logI
 import com.lanier.rocoguide.vm.SpiritDetailViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -176,7 +184,9 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
             .fillMaxWidth()
             .padding(10.dp))
         Spacer(modifier = Modifier.height(10.dp))
-        SpiritRacialValue(data)
+//        SpiritRacialValueTypeGrid(data)
+//        Spacer(modifier = Modifier.height(10.dp))
+        SpiritRacialValueTypeProgress(data)
         Spacer(modifier = Modifier.height(10.dp))
         SpiritSkillsV2(data, navHostController, onClickSkill)
         Spacer(modifier = Modifier.height(10.dp))
@@ -235,7 +245,7 @@ fun SpiritEntityBaseInfo(data: SpiritEntity, modifier: Modifier){
 
 //@Preview(backgroundColor = 0xffffffff)
 @Composable
-fun SpiritRacialValue(data: SpiritEntity = SpiritEntity()){
+fun SpiritRacialValueTypeGrid(data: SpiritEntity){
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(10.dp, 5.dp)) {
@@ -257,6 +267,76 @@ fun SpiritRacialValue(data: SpiritEntity = SpiritEntity()){
         SpiritSingleRacialValue(modifier = Modifier
             .wrapContentHeight()
             .weight(1f), R.drawable.ic_race_speed, data.raceSpeed)
+    }
+}
+
+@Composable
+fun SpiritRacialValueTypeProgress(data: SpiritEntity){
+    Column(modifier = Modifier.fillMaxWidth()) {
+        SpiritRacialValueProgressAnim(
+            id = R.drawable.ic_race_energy, finalValue = data.racePower)
+        SpiritRacialValueProgressAnim(
+            id = R.drawable.ic_race_attack, finalValue = data.raceAttack)
+        SpiritRacialValueProgressAnim(
+            id = R.drawable.ic_race_defense, finalValue = data.raceDefense)
+        SpiritRacialValueProgressAnim(
+            id = R.drawable.ic_race_magic_attack, finalValue = data.raceMagicAttack)
+        SpiritRacialValueProgressAnim(
+            id = R.drawable.ic_race_magic_defense, finalValue = data.raceMagicDefense)
+        SpiritRacialValueProgressAnim(
+            id = R.drawable.ic_race_speed, finalValue = data.raceSpeed)
+    }
+}
+
+@Composable
+fun SpiritRacialValueProgressAnim(
+    modifier: Modifier = Modifier,
+    @DrawableRes id: Int,
+    finalValue: Int
+) {
+    var progress by remember { mutableStateOf(0f) }
+    val animatedProgress by animateFloatAsState(
+        targetValue = progress,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+    )
+    if (finalValue != 0) {
+        val target = finalValue / 255f
+        LaunchedEffect(key1 = Unit) {
+            delay(1000)
+            while (progress < target){
+                progress += 0.01f
+                delay(10)
+            }
+        }
+    }
+    var showValue by remember {
+        mutableStateOf(false)
+    }
+    Row(modifier = modifier
+        .fillMaxWidth()
+        .padding(10.dp, 2.dp)
+        .clickable {
+            showValue = !showValue
+        },
+        verticalAlignment = Alignment.CenterVertically) {
+        Column(modifier = Modifier.weight(3f), horizontalAlignment = Alignment.CenterHorizontally) {
+            Image(painter = painterResource(id = id), contentDescription = "")
+        }
+        Column(modifier = Modifier
+            .weight(7f)
+            .height(20.dp)
+            .padding(8.dp, 0.dp)) {
+            LinearProgressIndicator(progress = animatedProgress)
+            AnimatedVisibility(visible = showValue,
+                enter = slideInHorizontally() + fadeIn(),
+                exit = slideOutHorizontally() + fadeOut()
+            ) {
+                Text(
+                    text = "$finalValue/255", fontSize = 12.sp,
+                    color = ExtendedTheme.colors.defaultRacialValueColor,
+                )
+            }
+        }
     }
 }
 

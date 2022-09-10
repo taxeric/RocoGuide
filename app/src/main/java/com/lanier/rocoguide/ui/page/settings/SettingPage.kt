@@ -59,6 +59,7 @@ fun SettingsScreenImpl(navHostController: NavHostController, paddingValues: Padd
         .verticalScroll(rememberScrollState())
     ) {
         PreferenceSubtitle(text = "Preferences")
+        RacialStyle()
         DarkTheme()
         DownloadNewestVersionPath()
         PreferenceSubtitle(text = "Others")
@@ -96,6 +97,16 @@ fun DarkTheme(){
         DarkThemeDialog {
             showDarkDialog = false
         }
+    }
+}
+
+@Composable
+fun RacialStyle(){
+    PreferenceItem(
+        title = "种族值风格" ,
+        description = "设定精灵详情页种族值展示风格:表格、进度或六边形",
+        icon = Icons.Outlined.Star,
+    ){
     }
 }
 
