@@ -22,11 +22,15 @@ import androidx.compose.ui.unit.sp
  * Desc  :
  */
 @Composable
-fun SingleTitle(title: String, dividerHeight: Float = 1f){
+fun SingleTitle(
+    title: String,
+    paddingValues: PaddingValues = PaddingValues(16.dp, 20.dp),
+    dividerHeight: Float = 1f
+){
     Column(modifier = Modifier
         .fillMaxWidth()
-        .padding(10.dp, 0.dp)) {
-        Text(text = title, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        .padding(paddingValues)) {
+        Text(text = title, fontSize = 20.sp, fontWeight = FontWeight.Bold)
         Divider(modifier = Modifier
             .fillMaxWidth()
             .height(dividerHeight.dp),
@@ -35,22 +39,22 @@ fun SingleTitle(title: String, dividerHeight: Float = 1f){
 }
 
 @Composable
-fun TitleText(
+fun TitleTextWithRipple(
     title: String,
     text: String,
     spacerHeight: Dp = 8.dp,
-    titleSize: TextUnit = 18.sp,
-    titleWeight: FontWeight? = FontWeight.Bold,
+    titleSize: TextUnit = 19.sp,
+    titleWeight: FontWeight? = FontWeight.Normal,
     textColor: Color = Color.Gray,
-    longPress: () -> Unit = {}
+    onClick: () -> Unit = {}
 ){
     Column(modifier = Modifier
         .fillMaxWidth()
-        .longPress { longPress() }
-        .padding(10.dp, 4.dp)
+        .clickable { onClick() }
+        .padding(16.dp, 20.dp)
     ) {
-        Text(text = title, fontSize = titleSize, fontWeight = titleWeight)
+        Text(text = title, style = MaterialTheme.typography.titleMedium.copy(fontSize = titleSize), fontWeight = titleWeight)
         Spacer(modifier = Modifier.height(spacerHeight))
-        Text(text = text, color = textColor, fontSize = 12.sp, lineHeight = 14.sp)
+        Text(text = text, color = textColor, style = MaterialTheme.typography.bodyMedium.copy(fontSize = 12.sp), lineHeight = 14.sp)
     }
 }

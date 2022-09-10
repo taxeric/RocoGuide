@@ -4,7 +4,10 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Color
+import com.lanier.rocoguide.ui.common.SettingsHelper
+import com.lanier.rocoguide.utils.logI
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -79,6 +82,49 @@ private val GuideDarkColors = darkColorScheme(
     surfaceTint = md_theme_dark_surfaceTint,
 )
 
+// <editor-fold defaultstate="collapsed" desc="扩展颜色">
+@Immutable
+data class ExtendColors(
+    val defaultMainBackground: Color,
+    val defaultLazyItemBackground: Color
+)
+
+val LocalExtendedColors = staticCompositionLocalOf {
+    ExtendColors(
+        defaultMainBackground = Color.Unspecified,
+        defaultLazyItemBackground = Color.Unspecified
+    )
+}
+
+private val localExtendLightColors = ExtendColors(
+    defaultMainBackground = local_default_main_background_light,
+    defaultLazyItemBackground = local_default_lazy_item_light
+)
+private val localExtendDarkColors = ExtendColors(
+    defaultMainBackground = local_default_main_background_dark,
+    defaultLazyItemBackground = local_default_lazy_item_dark
+)
+// </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="首选项-暗色模式">
+val LocalDarkTheme = compositionLocalOf { SettingsHelper.PreferenceDarkTheme() }
+// </editor-fold>
+
+fun Color.applyOpacity(enabled: Boolean): Color {
+    return if (enabled) this else this.copy(alpha = 0.62f)
+}
+
+@Composable
+fun SettingsProvider(content: @Composable () -> Unit){
+    val appSettings = SettingsHelper.composableDarkThemeFlow.collectAsState().value
+    "app settings -> ${appSettings.appDarkTheme.darkThemeValue}".logI()
+    CompositionLocalProvider(
+        LocalDarkTheme provides appSettings.appDarkTheme
+    ) {
+        content()
+    }
+}
+
 @Composable
 fun RocoGuideTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
@@ -90,10 +136,25 @@ fun RocoGuideTheme(
         GuideDarkColors
     }
 
-    MaterialTheme(
-        colorScheme = colors,
-        content = content
-    )
+    val localExtColor = if (useDarkTheme)
+        localExtendDarkColors
+    else
+        localExtendLightColors
+
+    CompositionLocalProvider(
+        LocalExtendedColors provides localExtColor,
+    ) {
+        MaterialTheme(
+            colorScheme = colors,
+            content = content
+        )
+    }
+}
+
+object ExtendedTheme{
+    val colors: ExtendColors
+        @Composable
+        get() = LocalExtendedColors.current
 }
 
 /*

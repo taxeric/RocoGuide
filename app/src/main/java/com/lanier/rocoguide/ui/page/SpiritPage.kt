@@ -3,7 +3,6 @@ package com.lanier.rocoguide.ui.page
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -13,7 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -29,6 +27,7 @@ import com.lanier.rocoguide.base.ROUTE_SCREEN_SPIRIT_DETAIL
 import com.lanier.rocoguide.entity.Search
 import com.lanier.rocoguide.entity.SpiritEntity
 import com.lanier.rocoguide.ui.common.*
+import com.lanier.rocoguide.ui.theme.ExtendedTheme
 import com.lanier.rocoguide.vm.SpiritViewModel
 
 /**
@@ -63,7 +62,7 @@ fun SpiritScreen(navHostController: NavHostController, title: String){
 fun SpiritMainList(navHostController: NavHostController, paddingValues: PaddingValues){
     val vm = viewModel<SpiritViewModel>()
     val list = vm.spiritMainListFlow.collectAsLazyPagingItems()
-    Column(modifier = Modifier.padding(paddingValues).background(Color(if (isSystemInDarkTheme()) 0xFF111111 else 0xFFEDEDED))) {
+    Column(modifier = Modifier.padding(paddingValues).background(ExtendedTheme.colors.defaultMainBackground)) {
         SpiritMainListImpl(list, navHostController)
     }
 }
@@ -83,7 +82,7 @@ fun SpiritItem(navHostController: NavHostController, item: SpiritEntity){
         .clickable {
             navHostController.navigate("${ROUTE_SCREEN_SPIRIT_DETAIL}/${item.id}")
         }
-        .background(Color(if (isSystemInDarkTheme()) 0xFF1C1B20 else 0xFFFEFBFF))
+        .background(ExtendedTheme.colors.defaultLazyItemBackground)
     ){
         Box(modifier = Modifier.height(150.dp), contentAlignment = Alignment.Center) {
             Image(painter = painterResource(id = R.drawable.ic_spirit_main_bg), contentDescription = "")

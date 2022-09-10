@@ -3,7 +3,6 @@ package com.lanier.rocoguide.ui.page
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -11,7 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -30,6 +28,7 @@ import com.lanier.rocoguide.entity.NewsData
 import com.lanier.rocoguide.ui.common.CommonBaseScaffold
 import com.lanier.rocoguide.ui.common.HomepageLuLuDialog
 import com.lanier.rocoguide.ui.common.RefreshLazyColumn
+import com.lanier.rocoguide.ui.theme.ExtendedTheme
 import com.lanier.rocoguide.vm.NewsViewModel
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -83,7 +82,7 @@ fun NewsScreen(navController: NavController, title: String){
 fun NewsMain(navController: NavController, padding: PaddingValues){
     Column(modifier = Modifier
         .padding(padding)
-        .background(Color(if (isSystemInDarkTheme()) 0xFF111111 else 0xFFEDEDED))) {
+        .background(ExtendedTheme.colors.defaultMainBackground)) {
         NewsList(navController = navController)
     }
 }
@@ -105,7 +104,7 @@ fun NewsItem(navController: NavController, item: NewsData){
     Column(modifier = Modifier
         .fillMaxWidth()
         .clip(RoundedCornerShape(10.dp))
-        .background(Color(if (isSystemInDarkTheme()) 0xFF1C1B20 else 0xFFFEFBFF))) {
+        .background(ExtendedTheme.colors.defaultLazyItemBackground)) {
         Text(text = item.updateTime, color = MaterialTheme.colorScheme.outline,
             fontSize = 14.sp, modifier = Modifier
                 .fillMaxWidth()

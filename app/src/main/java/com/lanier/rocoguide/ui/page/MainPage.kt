@@ -33,6 +33,7 @@ import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.ui.page.genetic.GeneticDetailScreen
 import com.lanier.rocoguide.ui.page.genetic.GeneticResultScreen
 import com.lanier.rocoguide.ui.page.genetic.GeneticScreen
+import com.lanier.rocoguide.ui.page.settings.SettingsScreen
 
 /**
  * Create by Eric
@@ -137,6 +138,9 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
         }
         composable(Screen.GeneticList.route) {
             GeneticScreen(navController, title = Screen.GeneticList.title)
+        }
+        composable(Screen.Settings.route) {
+            SettingsScreen(navController, title = Screen.Settings.title)
         }
         composable(
             route = "${Screen.GeneticDetail.route}/{${ROUTE_PARAMS_GROUP_ID}}/{${ROUTE_PARAMS_GROUP_TITLE}}",

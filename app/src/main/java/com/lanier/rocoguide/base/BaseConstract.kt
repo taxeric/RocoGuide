@@ -10,6 +10,7 @@ const val ROUTE_SCREEN_MAIN_OTHER_LIST = "screenOther"
 const val ROUTE_SCREEN_MAIN_SKILL_LIST = "skillList"
 const val ROUTE_SCREEN_MAIN_PERSONALITY = "screenPersonality"
 const val ROUTE_SCREEN_MAIN_GENETIC = "screenGenetic"
+const val ROUTE_SCREEN_MAIN_SETTINGS = "screenSettings"
 
 const val ROUTE_SCREEN_SPIRIT_DETAIL = "spiritDetail"
 const val ROUTE_PARAMS_SPIRIT_ID = "spiritId"

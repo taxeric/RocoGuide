@@ -1,5 +1,7 @@
 package com.lanier.rocoguide.ui.theme
 
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
@@ -67,3 +69,9 @@ val md_theme_dark_inverseSurface = Color(0xFFE5E1E6)
 val md_theme_dark_inversePrimary = Color(0xFF4E4CCE)
 val md_theme_dark_shadow = Color(0xFF000000)
 val md_theme_dark_surfaceTint = Color(0xFFC2C1FF)
+
+val local_default_main_background_light = Color(0xFFEDEDED)
+val local_default_lazy_item_light = Color(0xFFFEFBFF)
+
+val local_default_main_background_dark = Color(0xFF111111)
+val local_default_lazy_item_dark = Color(0xFF1C1B20)

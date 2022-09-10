@@ -27,6 +27,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.Search
+import com.lanier.rocoguide.ui.theme.LocalDarkTheme
+import com.lanier.rocoguide.utils.logI
 
 /**
  * Create by Eric
@@ -102,6 +104,47 @@ fun SearchDialog(type: Search, label: String = "", onDismiss: (String) -> Unit) 
                     onClick = { onDismiss(mDesc) }, modifier = Modifier
                         .padding(5.dp)
                 ) {
+                    Text(text = "确定")
+                }
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+    }
+}
+
+@Composable
+fun DarkThemeDialog(onDismiss: () -> Unit){
+    val darkTheme = LocalDarkTheme.current
+    var darkValue by remember {
+        mutableStateOf(darkTheme.darkThemeValue)
+    }
+    Dialog(onDismissRequest = onDismiss) {
+        Column(
+            modifier = Modifier
+                .clip(RoundedCornerShape(10.dp))
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            SingleChoiceItem(text = "跟随系统", selected = darkValue == SettingsHelper.PreferenceDarkTheme.FOLLOW_SYSTEM){
+                darkValue = SettingsHelper.PreferenceDarkTheme.FOLLOW_SYSTEM
+            }
+            SingleChoiceItem(text = "Day", selected = darkValue == SettingsHelper.PreferenceDarkTheme.OFF){
+                darkValue = SettingsHelper.PreferenceDarkTheme.OFF
+            }
+            SingleChoiceItem(text = "Dark", selected = darkValue == SettingsHelper.PreferenceDarkTheme.ON){
+                darkValue = SettingsHelper.PreferenceDarkTheme.ON
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(modifier = Modifier.align(Alignment.End)) {
+                TextButton(onClick = {
+                    SettingsHelper.switchDarkThemeMode(darkTheme.darkThemeValue)
+                    onDismiss()
+                }, modifier = Modifier) {
+                    Text(text = "取消")
+                }
+                TextButton(onClick = {
+                    onDismiss()
+                    SettingsHelper.switchDarkThemeMode(darkValue)
+                }, modifier = Modifier) {
                     Text(text = "确定")
                 }
             }

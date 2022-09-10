@@ -1,7 +1,11 @@
 package com.lanier.rocoguide
 
+import android.os.Environment
 import com.lanier.lib_net.RetrofitHelper
 import com.lanier.plugin_base.PluginBaseApp
+import com.lanier.rocoguide.utils.NotificationUtil
+import com.lanier.rocoguide.utils.PreferenceUtil
+import com.lanier.rocoguide.utils.defaultLocalApkDataPath
 import com.lanier.rocoguide.utils.defaultLocalJsonDataPath
 
 /**
@@ -12,7 +16,11 @@ class BaseApp: PluginBaseApp() {
 
     override fun onCreate() {
         super.onCreate()
-        defaultLocalJsonDataPath = externalCacheDir!!.absolutePath
+        PreferenceUtil.init(this)
+        val baseCacheDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.absolutePath
+        defaultLocalJsonDataPath = "$baseCacheDir/html/"
+        defaultLocalApkDataPath = "$baseCacheDir/apk/"
+        NotificationUtil.createNotificationChannel(this)
         RetrofitHelper.initHelper("")
     }
 }
