@@ -35,6 +35,7 @@ import com.lanier.rocoguide.ui.theme.DarkMode
 import com.lanier.rocoguide.ui.theme.LocalDarkTheme
 import com.lanier.rocoguide.ui.theme.icons.FolderOpen
 import com.lanier.rocoguide.utils.NotificationUtil
+import com.lanier.rocoguide.utils.PreferenceUtil
 
 /**
  * Author: 芒硝
@@ -102,11 +103,20 @@ fun DarkTheme(){
 
 @Composable
 fun RacialStyle(){
+    var showStyleDialog by remember {
+        mutableStateOf(false)
+    }
     PreferenceItem(
         title = "种族值风格" ,
-        description = "设定精灵详情页种族值展示风格:表格、进度或六边形",
+        description = PreferenceUtil.getRacialStyle(),
         icon = Icons.Outlined.Star,
     ){
+        showStyleDialog = true
+    }
+    if (showStyleDialog) {
+        RacialValueDialog {
+            showStyleDialog = false
+        }
     }
 }
 

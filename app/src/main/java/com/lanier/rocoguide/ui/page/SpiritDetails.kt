@@ -43,6 +43,7 @@ import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.entity.SpiritEntity
 import com.lanier.rocoguide.ui.common.*
 import com.lanier.rocoguide.ui.theme.ExtendedTheme
+import com.lanier.rocoguide.utils.PreferenceUtil
 import com.lanier.rocoguide.utils.logI
 import com.lanier.rocoguide.vm.SpiritDetailViewModel
 import kotlinx.coroutines.delay
@@ -167,6 +168,7 @@ fun SpiritDetailData(paddingValues: PaddingValues, navHostController: NavHostCon
 
 @Composable
 fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostController: NavHostController, onClickSkill: (Skill) -> Unit = {}){
+    val racialStyle = PreferenceUtil.getRacialValue()
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(paddingValues)
@@ -184,9 +186,11 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
             .fillMaxWidth()
             .padding(10.dp))
         Spacer(modifier = Modifier.height(10.dp))
-//        SpiritRacialValueTypeGrid(data)
-//        Spacer(modifier = Modifier.height(10.dp))
-        SpiritRacialValueTypeProgress(data)
+        when (racialStyle) {
+            PreferenceUtil.RACIAL_GRID -> SpiritRacialValueTypeGrid(data)
+            PreferenceUtil.RACIAL_PROGRESS -> SpiritRacialValueTypeProgress(data)
+            else -> SpiritRacialValueTypeGrid(data)
+        }
         Spacer(modifier = Modifier.height(10.dp))
         SpiritSkillsV2(data, navHostController, onClickSkill)
         Spacer(modifier = Modifier.height(10.dp))
@@ -310,7 +314,7 @@ fun SpiritRacialValueProgressAnim(
         }
     }
     var showValue by remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
     Row(modifier = modifier
         .fillMaxWidth()

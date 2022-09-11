@@ -22,5 +22,21 @@ object PreferenceUtil {
     fun getInt(key: String, def: Int = -1) = sharedPreferences.getInt(key, def)
     fun getStr(key: String, def: String = "") = sharedPreferences.getString(key, def)
 
+    fun updateInt(key: String, value: Int) {
+        sharedPreferences.edit().putInt(key, value).apply()
+    }
+
+    fun getRacialValue(): Int = getInt(RACIAL_SHOW_STYLE, 1)
+    fun getRacialStyle(style: Int = getRacialValue()): String {
+        return when (style) {
+            2 -> "进度"
+            else -> "表格"
+        }
+    }
+
     const val DARK_THEME = "dark_theme"
+
+    const val RACIAL_SHOW_STYLE = "racial_show_style"
+    const val RACIAL_GRID = 1
+    const val RACIAL_PROGRESS = 2
 }

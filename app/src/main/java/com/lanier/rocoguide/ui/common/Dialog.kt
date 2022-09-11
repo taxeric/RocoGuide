@@ -28,6 +28,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.Search
 import com.lanier.rocoguide.ui.theme.LocalDarkTheme
+import com.lanier.rocoguide.utils.PreferenceUtil
 import com.lanier.rocoguide.utils.logI
 
 /**
@@ -148,6 +149,49 @@ fun DarkThemeDialog(onDismiss: () -> Unit){
                 TextButton(onClick = {
                     onDismiss()
                     SettingsHelper.switchDarkThemeMode(darkValue)
+                }, modifier = Modifier) {
+                    Text(text = "确定")
+                }
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+    }
+}
+
+@Composable
+fun RacialValueDialog(onDismiss: () -> Unit) {
+    var localStyle by remember {
+        mutableStateOf(PreferenceUtil.getRacialValue())
+    }
+    Dialog(onDismissRequest = onDismiss) {
+        Column(
+            modifier = Modifier
+                .clip(RoundedCornerShape(10.dp))
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            Spacer(modifier = Modifier.height(8.dp))
+            SingleChoiceItem(
+                text = "表格", modifier = Modifier.padding(10.dp, 0.dp),
+                selected = localStyle == PreferenceUtil.RACIAL_GRID
+            ) {
+                localStyle = PreferenceUtil.RACIAL_GRID
+            }
+            SingleChoiceItem(
+                text = "进度", modifier = Modifier.padding(10.dp, 0.dp),
+                selected = localStyle == PreferenceUtil.RACIAL_PROGRESS
+            ) {
+                localStyle = PreferenceUtil.RACIAL_PROGRESS
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(modifier = Modifier.align(Alignment.End)) {
+                TextButton(onClick = {
+                    onDismiss()
+                }, modifier = Modifier) {
+                    Text(text = "取消")
+                }
+                TextButton(onClick = {
+                    PreferenceUtil.updateInt(PreferenceUtil.RACIAL_SHOW_STYLE, localStyle)
+                    onDismiss()
                 }, modifier = Modifier) {
                     Text(text = "确定")
                 }
