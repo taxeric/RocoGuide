@@ -14,10 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.lanier.rocoguide.R
-import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_GENETIC
-import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_PERSONALITY
-import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_SETTINGS
-import com.lanier.rocoguide.base.ROUTE_SCREEN_MAIN_SKILL_LIST
+import com.lanier.rocoguide.base.*
 import com.lanier.rocoguide.ui.common.*
 
 /**
@@ -55,6 +52,9 @@ fun OtherCS(navHostController: NavHostController){
         }
         OtherHorizontalItem("遗传图鉴") {
             navHostController.navigate(ROUTE_SCREEN_MAIN_GENETIC)
+        }
+        OtherHorizontalItem("场景BGM") {
+            navHostController.navigate(ROUTE_SCREEN_MAIN_BGM)
         }
     }
 }

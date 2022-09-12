@@ -19,6 +19,7 @@ sealed class Screen (val route: String, val title: String = "", @DrawableRes val
     object SkillDetail: Screen(ROUTE_SCREEN_SKILL_DETAIL, "技能详情")
     object Personality: Screen(ROUTE_SCREEN_MAIN_PERSONALITY, "性格修正")
     object GeneticList: Screen(ROUTE_SCREEN_MAIN_GENETIC, "遗传图鉴")
+    object BGM: Screen(ROUTE_SCREEN_MAIN_BGM, "场景BGM")
     object GeneticDetail: Screen(ROUTE_SCREEN_GENETIC_DETAIL, )
     object GeneticMore: Screen(ROUTE_SCREEN_GENETIC_MORE, "多代遗传")
     object Thank: Screen(ROUTE_SCREEN_THANKS, "鸣谢")
