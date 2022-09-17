@@ -313,4 +313,7 @@ object LocalCache {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="场景BGM">
+    val bgmList = mutableListOf<RemoteMusicEntity>()
+    // </editor-fold>
 }

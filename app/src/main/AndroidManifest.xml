@@ -47,6 +47,9 @@
         <service android:name=".service.DownloadService"
             android:exported="false"/>
 
+        <service android:name=".service.music.MusicService"
+            android:exported="false"/>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.lanier.rocoguide.provider"
