@@ -9,6 +9,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.lanier.lib_net.RetrofitHelper
+import com.lanier.rocoguide.base.cache.CurrentDownloadContent
+import com.lanier.rocoguide.base.cache.LocalCache
 import com.lanier.rocoguide.service.DownloadService
 import com.lanier.rocoguide.ui.common.UpdateView
 import com.lanier.rocoguide.ui.page.MainHome
@@ -34,6 +36,9 @@ class MainActivity : ComponentActivity() {
                     UpdateView {
                         val url = "${RetrofitHelper.baseUrl}$it"
                         NotificationUtil.makeNotification()
+                        LocalCache.currentDownloadContent.tryEmit(
+                            CurrentDownloadContent.UpdateApk
+                        )
                         startService(
                             Intent(this, DownloadService::class.java)
                                 .putExtra(DownloadService.PARAMS_URL, url)

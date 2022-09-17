@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import com.lanier.lib_net.RetrofitHelper
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_THANKS
+import com.lanier.rocoguide.base.cache.CurrentDownloadContent
 import com.lanier.rocoguide.base.cache.LocalCache
 import com.lanier.rocoguide.service.DownloadService
 import com.lanier.rocoguide.ui.common.*
@@ -170,6 +171,9 @@ fun VersionText(){
                     //下载
                     val url = "${RetrofitHelper.baseUrl}$it"
                     NotificationUtil.makeNotification()
+                    LocalCache.currentDownloadContent.tryEmit(
+                        CurrentDownloadContent.UpdateApk
+                    )
                     context.startService(
                         Intent(context, DownloadService::class.java)
                             .putExtra(DownloadService.PARAMS_URL, url))

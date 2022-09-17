@@ -6,6 +6,7 @@ import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.*
 import com.lanier.rocoguide.utils.logI
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -316,4 +317,16 @@ object LocalCache {
     // <editor-fold defaultstate="collapsed" desc="场景BGM">
     val bgmList = mutableListOf<RemoteMusicEntity>()
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="当前下载内容类型">
+    var currentDownloadContent = MutableStateFlow<CurrentDownloadContent>(
+        CurrentDownloadContent.Other
+    )
+    // </editor-fold>
+}
+
+sealed class CurrentDownloadContent{
+    object APK: CurrentDownloadContent()
+    object UpdateApk: CurrentDownloadContent()
+    object Other: CurrentDownloadContent()
 }
