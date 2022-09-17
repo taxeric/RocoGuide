@@ -1,11 +1,20 @@
 package com.lanier.rocoguide.utils
 
 import android.annotation.SuppressLint
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.graphics.drawable.Icon
+import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.lanier.rocoguide.MainActivity
 import com.lanier.rocoguide.R
+import com.lanier.rocoguide.entity.MusicAction
+import com.lanier.rocoguide.entity.MusicState
+import com.lanier.rocoguide.service.music.MusicServiceV2
 
 /**
  * Author: 芒硝
@@ -21,6 +30,10 @@ object NotificationUtil{
     private const val CHANNEL_ID = "rocoChannelId"
     private const val NOTIFICATION_ID = 101
 
+    private const val MUSIC_CHANNEL_ID = "musicPlayerChannelId"
+    private const val MUSIC_CHANNEL_NAME = "MusicPlayer"
+    private const val MUSIC_NOTIFICATION_ID = 102
+
     private lateinit var notificationBuilder: NotificationCompat.Builder
     private lateinit var notificationManager: NotificationManager
 
@@ -31,10 +44,13 @@ object NotificationUtil{
         val channel = NotificationChannel(CHANNEL_ID, defaultChannelName, importance).apply {
             description = defaultChannelDesc
         }
+        val musicChannel = NotificationChannel(
+            MUSIC_CHANNEL_ID, MUSIC_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
         this.context = context
         notificationManager = context
             .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+        notificationManager.createNotificationChannel(musicChannel)
     }
 
     fun makeNotification(){
@@ -77,5 +93,65 @@ object NotificationUtil{
             notificationManager.cancel(NOTIFICATION_ID)
         }
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
+    }
+
+    fun makeMusicNotification(): Notification{
+        val pi = PendingIntent.getActivity(
+            context,
+            123,
+            Intent(context, MainActivity::class.java),
+            PendingIntent.FLAG_IMMUTABLE
+        )
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Notification.Builder(context, MUSIC_CHANNEL_ID)
+                .setContentTitle("RocoBGM")
+                .setContentText("洛克王国场景BGM大全")
+                .setCategory(Notification.CATEGORY_SERVICE)
+                .setContentIntent(pi)
+                .build()
+        } else {
+            Notification.Builder(context)
+                .setContentTitle("RocoBGM")
+                .setContentText("洛克王国场景BGM大全")
+                .setContentIntent(pi)
+                .setCategory(Notification.CATEGORY_SERVICE)
+                .build()
+        }
+    }
+
+    fun notificationMediaPlayer(
+        mediaStyle: Notification.MediaStyle,
+        state: MusicState
+    ): Notification {
+
+        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Notification.Builder(context, MUSIC_CHANNEL_ID)
+        } else Notification.Builder(context)
+
+        val playPauseIntent = Intent(context, MusicServiceV2::class.java)
+            .setAction(
+                if (state.isPlaying) MusicAction.PAUSE.ordinal.toString() else MusicAction.RESUME.ordinal.toString()
+            )
+        val playPausePI = PendingIntent.getBroadcast(
+            context,
+            1,
+            playPauseIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val playPauseAction = Notification.Action.Builder(
+            Icon.createWithResource(
+                context,
+                if (state.isPlaying) R.drawable.ic_pause_filled_rounded else R.drawable.ic_play_filled_rounded
+            ),
+            "PlayPause",
+            playPausePI
+        ).build()
+
+        return builder
+            .setStyle(mediaStyle)
+            .setSmallIcon(R.drawable.ic_play_filled_rounded)
+            .setOnlyAlertOnce(true)
+            .addAction(playPauseAction)
+            .build()
     }
 }
