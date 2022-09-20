@@ -182,6 +182,12 @@ fun RacialValueDialog(onDismiss: () -> Unit) {
             ) {
                 localStyle = PreferenceUtil.RACIAL_PROGRESS
             }
+            SingleChoiceItem(
+                text = "六边形", modifier = Modifier.padding(10.dp, 0.dp),
+                selected = localStyle == PreferenceUtil.RACIAL_HEXAGONAL
+            ) {
+                localStyle = PreferenceUtil.RACIAL_HEXAGONAL
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Row(modifier = Modifier.align(Alignment.End)) {
                 TextButton(onClick = {

@@ -87,26 +87,30 @@ private val GuideDarkColors = darkColorScheme(
 data class ExtendColors(
     val defaultMainBackground: Color,
     val defaultLazyItemBackground: Color,
-    val defaultRacialValueColor: Color
+    val defaultRacialValueColor: Color,
+    val defaultPowerTvValueColor: Color,
 )
 
 val LocalExtendedColors = staticCompositionLocalOf {
     ExtendColors(
         defaultMainBackground = Color.Unspecified,
         defaultLazyItemBackground = Color.Unspecified,
-        defaultRacialValueColor = Color.Unspecified
+        defaultRacialValueColor = Color.Unspecified,
+        defaultPowerTvValueColor = Color.Unspecified,
     )
 }
 
 private val localExtendLightColors = ExtendColors(
     defaultMainBackground = local_default_main_background_light,
     defaultLazyItemBackground = local_default_lazy_item_light,
-    defaultRacialValueColor = local_default_racial_value_light
+    defaultRacialValueColor = local_default_racial_value_light,
+    defaultPowerTvValueColor = local_default_power_tv_value_light,
 )
 private val localExtendDarkColors = ExtendColors(
     defaultMainBackground = local_default_main_background_dark,
     defaultLazyItemBackground = local_default_lazy_item_dark,
-    defaultRacialValueColor = local_default_racial_value_dark
+    defaultRacialValueColor = local_default_racial_value_dark,
+    defaultPowerTvValueColor = local_default_power_tv_value_drak,
 )
 // </editor-fold>
 
@@ -121,7 +125,7 @@ fun Color.applyOpacity(enabled: Boolean): Color {
 @Composable
 fun SettingsProvider(content: @Composable () -> Unit){
     val appSettings = SettingsHelper.composableDarkThemeFlow.collectAsState().value
-    "app settings -> ${appSettings.appDarkTheme.darkThemeValue}".logI()
+//    "app settings -> ${appSettings.appDarkTheme.darkThemeValue}".logI()
     CompositionLocalProvider(
         LocalDarkTheme provides appSettings.appDarkTheme
     ) {

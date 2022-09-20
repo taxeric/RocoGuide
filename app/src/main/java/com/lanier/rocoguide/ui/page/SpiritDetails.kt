@@ -8,6 +8,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Warning
@@ -189,6 +190,12 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
         when (racialStyle) {
             PreferenceUtil.RACIAL_GRID -> SpiritRacialValueTypeGrid(data)
             PreferenceUtil.RACIAL_PROGRESS -> SpiritRacialValueTypeProgress(data)
+            PreferenceUtil.RACIAL_HEXAGONAL -> RacialHexagonal(
+                spiritData = data,
+                powerTextColor = ExtendedTheme.colors.defaultPowerTvValueColor,
+                baseHexagonalColor = MaterialTheme.colors.secondary,
+                realRacialValueLineColor = ExtendedTheme.colors.defaultRacialValueColor,
+            )
             else -> SpiritRacialValueTypeGrid(data)
         }
         Spacer(modifier = Modifier.height(10.dp))

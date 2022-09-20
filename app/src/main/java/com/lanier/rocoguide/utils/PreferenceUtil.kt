@@ -26,10 +26,11 @@ object PreferenceUtil {
         sharedPreferences.edit().putInt(key, value).apply()
     }
 
-    fun getRacialValue(): Int = getInt(RACIAL_SHOW_STYLE, 1)
+    fun getRacialValue(): Int = getInt(RACIAL_SHOW_STYLE, RACIAL_GRID)
     fun getRacialStyle(style: Int = getRacialValue()): String {
         return when (style) {
-            2 -> "进度"
+            RACIAL_PROGRESS -> "进度"
+            RACIAL_HEXAGONAL -> "六边形"
             else -> "表格"
         }
     }
@@ -39,4 +40,5 @@ object PreferenceUtil {
     const val RACIAL_SHOW_STYLE = "racial_show_style"
     const val RACIAL_GRID = 1
     const val RACIAL_PROGRESS = 2
+    const val RACIAL_HEXAGONAL = 3
 }
