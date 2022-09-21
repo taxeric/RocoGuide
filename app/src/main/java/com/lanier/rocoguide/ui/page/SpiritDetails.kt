@@ -195,6 +195,8 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
                 powerTextColor = ExtendedTheme.colors.defaultPowerTvValueColor,
                 baseHexagonalColor = MaterialTheme.colors.secondary,
                 realRacialValueLineColor = ExtendedTheme.colors.defaultRacialValueColor,
+                modifier = Modifier
+                    .height(200.dp)
             )
             else -> SpiritRacialValueTypeGrid(data)
         }
