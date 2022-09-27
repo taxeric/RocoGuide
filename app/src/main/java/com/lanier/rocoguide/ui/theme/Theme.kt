@@ -7,7 +7,6 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import com.lanier.rocoguide.ui.common.SettingsHelper
-import com.lanier.rocoguide.utils.logI
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -89,6 +88,11 @@ data class ExtendColors(
     val defaultLazyItemBackground: Color,
     val defaultRacialValueColor: Color,
     val defaultPowerTvValueColor: Color,
+    val defaultAttackTvValueColor: Color,
+    val defaultDefenseTvValueColor: Color,
+    val defaultMagicAttackTvValueColor: Color,
+    val defaultMagicDefenseTvValueColor: Color,
+    val defaultSpeedTvValueColor: Color,
 )
 
 val LocalExtendedColors = staticCompositionLocalOf {
@@ -97,6 +101,11 @@ val LocalExtendedColors = staticCompositionLocalOf {
         defaultLazyItemBackground = Color.Unspecified,
         defaultRacialValueColor = Color.Unspecified,
         defaultPowerTvValueColor = Color.Unspecified,
+        defaultAttackTvValueColor = Color.Unspecified,
+        defaultDefenseTvValueColor = Color.Unspecified,
+        defaultMagicAttackTvValueColor = Color.Unspecified,
+        defaultMagicDefenseTvValueColor = Color.Unspecified,
+        defaultSpeedTvValueColor = Color.Unspecified,
     )
 }
 
@@ -105,12 +114,22 @@ private val localExtendLightColors = ExtendColors(
     defaultLazyItemBackground = local_default_lazy_item_light,
     defaultRacialValueColor = local_default_racial_value_light,
     defaultPowerTvValueColor = local_default_power_tv_value_light,
+    defaultAttackTvValueColor = local_default_attack_tv_value_light,
+    defaultDefenseTvValueColor = local_default_defense_tv_value_light,
+    defaultMagicAttackTvValueColor = local_default_magic_attack_tv_value_light,
+    defaultMagicDefenseTvValueColor = local_default_magic_defense_tv_value_light,
+    defaultSpeedTvValueColor = local_default_speed_tv_value_light,
 )
 private val localExtendDarkColors = ExtendColors(
     defaultMainBackground = local_default_main_background_dark,
     defaultLazyItemBackground = local_default_lazy_item_dark,
     defaultRacialValueColor = local_default_racial_value_dark,
-    defaultPowerTvValueColor = local_default_power_tv_value_drak,
+    defaultPowerTvValueColor = local_default_power_tv_value_dark,
+    defaultAttackTvValueColor = local_default_attack_tv_value_dark,
+    defaultDefenseTvValueColor = local_default_defense_tv_value_dark,
+    defaultMagicAttackTvValueColor = local_default_magic_attack_tv_value_dark,
+    defaultMagicDefenseTvValueColor = local_default_magic_defense_tv_value_dark,
+    defaultSpeedTvValueColor = local_default_speed_tv_value_dark,
 )
 // </editor-fold>
 

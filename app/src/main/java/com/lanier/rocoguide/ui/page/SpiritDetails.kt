@@ -193,6 +193,11 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
             PreferenceUtil.RACIAL_HEXAGONAL -> RacialHexagonal(
                 spiritData = data,
                 powerTextColor = ExtendedTheme.colors.defaultPowerTvValueColor,
+                attackTextColor = ExtendedTheme.colors.defaultAttackTvValueColor,
+                defenseTextColor = ExtendedTheme.colors.defaultDefenseTvValueColor,
+                magicAttackTextColor = ExtendedTheme.colors.defaultMagicAttackTvValueColor,
+                magicDefenseTextColor = ExtendedTheme.colors.defaultMagicDefenseTvValueColor,
+                speedTextColor = ExtendedTheme.colors.defaultSpeedTvValueColor,
                 baseHexagonalColor = MaterialTheme.colors.secondary,
                 realRacialValueLineColor = ExtendedTheme.colors.defaultRacialValueColor,
                 modifier = Modifier

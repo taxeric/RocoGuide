@@ -1,7 +1,5 @@
 package com.lanier.rocoguide.ui.theme
 
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
@@ -74,8 +72,18 @@ val local_default_main_background_light = Color(0xFFEDEDED)
 val local_default_lazy_item_light = Color(0xFFFEFBFF)
 val local_default_racial_value_light = Color(0xFF4E4CCE)
 val local_default_power_tv_value_light = Color(0xFF4B9219)
+val local_default_attack_tv_value_light = Color(0xFFBE512D)
+val local_default_defense_tv_value_light = Color(0xFF199290)
+val local_default_magic_attack_tv_value_light = Color(0xFF561992)
+val local_default_magic_defense_tv_value_light = Color(0xFF195392)
+val local_default_speed_tv_value_light = Color(0xFF928C19)
 
 val local_default_main_background_dark = Color(0xFF111111)
 val local_default_lazy_item_dark = Color(0xFF1C1B20)
 val local_default_racial_value_dark = Color(0xFFC2C1FF)
-val local_default_power_tv_value_drak = Color(0xFF70D827)
+val local_default_power_tv_value_dark = Color(0xFF70D827)
+val local_default_attack_tv_value_dark = Color(0xFFF0683B)
+val local_default_defense_tv_value_dark = Color(0xFF25D2CF)
+val local_default_magic_attack_tv_value_dark = Color(0xFF983DF0)
+val local_default_magic_defense_tv_value_dark = Color(0xFF257BD8)
+val local_default_speed_tv_value_dark = Color(0xFFDED526)
