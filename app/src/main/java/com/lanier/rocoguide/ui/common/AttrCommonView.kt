@@ -143,7 +143,6 @@ fun RacialHexagonal(
     }
     var pxWidthValue = 0f
     var pxHeightValue = 0f
-//    val pxValue1 = with(LocalDensity.current) { 100.dp.toPx() }
     val maxRacial = with(LocalDensity.current) { 200.dp.toPx() }
     val pxRacialPower = with(LocalDensity.current) { spiritData.racePower.dp.toPx() }
     val pxRacialAttack = with(LocalDensity.current) { spiritData.raceAttack.dp.toPx() }
@@ -160,8 +159,7 @@ fun RacialHexagonal(
                 pxHeightValue = size.height
             }
     ) {
-        val hexagonalTopBottomPadding = 32f
-        val hexagonalOtherPadding = hexagonalTopBottomPadding / 2
+        val hexagonalTopBottomPadding = 40f
         val baseCosValue = sqrt(3f) / 2
         val middleWidth = pxWidthValue / 2f
         val middleHeight = pxHeightValue / 2f
@@ -176,21 +174,21 @@ fun RacialHexagonal(
         val centerPoint = Offset(middleWidth, middleHeight)
         val aPoint = Offset(middleWidth, 0f + hexagonalTopBottomPadding)
         val bPoint = Offset(
-            middleWidth - baseCosValue * (radius),
-            pxHeightValue / 4f + hexagonalOtherPadding
+            middleWidth - baseCosValue * radius,
+            middleHeight - radius / 2f
         )
         val cPoint = Offset(
-            middleWidth - baseCosValue * (radius),
-            pxHeightValue * 3 / 4f - hexagonalOtherPadding
+            middleWidth - baseCosValue * radius,
+            middleHeight + radius / 2f
         )
         val dPoint = Offset(middleWidth, pxHeightValue - hexagonalTopBottomPadding)
         val ePoint = Offset(
-            middleWidth + baseCosValue * (middleHeight) - hexagonalTopBottomPadding,
-            pxHeightValue * 3 / 4f - hexagonalOtherPadding
+            middleWidth + baseCosValue * radius,
+            middleHeight + radius / 2f
         )
         val fPoint = Offset(
-            middleWidth + baseCosValue * (middleHeight) - hexagonalTopBottomPadding,
-            pxHeightValue / 4f + hexagonalOtherPadding
+            middleWidth + baseCosValue * radius,
+            middleHeight - radius / 2f
         )
         //a->b
         drawLine(
@@ -268,7 +266,7 @@ fun RacialHexagonal(
         drawIntoCanvas { canvas ->
             val textPaint = TextPaint().apply {
                 this.color = android.graphics.Color.WHITE
-                this.textSize = 22f
+                this.textSize = 32f
             }
             val rect = Rect()
             val powerText = "精力 ${spiritData.racePower}"
@@ -278,8 +276,8 @@ fun RacialHexagonal(
             textPaint.getTextBounds(powerText, 0, powerText.length - 1, rect)
             canvas.nativeCanvas.drawText(
                 powerText,
-                aPoint.x- rect.width() / 2f,
-                hexagonalTopBottomPadding - 8f,
+                aPoint.x - rect.width() / 2f,
+                hexagonalTopBottomPadding - 12f,
                 textPaint
             )
             val attackText = "攻击 ${spiritData.raceAttack}"
@@ -312,7 +310,7 @@ fun RacialHexagonal(
             canvas.nativeCanvas.drawText(
                 speedText,
                 dPoint.x - rect.width() / 2,
-                dPoint.y + hexagonalTopBottomPadding - 8f,
+                dPoint.y + hexagonalTopBottomPadding - 2f,
                 textPaint
             )
             val magicDefenseText = "魔抗 ${spiritData.raceMagicDefense}"
@@ -342,33 +340,33 @@ fun RacialHexagonal(
         val powerPoint = Offset(
             middleWidth,
             if (pxRacialPower > 0f) {
-                middleHeight - pxRacialPower / maxRacial * middleHeight + hexagonalTopBottomPadding
+                middleHeight - pxRacialPower / maxRacial * radius
             } else {
                 middleHeight
             }
         )
-        val realAttack = pxRacialAttack / maxRacial * middleHeight
+        val realAttack = pxRacialAttack / maxRacial * radius
         val attackPoint = Offset(
             if (pxRacialAttack > 0f) {
-                middleWidth - realAttack * baseCosValue + hexagonalTopBottomPadding
+                middleWidth - realAttack * baseCosValue
             } else {
                 middleWidth
             },
             if (pxRacialAttack > 0f) {
-                middleHeight - realAttack / 2f + hexagonalOtherPadding
+                middleHeight - realAttack / 2f
             } else {
                 middleHeight
             }
         )
-        val realDefense = pxRacialDefense / maxRacial * middleHeight
+        val realDefense = pxRacialDefense / maxRacial * radius
         val defensePoint = Offset(
             if (pxRacialDefense > 0f) {
-                middleWidth - realDefense * baseCosValue + hexagonalTopBottomPadding
+                middleWidth - realDefense * baseCosValue
             } else {
                 middleWidth
             },
             if (pxRacialDefense > 0f) {
-                middleHeight + realDefense / 2f - hexagonalOtherPadding
+                middleHeight + realDefense / 2f
             } else {
                 middleHeight
             }
@@ -376,33 +374,33 @@ fun RacialHexagonal(
         val speedPoint = Offset(
             middleWidth,
             if (pxRacialSpeed > 0f) {
-                middleHeight + pxRacialSpeed / maxRacial * middleHeight - hexagonalTopBottomPadding
+                middleHeight + pxRacialSpeed / maxRacial * radius
             } else {
                 middleHeight
             }
         )
-        val realMagicDefense = pxRacialMagicDefense / maxRacial * middleHeight
+        val realMagicDefense = pxRacialMagicDefense / maxRacial * radius
         val magicDefensePoint = Offset(
             if (pxRacialMagicDefense > 0f) {
-                middleWidth + realMagicDefense * baseCosValue - hexagonalTopBottomPadding
+                middleWidth + realMagicDefense * baseCosValue
             } else {
                 middleWidth
             },
             if (pxRacialMagicDefense > 0f) {
-                middleHeight + realMagicDefense / 2f - hexagonalOtherPadding
+                middleHeight + realMagicDefense / 2f
             } else {
                 middleHeight
             }
         )
-        val realMagicAttack = pxRacialMagicAttack / maxRacial * middleHeight
+        val realMagicAttack = pxRacialMagicAttack / maxRacial * radius
         val magicAttackPoint = Offset(
             if (pxRacialMagicAttack > 0f) {
-                middleWidth + realMagicAttack * baseCosValue - hexagonalTopBottomPadding
+                middleWidth + realMagicAttack * baseCosValue
             } else {
                 middleWidth
             },
             if (pxRacialMagicAttack > 0f) {
-                middleHeight - realMagicAttack / 2f + hexagonalOtherPadding
+                middleHeight - realMagicAttack / 2f
             } else {
                 middleHeight
             }
