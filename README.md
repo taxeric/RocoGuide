@@ -83,6 +83,7 @@ Compose实现的洛克王国指南
 - [XiaoAnXA](https://github.com/XiaoAnXA)
 - love****fe61(惊鸿照影)
 - shen****i111(琳)
+- [JinYu886](https://github.com/JinYu886)
 
 ## 鸣谢
 - [XiaoAnXA](https://github.com/XiaoAnXA),为本项目提供接口支持
