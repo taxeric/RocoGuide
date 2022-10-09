@@ -53,9 +53,9 @@ fun OtherCS(navHostController: NavHostController){
         OtherHorizontalItem("遗传图鉴") {
             navHostController.navigate(ROUTE_SCREEN_MAIN_GENETIC)
         }
-        OtherHorizontalItem("场景BGM") {
+/*        OtherHorizontalItem("场景BGM") {
             navHostController.navigate(ROUTE_SCREEN_MAIN_BGM)
-        }
+        }*/
     }
 }
 
