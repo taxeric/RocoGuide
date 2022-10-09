@@ -2,7 +2,7 @@
 Compose实现的洛克王国指南,更多详情请参见[README](https://gitee.com/lanier/roco-guide)
 
 ## 使用
-在您搭建好服务端后,编辑[BaseApp](https://github.com/taxeric/RocoGuide/blob/master/app/src/main/java/com/lanier/rocoguide/base/cache/LocalCache.kt),修改`BASE_URL`即可
+在您搭建好服务端后,编辑[LocalCache](https://github.com/taxeric/RocoGuide/blob/master/app/src/main/java/com/lanier/rocoguide/base/cache/LocalCache.kt)的`BASE_URL`即可
 ```kotlin
 object LocalCache {
     
