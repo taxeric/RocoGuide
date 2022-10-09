@@ -1,6 +1,19 @@
 # RocoGuide
 Compose实现的洛克王国指南,更多详情请参见[README](https://gitee.com/lanier/roco-guide)
 
+## 使用
+在您搭建好服务端后,编辑[BaseApp](https://github.com/taxeric/RocoGuide/blob/master/app/src/main/java/com/lanier/rocoguide/BaseApp.kt),修改`RetrofitHelper.initHelper()`即可
+```kotlin
+class BaseApp: PluginBaseApp() {
+
+    override fun onCreate() {
+        super.onCreate()
+        //other...
+        RetrofitHelper.initHelper("your host")
+    }
+}
+```
+
 ## 开源库
 - [Compose-WebView: 适用于Compose的浏览器控件](https://google.github.io/accompanist/webview/)
 - [Compose-refresh: 适用于Compose的下拉刷新框架](https://google.github.io/accompanist/swiperefresh/)
@@ -17,7 +30,7 @@ Compose实现的洛克王国指南,更多详情请参见[README](https://gitee.c
 - [XiaoAnXA](https://github.com/XiaoAnXA)
 - love****fe61(惊鸿照影)
 - shen****i111(琳)
-- [JinYu886](https://github.com/JinYu886)
+- [JinYu886](https://gitee.com/JinYucc)
 
 ## 推荐阅读
 - compose开发助手
