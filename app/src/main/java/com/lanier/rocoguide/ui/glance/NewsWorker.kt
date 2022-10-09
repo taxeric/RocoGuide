@@ -8,6 +8,7 @@ import androidx.glance.appwidget.updateAll
 import androidx.work.*
 import com.google.gson.Gson
 import com.lanier.lib_net.PrintInterceptor
+import com.lanier.rocoguide.base.cache.LocalCache
 import com.lanier.rocoguide.entity.NewsData
 import com.lanier.rocoguide.entity.NewsList
 import kotlinx.coroutines.Dispatchers
@@ -63,7 +64,7 @@ class NewsWorker(
         val glanceIds = manager.getGlanceIds(NewsGlanceWidget::class.java)
         return try {
             setWidgetState(glanceIds,
-                getNewsData("")
+                getNewsData(LocalCache.BASE_URL)
             )
             Result.success()
         } catch (e: Exception) {

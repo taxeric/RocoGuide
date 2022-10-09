@@ -323,6 +323,10 @@ object LocalCache {
         CurrentDownloadContent.Other
     )
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="网络">
+    const val BASE_URL = "your host"
+    // </editor-fold>
 }
 
 sealed class CurrentDownloadContent{

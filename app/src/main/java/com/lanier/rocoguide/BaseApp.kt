@@ -3,6 +3,7 @@ package com.lanier.rocoguide
 import android.os.Environment
 import com.lanier.lib_net.RetrofitHelper
 import com.lanier.plugin_base.PluginBaseApp
+import com.lanier.rocoguide.base.cache.LocalCache
 import com.lanier.rocoguide.utils.NotificationUtil
 import com.lanier.rocoguide.utils.PreferenceUtil
 import com.lanier.rocoguide.utils.defaultLocalApkDataPath
@@ -21,6 +22,6 @@ class BaseApp: PluginBaseApp() {
         defaultLocalJsonDataPath = "$baseCacheDir/html/"
         defaultLocalApkDataPath = "$baseCacheDir/apk/"
         NotificationUtil.createNotificationChannel(this)
-        RetrofitHelper.initHelper("")
+        RetrofitHelper.initHelper(LocalCache.BASE_URL)
     }
 }
