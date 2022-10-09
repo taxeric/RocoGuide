@@ -64,7 +64,7 @@ class NewsWorker(
         val glanceIds = manager.getGlanceIds(NewsGlanceWidget::class.java)
         return try {
             setWidgetState(glanceIds,
-                getNewsData(LocalCache.BASE_URL)
+                getNewsData("${LocalCache.BASE_URL}api/news/v1/page?page=1&amount=10")
             )
             Result.success()
         } catch (e: Exception) {

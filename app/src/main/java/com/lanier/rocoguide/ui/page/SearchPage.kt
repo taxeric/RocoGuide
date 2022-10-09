@@ -1,5 +1,6 @@
 package com.lanier.rocoguide.ui.page
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -9,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.lanier.rocoguide.entity.Search
 import com.lanier.rocoguide.ui.common.SearchBaseScaffold
+import com.lanier.rocoguide.ui.theme.ExtendedTheme
 import com.lanier.rocoguide.vm.SearchViewModel
 import com.lanier.rocoguide.vm.factory.SearchVMFactory
 
@@ -37,7 +39,7 @@ fun SearchSpiritScreen(navController: NavHostController, keywords: String) {
     SearchBaseScaffold(type = Search.Spirit, onBack = {
         navController.popBackStack()
     }) {
-        Column(modifier = Modifier.padding(it)) {
+        Column(modifier = Modifier.padding(it).background(ExtendedTheme.colors.defaultMainBackground)) {
             SpiritMainListImpl(list = list, navHostController = navController)
         }
     }
