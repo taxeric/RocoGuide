@@ -10,18 +10,10 @@ import android.util.Log
  */
 private const val TAG = "TAG_ROCO_GUIDE"
 
-fun String.logI(){
-    Log.i(TAG, this)
-}
-
-fun String.logE(){
-    Log.e(TAG, this)
-}
-
-fun String.logI(tag: String){
+internal fun String.logI(tag: String = TAG){
     Log.i(tag, this)
 }
 
-fun String.logE(tag: String){
+internal fun String.logE(tag: String = TAG){
     Log.e(tag, this)
 }

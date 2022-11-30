@@ -19,32 +19,32 @@ interface APIService {
     @GET("api/changeLog/v1/bulletin")
     suspend fun getNewestBulletin(): ChangeLogEntity
 
-    @GET("api/news/v1/page")
+    @GET("api/news/v1/news")
     suspend fun getNewsList(
         @Query("page") page: Int,
         @Query("amount") amount: Int = 20
     ): NewsList
 
-    @GET("api/genius/v1/page")
+    @GET("api/spirit/v1/spirits")
     suspend fun getSpiritList(
         @Query("page") page: Int,
         @Query("keywords") keywords: String = "",
         @Query("amount") amount: Int = 20
     ): SpiritList
 
-    @GET("api/genius/v1/genius")
+    @GET("api/spirit/v1/spirit")
     suspend fun getSpiritById(
         @Query("id") id: Int
     ): SpiritDetailEntity
 
-    @GET("api/skill/v1/page")
+    @GET("api/skill/v1/skills")
     suspend fun getSkillsList(
         @Query("page") page: Int,
         @Query("keywords") keywords: String = "",
         @Query("amount") amount: Int = 20
     ): SkillsList
 
-    @GET("api/group/v1/list")
+    @GET("api/group/v1/groups")
     suspend fun getSpiritEggGroup(): EggGroupList
 
     @Streaming

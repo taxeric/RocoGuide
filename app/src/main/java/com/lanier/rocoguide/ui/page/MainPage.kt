@@ -146,7 +146,7 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
             ThankScreen(navController, title = Screen.Thank.title)
         }
         composable(Screen.BGM.route) {
-            BGMScreen(navController, title = Screen.BGM.title)
+//            BGMScreen(navController, title = Screen.BGM.title)
         }
         composable(
             route = "${Screen.GeneticDetail.route}/{${ROUTE_PARAMS_GROUP_ID}}/{${ROUTE_PARAMS_GROUP_TITLE}}",
