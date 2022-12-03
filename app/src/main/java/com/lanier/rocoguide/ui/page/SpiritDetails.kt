@@ -176,22 +176,41 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
     Column(modifier = Modifier
         .fillMaxWidth()
         .padding(paddingValues)
-        .verticalScroll(rememberScrollState())) {
-        Row {
+        .verticalScroll(rememberScrollState())
+        .background(ExtendedTheme.colors.defaultMainBackground)
+    ) {
+        Spacer(modifier = Modifier.height(10.dp))
+        Row(
+            modifier = Modifier
+                .height(210.dp)
+        ) {
             SpiritEntityPic(data, modifier = Modifier
                 .weight(0.35f)
-                .padding(10.dp, 5.dp)) {
+                .fillMaxHeight()
+                .padding(10.dp, 0.dp, 4.dp, 0.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(ExtendedTheme.colors.defaultLazyItemBackground)) {
                 val url = URLEncoder.encode(it, StandardCharsets.UTF_8.toString())
                 navHostController.navigate("$ROUTE_SCREEN_BIG_PIC_LOAD/$url")
             }
             SpiritEntityBaseInfo(data, modifier = Modifier
                 .weight(0.65f)
-                .padding(10.dp, 5.dp))
+                .fillMaxHeight()
+                .padding(4.dp, 0.dp, 10.dp, 0.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(ExtendedTheme.colors.defaultLazyItemBackground))
         }
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = data.description, fontSize = 18.sp, modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp))
+        Text(
+            text = data.description,
+            fontSize = 18.sp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp, 0.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(ExtendedTheme.colors.defaultLazyItemBackground)
+                .padding(8.dp)
+        )
         Spacer(modifier = Modifier.height(10.dp))
         when (racialStyle) {
             PreferenceUtil.RACIAL_GRID -> SpiritRacialValueTypeGrid(data)
@@ -212,7 +231,7 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
             else -> SpiritRacialValueTypeGrid(data)
         }
         Spacer(modifier = Modifier.height(10.dp))
-        SpiritSkillsV2(data, navHostController, onClickSkill)
+         SpiritSkillsV2(data, navHostController, onClickSkill)
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = buildAnnotatedString {
             append("数据来自网络,如有纰漏请")
@@ -231,29 +250,40 @@ fun SpiritEntityPic(
     modifier: Modifier,
     toBigView: (String) -> Unit = {}
 ){
-    Box(modifier = modifier
-        .clip(RoundedCornerShape(5.dp))
-        .background(Color.Yellow)) {
-        Column(modifier = Modifier.height(200.dp)) {
+    Column(modifier = modifier) {
+        Box(
+            modifier = Modifier.height(170.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(painter = painterResource(id = R.drawable.ic_spirit_main_bg), contentDescription = "")
             AsyncImage(
                 model = data.avatar,
                 contentDescription = "avatar",
-                modifier = Modifier.height(170.dp)
+                modifier = Modifier
+                    .fillMaxHeight()
                     .clickable { toBigView(data.avatar) }
             )
-            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-                AttrImage(attr = data.primaryAttributes, modifier = Modifier
+        }
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            AttrImage(
+                attr = data.primaryAttributes,
+                modifier = Modifier
                     .width(20.dp)
-                    .height(20.dp))
-                data.secondaryAttributes.id?.let {
-                    if (it != -1) {
-                        Spacer(modifier = Modifier.width(10.dp))
-                        AttrImage(
-                            attr = data.secondaryAttributes, modifier = Modifier
-                                .width(20.dp)
-                                .height(20.dp)
-                        )
-                    }
+                    .height(20.dp)
+            )
+            data.secondaryAttributes.id?.let {
+                if (it != -1) {
+                    Spacer(modifier = Modifier.width(10.dp))
+                    AttrImage(
+                        attr = data.secondaryAttributes, modifier = Modifier
+                            .width(20.dp)
+                            .height(20.dp)
+                    )
                 }
             }
         }
@@ -262,7 +292,10 @@ fun SpiritEntityPic(
 
 @Composable
 fun SpiritEntityBaseInfo(data: SpiritEntity, modifier: Modifier){
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+            .padding(8.dp, 0.dp)
+    ) {
 //        Text(text = data.name, fontSize = 20.sp)
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = "编号: ${data.number}")
@@ -335,7 +368,7 @@ fun SpiritRacialValueProgressAnim(
     if (finalValue != 0) {
         val target = finalValue / 255f
         LaunchedEffect(key1 = Unit) {
-            delay(1000)
+            delay(300)
             while (progress < target){
                 progress += 0.01f
                 delay(10)
@@ -426,9 +459,12 @@ fun SpiritSkills(data: SpiritEntity, navHostController: NavHostController){
 
 @Composable
 fun SpiritSkillsV2(data: SpiritEntity, navHostController: NavHostController, onClickSkill: (Skill) -> Unit = {}){
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(10.dp, 5.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp, 5.dp)
+            .background(ExtendedTheme.colors.defaultLazyItemBackground)
+    ) {
         Row(modifier = Modifier
             .fillMaxWidth()
             .border(0.3.dp, Color(0xFF83AAF7))) {
