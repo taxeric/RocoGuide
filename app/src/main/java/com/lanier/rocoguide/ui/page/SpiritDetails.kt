@@ -39,6 +39,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.lanier.rocoguide.R
+import com.lanier.rocoguide.base.ROUTE_SCREEN_BIG_PIC_LOAD
 import com.lanier.rocoguide.base.ROUTE_SCREEN_GENETIC_DETAIL
 import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.entity.SpiritEntity
@@ -49,6 +50,8 @@ import com.lanier.rocoguide.utils.logI
 import com.lanier.rocoguide.vm.SpiritDetailViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 /**
  * Create by Eric
@@ -177,7 +180,10 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
         Row {
             SpiritEntityPic(data, modifier = Modifier
                 .weight(0.35f)
-                .padding(10.dp, 5.dp))
+                .padding(10.dp, 5.dp)) {
+                val url = URLEncoder.encode(it, StandardCharsets.UTF_8.toString())
+                navHostController.navigate("$ROUTE_SCREEN_BIG_PIC_LOAD/$url")
+            }
             SpiritEntityBaseInfo(data, modifier = Modifier
                 .weight(0.65f)
                 .padding(10.dp, 5.dp))
@@ -220,12 +226,21 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
 }
 
 @Composable
-fun SpiritEntityPic(data: SpiritEntity, modifier: Modifier){
+fun SpiritEntityPic(
+    data: SpiritEntity,
+    modifier: Modifier,
+    toBigView: (String) -> Unit = {}
+){
     Box(modifier = modifier
         .clip(RoundedCornerShape(5.dp))
         .background(Color.Yellow)) {
         Column(modifier = Modifier.height(200.dp)) {
-            AsyncImage(model = data.avatar, contentDescription = "avatar", modifier = Modifier.height(170.dp))
+            AsyncImage(
+                model = data.avatar,
+                contentDescription = "avatar",
+                modifier = Modifier.height(170.dp)
+                    .clickable { toBigView(data.avatar) }
+            )
             Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
                 AttrImage(attr = data.primaryAttributes, modifier = Modifier
                     .width(20.dp)

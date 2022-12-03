@@ -14,6 +14,7 @@ sealed class Screen (val route: String, val title: String = "", @DrawableRes val
     object OtherList: Screen(ROUTE_SCREEN_MAIN_OTHER_LIST, "功能", R.drawable.ic_other)
     object Settings: Screen(ROUTE_SCREEN_MAIN_SETTINGS, "设置")
     object SpiritDetail: Screen(ROUTE_SCREEN_SPIRIT_DETAIL, "精灵详情")
+    object BigPicView: Screen(ROUTE_SCREEN_BIG_PIC_LOAD, "图片查看")
     object SearchList: Screen(ROUTE_SCREEN_SEARCH_LIST, "搜索")
     object SkillList: Screen(ROUTE_SCREEN_MAIN_SKILL_LIST, "技能")
     object SkillDetail: Screen(ROUTE_SCREEN_SKILL_DETAIL, "技能详情")

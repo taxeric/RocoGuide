@@ -16,6 +16,9 @@ const val ROUTE_SCREEN_MAIN_SETTINGS = "screenSettings"
 const val ROUTE_SCREEN_SPIRIT_DETAIL = "spiritDetail"
 const val ROUTE_PARAMS_SPIRIT_ID = "spiritId"
 
+const val ROUTE_SCREEN_BIG_PIC_LOAD = "bigPicLoad"
+const val ROUTE_PARAMS_PIC_URL = "picUrl"
+
 const val ROUTE_SCREEN_GENETIC_DETAIL = "geneticDetail"
 const val ROUTE_PARAMS_GROUP_ID = "groupId"
 const val ROUTE_PARAMS_GROUP_TITLE = "groupTitle"

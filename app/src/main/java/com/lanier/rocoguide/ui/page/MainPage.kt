@@ -30,6 +30,7 @@ import com.google.gson.Gson
 import com.lanier.rocoguide.base.*
 import com.lanier.rocoguide.entity.Screen
 import com.lanier.rocoguide.entity.Skill
+import com.lanier.rocoguide.ui.common.CommonBigPicView
 import com.lanier.rocoguide.ui.page.genetic.GeneticDetailScreen
 import com.lanier.rocoguide.ui.page.genetic.GeneticResultScreen
 import com.lanier.rocoguide.ui.page.genetic.GeneticScreen
@@ -187,6 +188,17 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
             val argument = requireNotNull(it.arguments)
             val id = argument.getInt(ROUTE_PARAMS_SPIRIT_ID)
             SpiritScreen(navController, id)
+        }
+        composable(
+            route = "${Screen.BigPicView.route}/{${ROUTE_PARAMS_PIC_URL}}",
+            arguments = listOf(
+                navArgument(ROUTE_PARAMS_PIC_URL) {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            val url = requireNotNull(it.arguments).getString(ROUTE_PARAMS_PIC_URL)
+            CommonBigPicView(navController, url)
         }
         composable(
             route = "${Screen.SkillDetail.route}/{${ROUTE_PARAMS_SKILL}}",
