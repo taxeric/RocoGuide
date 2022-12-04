@@ -1,8 +1,8 @@
 package com.lanier.rocoguide
 
+import android.app.Application
 import android.os.Environment
 import com.lanier.lib_net.RetrofitHelper
-import com.lanier.plugin_base.PluginBaseApp
 import com.lanier.rocoguide.base.cache.LocalCache
 import com.lanier.rocoguide.utils.NotificationUtil
 import com.lanier.rocoguide.utils.PreferenceUtil
@@ -13,7 +13,7 @@ import com.lanier.rocoguide.utils.defaultLocalJsonDataPath
  * Create by Eric
  * on 2022/7/25
  */
-class BaseApp: PluginBaseApp() {
+class BaseApp: Application() {
 
     override fun onCreate() {
         super.onCreate()
