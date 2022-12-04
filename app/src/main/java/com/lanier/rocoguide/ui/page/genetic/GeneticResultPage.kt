@@ -45,6 +45,7 @@ fun GeneticResultScreen(navHostController: NavHostController, title: String, gro
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GeneticResultImpl(navHostController: NavHostController, paddingValues: PaddingValues, groupId: String){
     var fatherName by remember {

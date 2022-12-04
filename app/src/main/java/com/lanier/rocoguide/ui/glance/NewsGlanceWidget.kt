@@ -52,7 +52,12 @@ class NewsGlanceWidget: GlanceAppWidget() {
  * Force update the data after user click
  */
 class ForceUpdateNews: ActionCallback{
-    override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
+
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
         NewsWorker.enqueue(context, true)
     }
 }

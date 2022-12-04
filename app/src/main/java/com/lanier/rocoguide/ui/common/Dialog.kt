@@ -60,6 +60,7 @@ fun SkillDialog(content: String, onDismiss: () -> Unit){
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchDialog(type: Search, label: String = "", onDismiss: (String) -> Unit) {
     Dialog(

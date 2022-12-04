@@ -57,7 +57,7 @@ import java.nio.charset.StandardCharsets
  * Create by Eric
  * on 2022/7/26
  */
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
     val vm = viewModel<SpiritDetailViewModel>()
@@ -97,7 +97,7 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
         },
         backgroundColor = androidx.compose.material3.MaterialTheme.colorScheme.background,
         topBar = {
-            SmallTopAppBar(
+            TopAppBar(
                 title = { Text(text = title) },
                 navigationIcon = {
                     IconButton(onClick = { navHostController.popBackStack() }) {
@@ -115,7 +115,7 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
                             Icon(imageVector = Icons.Filled.Warning, contentDescription = "warning")
                         }
                     }
-                    if (layEggsEnable){
+                    if (layEggsEnable) {
                         IconButton(onClick = {
                             showEggDialog = true
                         }) {
@@ -126,8 +126,7 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
                             )
                         }
                     }
-                }
-            )
+                })
         },
         modifier = Modifier.pointerInput(Unit){
             detectTapGestures(onTap = {
