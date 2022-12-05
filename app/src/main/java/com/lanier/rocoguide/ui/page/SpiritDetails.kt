@@ -62,15 +62,11 @@ import java.nio.charset.StandardCharsets
 fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
     val vm = viewModel<SpiritDetailViewModel>()
     val spirit = vm.spiritDetail.collectAsState().value
-    val id = spirit.id
     val title = spirit.name
     val layEggsEnable = spirit.group.id > 1
     val eggGroup = spirit.group.name
     val eggGroupId = spirit.group.id
     var showEggDialog by remember {
-        mutableStateOf(false)
-    }
-    var showErrorDialog by remember {
         mutableStateOf(false)
     }
     var showSkillDetail by remember {
@@ -108,13 +104,6 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
                     }
                 },
                 actions = {
-                    if (id == -1) {
-                        IconButton(onClick = {
-                            showErrorDialog = true
-                        }) {
-                            Icon(imageVector = Icons.Filled.Warning, contentDescription = "warning")
-                        }
-                    }
                     if (layEggsEnable) {
                         IconButton(onClick = {
                             showEggDialog = true
@@ -147,11 +136,6 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
                     bottomSheetScaffoldState.bottomSheetState.collapse()
                 }
             }
-        }
-    }
-    if (showErrorDialog) {
-        DataErrorDialog(type = spirit.id) {
-            showErrorDialog = false
         }
     }
     if (showEggDialog) {
