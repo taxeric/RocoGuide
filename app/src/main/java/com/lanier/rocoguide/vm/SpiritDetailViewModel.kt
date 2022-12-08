@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.lanier.rocoguide.entity.SpiritDetailEntity
 import com.lanier.rocoguide.entity.SpiritEntity
 import com.lanier.rocoguide.vm.repo.SpiritRepo
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -24,6 +25,7 @@ class SpiritDetailViewModel: ViewModel() {
     fun getSpiritById(id: Int) {
         viewModelScope.launch {
             val response = repo.searchSpiritById(id)
+            delay(1000)
             if (response.isSuccess) {
                 val detail = response.getOrDefault(SpiritDetailEntity(code = -1))
                 if (detail.code == 200) {

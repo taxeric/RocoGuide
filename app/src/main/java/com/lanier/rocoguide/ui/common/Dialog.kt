@@ -306,6 +306,33 @@ fun HomepageLuLuDialog(onDismiss: () -> Unit){
 }
 
 @Composable
+fun SpiritDetailsFixDialog(onDismiss: () -> Unit){
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(
+            dismissOnClickOutside = true,
+            dismissOnBackPress = true
+        )
+    ) {
+        Column(modifier = Modifier
+            .clip(RoundedCornerShape(10.dp))
+            .background(MaterialTheme.colorScheme.background)
+            .padding(10.dp)) {
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(text = stringResource(id = R.string.fix_data), fontSize = 16.sp, modifier = Modifier
+                .fillMaxWidth())
+            Spacer(modifier = Modifier.height(20.dp))
+            TextButton(onClick = onDismiss, modifier = Modifier
+                .align(Alignment.End)
+                .padding(5.dp, 2.dp)) {
+                Text(text = "确定")
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+    }
+}
+
+@Composable
 fun GeneticDialog(onDismiss: (Int) -> Unit){
     Dialog(
         onDismissRequest = { onDismiss(-1) },

@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
@@ -67,6 +68,9 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
     val eggGroup = spirit.group.name
     val eggGroupId = spirit.group.id
     var showEggDialog by remember {
+        mutableStateOf(false)
+    }
+    var showFixDialog by remember {
         mutableStateOf(false)
     }
     var showSkillDetail by remember {
@@ -104,6 +108,14 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
                     }
                 },
                 actions = {
+                    IconButton(onClick = {
+                        showFixDialog = true
+                    }) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_gulu_base_bg_1),
+                            contentDescription = "",
+                        )
+                    }
                     if (layEggsEnable) {
                         IconButton(onClick = {
                             showEggDialog = true
@@ -146,6 +158,11 @@ fun SpiritScreen(navHostController: NavHostController, spiritId: Int){
             showEggDialog = false
         }
     }
+    if (showFixDialog) {
+        SpiritDetailsFixDialog {
+            showFixDialog = false
+        }
+    }
 }
 
 @Composable
@@ -157,7 +174,7 @@ fun SpiritDetailData(paddingValues: PaddingValues, navHostController: NavHostCon
 fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostController: NavHostController, onClickSkill: (Skill) -> Unit = {}){
     val racialStyle = PreferenceUtil.getRacialValue()
     Column(modifier = Modifier
-        .fillMaxWidth()
+        .fillMaxSize()
         .padding(paddingValues)
         .verticalScroll(rememberScrollState())
         .background(ExtendedTheme.colors.defaultMainBackground)
@@ -195,9 +212,44 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
                 .padding(8.dp)
         )
         Spacer(modifier = Modifier.height(10.dp))
+        SpiritRacialView(
+            racialStyle = racialStyle,
+            data = data,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        SpiritSkillsV2(data, onClickSkill)
+        Spacer(modifier = Modifier.height(10.dp))
+    }
+}
+
+@Composable
+private fun SpiritRacialView(
+    modifier: Modifier = Modifier,
+    racialStyle: Int,
+    data: SpiritEntity
+) {
+    Box(
+        modifier = modifier
+            .padding(10.dp, 0.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(ExtendedTheme.colors.defaultLazyItemBackground)
+    ) {
         when (racialStyle) {
-            PreferenceUtil.RACIAL_GRID -> SpiritRacialValueTypeGrid(data)
-            PreferenceUtil.RACIAL_PROGRESS -> SpiritRacialValueTypeProgress(data)
+            PreferenceUtil.RACIAL_GRID -> {
+                SpiritRacialValueTypeGrid(
+                    data = data,
+                    modifier = Modifier
+                )
+            }
+            PreferenceUtil.RACIAL_PROGRESS -> {
+                SpiritRacialValueTypeProgress(
+                    data = data,
+                    modifier = Modifier
+                        .padding(0.dp, 8.dp)
+                )
+            }
             PreferenceUtil.RACIAL_HEXAGONAL -> RacialHexagonal(
                 spiritData = data,
                 powerTextColor = ExtendedTheme.colors.defaultPowerTvValueColor,
@@ -210,20 +262,10 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
                 realRacialValueLineColor = ExtendedTheme.colors.defaultRacialValueColor,
                 modifier = Modifier
                     .height(200.dp)
+                    .padding(0.dp, 8.dp)
             )
-            else -> SpiritRacialValueTypeGrid(data)
+            else -> SpiritRacialValueTypeGrid(data = data)
         }
-        Spacer(modifier = Modifier.height(10.dp))
-         SpiritSkillsV2(data, navHostController, onClickSkill)
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(text = buildAnnotatedString {
-            append("数据来自网络,如有纰漏请")
-            withStyle(SpanStyle(color = Color.Blue, textDecoration = TextDecoration.Underline)) {
-                append("联系改正")
-            }
-        }, textAlign = TextAlign.Center, modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp))
     }
 }
 
@@ -294,34 +336,67 @@ fun SpiritEntityBaseInfo(data: SpiritEntity, modifier: Modifier){
 
 //@Preview(backgroundColor = 0xffffffff)
 @Composable
-fun SpiritRacialValueTypeGrid(data: SpiritEntity){
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(10.dp, 5.dp)) {
-        SpiritSingleRacialValue(modifier = Modifier
-            .wrapContentHeight()
-            .weight(1f), R.drawable.ic_race_energy, data.racePower)
-        SpiritSingleRacialValue(modifier = Modifier
-            .wrapContentHeight()
-            .weight(1f), R.drawable.ic_race_attack, data.raceAttack)
-        SpiritSingleRacialValue(modifier = Modifier
-            .wrapContentHeight()
-            .weight(1f), R.drawable.ic_race_defense, data.raceDefense)
-        SpiritSingleRacialValue(modifier = Modifier
-            .wrapContentHeight()
-            .weight(1f), R.drawable.ic_race_magic_attack, data.raceMagicAttack)
-        SpiritSingleRacialValue(modifier = Modifier
-            .wrapContentHeight()
-            .weight(1f), R.drawable.ic_race_magic_defense, data.raceMagicDefense)
-        SpiritSingleRacialValue(modifier = Modifier
-            .wrapContentHeight()
-            .weight(1f), R.drawable.ic_race_speed, data.raceSpeed)
+fun SpiritRacialValueTypeGrid(
+    modifier: Modifier = Modifier,
+    data: SpiritEntity
+){
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .border(1.dp, Color(0xFF83AAF7), RoundedCornerShape(8.dp)),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        SpiritSingleRacialValue(
+            modifier = Modifier
+                .wrapContentHeight()
+                .weight(1f),
+            R.drawable.ic_race_energy,
+            data.racePower
+        )
+        SpiritSingleRacialValue(
+            modifier = Modifier
+                .wrapContentHeight()
+                .weight(1f),
+            R.drawable.ic_race_attack,
+            data.raceAttack
+        )
+        SpiritSingleRacialValue(
+            modifier = Modifier
+                .wrapContentHeight()
+                .weight(1f),
+            R.drawable.ic_race_defense,
+            data.raceDefense
+        )
+        SpiritSingleRacialValue(
+            modifier = Modifier
+                .wrapContentHeight()
+                .weight(1f),
+            R.drawable.ic_race_magic_attack,
+            data.raceMagicAttack
+        )
+        SpiritSingleRacialValue(
+            modifier = Modifier
+                .wrapContentHeight()
+                .weight(1f),
+            R.drawable.ic_race_magic_defense,
+            data.raceMagicDefense
+        )
+        SpiritSingleRacialValue(
+            modifier = Modifier
+                .wrapContentHeight()
+                .weight(1f),
+            R.drawable.ic_race_speed,
+            data.raceSpeed
+        )
     }
 }
 
 @Composable
-fun SpiritRacialValueTypeProgress(data: SpiritEntity){
-    Column(modifier = Modifier.fillMaxWidth()) {
+fun SpiritRacialValueTypeProgress(
+    modifier: Modifier = Modifier,
+    data: SpiritEntity
+){
+    Column(modifier = modifier.fillMaxWidth()) {
         SpiritRacialValueProgressAnim(
             id = R.drawable.ic_race_energy, finalValue = data.racePower)
         SpiritRacialValueProgressAnim(
@@ -390,29 +465,12 @@ fun SpiritRacialValueProgressAnim(
 }
 
 @Composable
-fun SpiritSingleRacialValue(modifier: Modifier = Modifier, name: String = "??", value: Int = 100){
-    Column(modifier = modifier
-        .fillMaxWidth()
-        .background(Color.White)
-        .border(1.dp, Color(0xFF83AAF7))) {
-        Text(text = name, color = Color(0xFFEEEEEE), fontSize = 18.sp, textAlign = TextAlign.Center, modifier = Modifier
-            .fillMaxWidth()
-            .background(Color(0xFF90C3FF))
-            .padding(10.dp))
-        Text(text = "$value", textAlign = TextAlign.Center, modifier = Modifier
-            .fillMaxWidth()
-            .padding(4.dp))
-    }
-}
-
-@Composable
 fun SpiritSingleRacialValue(modifier: Modifier = Modifier, racePic: Int, value: Int = 100){
     Column(modifier = modifier
-        .fillMaxWidth()
-        .border(1.dp, Color(0xFF83AAF7))) {
+        .fillMaxWidth()) {
         Image(painter = painterResource(id = racePic), contentDescription = "race_value", modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF90C3FF))
+            .background(ExtendedTheme.colors.defaultRacialGridBgColor)
             .padding(10.dp))
         Text(text = "$value", textAlign = TextAlign.Center, modifier = Modifier
             .fillMaxWidth()
@@ -421,94 +479,67 @@ fun SpiritSingleRacialValue(modifier: Modifier = Modifier, racePic: Int, value: 
 }
 
 @Composable
-fun SpiritSkills(data: SpiritEntity, navHostController: NavHostController){
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(10.dp, 5.dp)) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .border(0.5.dp, Color(0xFF83AAF7))) {
-            Text(text = "技能", textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
-            Text(text = "威力", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
-            Text(text = "PP", textAlign = TextAlign.Center, modifier = Modifier.weight(0.8f))
-            Text(text = "类型", textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
-            Text(text = "附加效果", textAlign = TextAlign.Center, modifier = Modifier.weight(1.8f))
-        }
-        data.skills.forEach {
-            SingleSkill(it, navHostController)
-        }
-    }
-}
-
-@Composable
-fun SpiritSkillsV2(data: SpiritEntity, navHostController: NavHostController, onClickSkill: (Skill) -> Unit = {}){
+fun SpiritSkillsV2(data: SpiritEntity, onClickSkill: (Skill) -> Unit = {}){
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp, 5.dp)
-            .background(ExtendedTheme.colors.defaultLazyItemBackground)
     ) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .border(0.3.dp, Color(0xFF83AAF7))) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(
+                    if (data.skills.isEmpty())
+                        RoundedCornerShape(8.dp)
+                    else
+                        RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
+                )
+                .border(1.dp, Color(0xFF83AAF7),
+                    if (data.skills.isEmpty())
+                        RoundedCornerShape(8.dp)
+                    else
+                        RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
+                )
+                .background(ExtendedTheme.colors.defaultLazyItemBackground)
+                .padding(0.dp, 8.dp)
+        ) {
             Text(text = "技能", textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
             Text(text = "威力", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
             Text(text = "PP", textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
             Text(text = "描述", textAlign = TextAlign.Center, modifier = Modifier.weight(1.8f))
         }
         data.skills.forEachIndexed { index, skill ->
-            SingleSkillV2(skill, navHostController, onClickSkill)
+            SingleSkillV2(skill, onClickSkill)
         }
-        Divider(color = Color(0xFF83AAF7), modifier = Modifier
+        if (data.skills.isNotEmpty()) {
+            Divider(
+                color = Color(0xFF83AAF7),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun SingleSkillV2(skill: Skill,onClickSkill: (Skill) -> Unit = {}){
+    Row(
+        modifier = Modifier
             .fillMaxWidth()
-            .height(0.5.dp))
-    }
-}
-
-@Composable
-fun SingleSkill(skill: Skill, navHostController: NavHostController){
-    var showSkillDialog by remember {
-        mutableStateOf(false)
-    }
-    var dialogContent by remember {
-        mutableStateOf("")
-    }
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(0.dp, 2.dp)
-        .clickable {
-            dialogContent = skill.description
-            showSkillDialog = true
-        }
-    ) {
-        Text(text = skill.name, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
-        Text(text = "${skill.value}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
-        Text(text = "${skill.amount}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(0.8f))
-        val type = skill.attributes.name + skill.skillType.name
-        Text(text = type.replace("系", "-"), fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
-        Text(text = skill.additional_effects, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1.8f))
-    }
-    if (showSkillDialog) {
-        SkillDialog(dialogContent) {
-            showSkillDialog = false
-        }
-    }
-}
-
-@Composable
-fun SingleSkillV2(skill: Skill, navHostController: NavHostController, onClickSkill: (Skill) -> Unit = {}){
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .height(80.dp)
-        .clickable {
-//            navHostController.navigate("$ROUTE_SCREEN_SKILL_DETAIL/${Gson().toJson(skill)}")
-            onClickSkill(skill)
-        },
+            .height(80.dp)
+            .background(ExtendedTheme.colors.defaultLazyItemBackground)
+            .clickable {
+                onClickSkill(skill)
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Divider(color = Color(0xFF83AAF7), modifier = Modifier
-            .fillMaxHeight()
-            .width(0.5.dp))
+        Divider(
+            color = Color(0xFF83AAF7),
+            modifier = Modifier
+                .width(1.dp)
+                .fillMaxHeight()
+        )
         Text(text = skill.name, fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1.2f))
         Text(text = "${skill.value}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
         Text(text = "${skill.amount}", fontSize = 13.sp, textAlign = TextAlign.Center, modifier = Modifier.weight(1f))
@@ -516,8 +547,11 @@ fun SingleSkillV2(skill: Skill, navHostController: NavHostController, onClickSki
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1.8f))
-        Divider(color = Color(0xFF83AAF7), modifier = Modifier
-            .fillMaxHeight()
-            .width(0.5.dp))
+        Divider(
+            color = Color(0xFF83AAF7),
+            modifier = Modifier
+                .width(1.dp)
+                .fillMaxHeight()
+        )
     }
 }

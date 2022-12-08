@@ -86,6 +86,7 @@ private val GuideDarkColors = darkColorScheme(
 data class ExtendColors(
     val defaultMainBackground: Color,
     val defaultLazyItemBackground: Color,
+    val defaultRacialGridBgColor: Color,
     val defaultRacialValueColor: Color,
     val defaultPowerTvValueColor: Color,
     val defaultAttackTvValueColor: Color,
@@ -99,6 +100,7 @@ val LocalExtendedColors = staticCompositionLocalOf {
     ExtendColors(
         defaultMainBackground = Color.Unspecified,
         defaultLazyItemBackground = Color.Unspecified,
+        defaultRacialGridBgColor = Color.Unspecified,
         defaultRacialValueColor = Color.Unspecified,
         defaultPowerTvValueColor = Color.Unspecified,
         defaultAttackTvValueColor = Color.Unspecified,
@@ -112,6 +114,7 @@ val LocalExtendedColors = staticCompositionLocalOf {
 private val localExtendLightColors = ExtendColors(
     defaultMainBackground = local_default_main_background_light,
     defaultLazyItemBackground = local_default_lazy_item_light,
+    defaultRacialGridBgColor = local_default_racial_grid_bg_light,
     defaultRacialValueColor = local_default_racial_value_light,
     defaultPowerTvValueColor = local_default_power_tv_value_light,
     defaultAttackTvValueColor = local_default_attack_tv_value_light,
@@ -123,6 +126,7 @@ private val localExtendLightColors = ExtendColors(
 private val localExtendDarkColors = ExtendColors(
     defaultMainBackground = local_default_main_background_dark,
     defaultLazyItemBackground = local_default_lazy_item_dark,
+    defaultRacialGridBgColor = local_default_racial_grid_bg_dark,
     defaultRacialValueColor = local_default_racial_value_dark,
     defaultPowerTvValueColor = local_default_power_tv_value_dark,
     defaultAttackTvValueColor = local_default_attack_tv_value_dark,
