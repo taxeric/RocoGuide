@@ -91,7 +91,7 @@ fun NewsMain(navController: NavController, padding: PaddingValues){
 fun NewsList(navController: NavController){
     val vm: NewsViewModel = viewModel()
     val list = vm.newsFlow.collectAsLazyPagingItems()
-    RefreshLazyColumn(modifier = Modifier.fillMaxWidth(),
+    RefreshLazyColumn(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         contentPadding = PaddingValues(10.dp),
         data = list){index, data ->

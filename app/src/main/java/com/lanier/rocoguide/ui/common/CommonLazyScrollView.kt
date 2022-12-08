@@ -6,6 +6,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -19,16 +23,15 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemsIndexed
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.lanier.rocoguide.utils.logE
 
 /**
  * Create by Eric
  * on 2022/7/29
  */
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun <T: Any> RefreshLazyColumn(
-    modifier: Modifier = Modifier,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     data: LazyPagingItems<T>,
@@ -46,9 +49,15 @@ fun <T: Any> RefreshLazyColumn(
     key: ((Int, T) -> Any)? = null,
     itemView: @Composable (Int, T) -> Unit,
 ){
-    SwipeRefresh(state = rememberSwipeRefreshState(data.loadState.refresh is LoadState.Loading), onRefresh = { data.refresh() }) {
+    val refreshing = data.loadState.refresh is LoadState.Loading
+    val pullRefreshState = rememberPullRefreshState(refreshing = refreshing, onRefresh = { data.refresh() })
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .pullRefresh(pullRefreshState)
+    ) {
         LazyColumn(
-            modifier = modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = verticalArrangement,
             contentPadding = contentPadding
         ){
@@ -64,7 +73,7 @@ fun <T: Any> RefreshLazyColumn(
                 data.loadState.append is LoadState.Error -> {
                     item {
                         val msg = (data.loadState.append as LoadState.Error).error.message
-                        errorView("出错了")
+                        errorView(msg ?: "出错了")
                     }
                 }
                 data.loadState.refresh is LoadState.NotLoading -> {
@@ -82,12 +91,13 @@ fun <T: Any> RefreshLazyColumn(
                 }
             }
         }
+        PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun <T: Any> RefreshLazyVerticalGrid(
-    modifier: Modifier = Modifier,
     columns: Int = 3,
     verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(5.dp),
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(5.dp),
@@ -107,9 +117,15 @@ fun <T: Any> RefreshLazyVerticalGrid(
     key: ((Int) -> Any)? = null,
     itemView: @Composable (Int, T) -> Unit,
 ){
-    SwipeRefresh(state = rememberSwipeRefreshState(data.loadState.refresh is LoadState.Loading), onRefresh = { data.refresh() }) {
+    val refreshing = data.loadState.refresh is LoadState.Loading
+    val pullRefreshState = rememberPullRefreshState(refreshing = refreshing, onRefresh = { data.refresh() })
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .pullRefresh(pullRefreshState)
+    ) {
         LazyVerticalGrid(
-            modifier = modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             columns = GridCells.Fixed(columns),
             verticalArrangement = verticalArrangement,
             horizontalArrangement = horizontalArrangement,
@@ -145,6 +161,7 @@ fun <T: Any> RefreshLazyVerticalGrid(
                 }
             }
         }
+        PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
     }
 }
 
@@ -168,9 +185,10 @@ fun DefaultListLoadingView(){
 
 @Composable
 fun DefaultListErrorView(msg: String, retry: () -> Unit){
+    msg.logE()
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Button(onClick = { retry()}){
-            Text(text = "$msg 点击重试")
+            Text(text = "出错了 点击重试")
         }
     }
 }
