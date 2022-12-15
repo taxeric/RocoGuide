@@ -140,6 +140,15 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
         composable(Screen.GeneticList.route) {
             GeneticScreen(navController, title = Screen.GeneticList.title)
         }
+        composable(Screen.Environment.route) {
+            EnvironmentScreen(navController, title = Screen.Environment.title)
+        }
+        composable(Screen.Abnormal.route) {
+            AbnormalScreen(navController, title = Screen.Abnormal.title)
+        }
+        composable(Screen.Lineage.route) {
+            LineageScreen(navController, title = Screen.Lineage.title)
+        }
         composable(Screen.Settings.route) {
             SettingsScreen(navController, title = Screen.Settings.title)
         }

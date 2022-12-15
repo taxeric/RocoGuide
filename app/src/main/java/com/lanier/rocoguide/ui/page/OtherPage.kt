@@ -47,6 +47,15 @@ fun OtherCS(navHostController: NavHostController){
         OtherHorizontalItem("技能大全") {
             navHostController.navigate(ROUTE_SCREEN_MAIN_SKILL_LIST)
         }
+        OtherHorizontalItem(title = "天气环境") {
+            navHostController.navigate(ROUTE_SCREEN_MAIN_ENVIRONMENT)
+        }
+        OtherHorizontalItem(title = "异常状态") {
+            navHostController.navigate(ROUTE_SCREEN_MAIN_ABNORMAL)
+        }
+        OtherHorizontalItem(title = "精灵血脉") {
+            navHostController.navigate(ROUTE_SCREEN_MAIN_LINEAGE)
+        }
         OtherHorizontalItem("性格修正") {
             navHostController.navigate(ROUTE_SCREEN_MAIN_PERSONALITY)
         }
