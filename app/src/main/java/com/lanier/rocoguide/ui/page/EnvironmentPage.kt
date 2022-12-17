@@ -56,6 +56,7 @@ fun EnvironmentScreenImpl(paddingValues: PaddingValues) {
 fun EnvironmentRv(list: LazyPagingItems<EnvironmentEntity>) {
     RefreshLazyColumn(
         data = list,
+        verticalArrangement = Arrangement.spacedBy(6.dp),
         contentPadding = PaddingValues(8.dp)
     ) { _, item ->
         EnvironmentItem(item)
