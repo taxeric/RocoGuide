@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,6 +21,7 @@ import coil.compose.AsyncImage
 import com.lanier.rocoguide.entity.EnvironmentEntity
 import com.lanier.rocoguide.ui.common.EnableBackBaseScaffold
 import com.lanier.rocoguide.ui.common.RefreshLazyColumn
+import com.lanier.rocoguide.ui.common.SimpleDialog
 import com.lanier.rocoguide.ui.theme.ExtendedTheme
 import com.lanier.rocoguide.vm.EnvironmentVM
 
@@ -63,13 +64,16 @@ fun EnvironmentRv(list: LazyPagingItems<EnvironmentEntity>) {
 
 @Composable
 fun EnvironmentItem(item: EnvironmentEntity) {
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(0.dp, 4.dp, 0.dp, 0.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(ExtendedTheme.colors.defaultLazyItemBackground)
-            .clickable { }
+            .clickable { showDialog = !showDialog }
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -94,5 +98,10 @@ fun EnvironmentItem(item: EnvironmentEntity) {
             modifier = Modifier
                 .weight(2f)
         )
+    }
+    if (showDialog) {
+        SimpleDialog(title = item.name, content = item.effects) {
+            showDialog = !showDialog
+        }
     }
 }

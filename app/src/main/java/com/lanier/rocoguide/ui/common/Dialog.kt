@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
@@ -29,14 +28,17 @@ import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.Search
 import com.lanier.rocoguide.ui.theme.LocalDarkTheme
 import com.lanier.rocoguide.utils.PreferenceUtil
-import com.lanier.rocoguide.utils.logI
 
 /**
  * Create by Eric
  * on 2022/7/30
  */
 @Composable
-fun SkillDialog(content: String, onDismiss: () -> Unit){
+fun SimpleDialog(
+    title: String,
+    content: String,
+    onDismiss: () -> Unit
+){
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(
@@ -44,16 +46,35 @@ fun SkillDialog(content: String, onDismiss: () -> Unit){
             dismissOnBackPress = true
         )
     ) {
-        Column {
+        Column(
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.background)
+        ) {
             Spacer(modifier = Modifier.height(20.dp))
-            Text(text = content, fontSize = 16.sp, modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth())
+            Text(
+                text = title,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(10.dp, 0.dp)
+                    .fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = content,
+                fontSize = 14.sp,
+                modifier = Modifier
+                    .padding(10.dp, 0.dp, 10.dp, 10.dp)
+                    .fillMaxWidth()
+            )
             Spacer(modifier = Modifier.height(20.dp))
-            TextButton(onClick = onDismiss, modifier = Modifier
-                .align(Alignment.End)
-                .padding(5.dp, 2.dp)) {
-                Text(text = "确定")
+            TextButton(
+                onClick = onDismiss,
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(10.dp, 2.dp)) {
+                Text(text = "OK")
             }
             Spacer(modifier = Modifier.height(5.dp))
         }
