@@ -77,45 +77,49 @@ fun SkillMainListImpl(list: LazyPagingItems<Skill>, navHostController: NavHostCo
 
 @Composable
 fun SkillItem(navHostController: NavHostController, item: Skill){
-    ConstraintLayout(modifier = Modifier
-        .fillMaxWidth()
-        .height(48.dp)
-        .clickable {
-            navHostController.navigate("$ROUTE_SCREEN_SKILL_DETAIL/${Gson().toJson(item)}")
-        },
-    ){
-        val (attrPic, name, type) = createRefs()
-        AttrImage(attr = item.attributes, contentScale = ContentScale.Fit,
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(48.dp)
+            .clickable {
+                navHostController.navigate("$ROUTE_SCREEN_SKILL_DETAIL/${Gson().toJson(item)}")
+            },
+    ) {
+        AttrImage(
+            attr = item.attributes,
+            contentScale = ContentScale.Fit,
             modifier = Modifier
-                .size(36.dp)
+                .height(28.dp)
                 .padding(10.dp, 0.dp)
-                .constrainAs(attrPic) {
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                })
-        Text(text = item.name, modifier = Modifier
-            .padding(10.dp, 0.dp)
-            .constrainAs(name) {
-                start.linkTo(attrPic.end)
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-            })
-        if (item.skillType.id < 3) {
-            Image(
-                painter = painterResource(id = if (item.skillType.id == 1)
-                    R.drawable.ic_attack_phycical
-                else R.drawable.ic_attack_magic),
-                contentDescription = "",
+                .weight(2f)
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(3f)
+        ) {
+            Text(
+                text = item.name,
                 modifier = Modifier
-                    .size(24.dp)
-                    .constrainAs(type){
-                        end.linkTo(parent.end)
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                    }
                     .padding(10.dp, 0.dp)
+                    .align(Alignment.CenterStart)
             )
+            if (item.skillType.id < 3) {
+                Image(
+                    painter = painterResource(
+                        id = if (item.skillType.id == 1)
+                            R.drawable.ic_attack_phycical
+                        else
+                            R.drawable.ic_attack_magic
+                    ),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(36.dp)
+                        .padding(10.dp, 0.dp)
+                        .align(Alignment.CenterEnd)
+                )
+            }
         }
     }
 }
