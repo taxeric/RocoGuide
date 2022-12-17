@@ -53,6 +53,9 @@ interface APIService {
     @GET("api/abnormal/v1/abnormal")
     suspend fun getAbnormal(): AbnormalList
 
+    @GET("api/lineage/v1/lineage")
+    suspend fun getLineage(): LineageList
+
     @Streaming
     @GET
     suspend fun getFileStream(
