@@ -47,6 +47,9 @@ interface APIService {
     @GET("api/group/v1/groups")
     suspend fun getSpiritEggGroup(): EggGroupList
 
+    @GET("api/environment/v1/environment")
+    suspend fun getEnvironment(): EnvironmentList
+
     @Streaming
     @GET
     suspend fun getFileStream(
