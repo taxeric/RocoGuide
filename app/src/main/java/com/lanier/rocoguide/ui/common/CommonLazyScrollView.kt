@@ -20,9 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemsIndexed
-import com.lanier.rocoguide.ui.common.pullrefresh.PullRefreshIndicator
-import com.lanier.rocoguide.ui.common.pullrefresh.pullRefresh
-import com.lanier.rocoguide.ui.common.pullrefresh.rememberPullRefreshState
+import com.lanier.rocoguide.ui.common.pullrefresh.*
 import com.lanier.rocoguide.utils.logE
 
 /**
@@ -34,6 +32,7 @@ import com.lanier.rocoguide.utils.logE
 fun <T: Any> RefreshLazyColumn(
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     contentPadding: PaddingValues = PaddingValues(0.dp),
+    pullRefreshStateType: PullRefreshIndicatorType = PullRefreshIndicatorType.Normal,
     data: LazyPagingItems<T>,
     emptyView: @Composable () -> Unit = {
         DefaultListEmptyView()
@@ -91,7 +90,17 @@ fun <T: Any> RefreshLazyColumn(
                 }
             }
         }
-        PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
+        when (pullRefreshStateType) {
+            PullRefreshIndicatorType.Jelly -> {
+                PullRefreshIndicatorJelly(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
+            }
+            PullRefreshIndicatorType.Gulu -> {
+                PullRefreshIndicatorGulu(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
+            }
+            PullRefreshIndicatorType.Normal -> {
+                PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
+            }
+        }
     }
 }
 
@@ -102,6 +111,7 @@ fun <T: Any> RefreshLazyVerticalGrid(
     verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(5.dp),
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(5.dp),
     contentPadding: PaddingValues = PaddingValues(0.dp),
+    pullRefreshStateType: PullRefreshIndicatorType = PullRefreshIndicatorType.Normal,
     data: LazyPagingItems<T>,
     emptyView: @Composable () -> Unit = {
         DefaultListEmptyView()
@@ -161,7 +171,17 @@ fun <T: Any> RefreshLazyVerticalGrid(
                 }
             }
         }
-        PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
+        when (pullRefreshStateType) {
+            PullRefreshIndicatorType.Jelly -> {
+                PullRefreshIndicatorJelly(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
+            }
+            PullRefreshIndicatorType.Gulu -> {
+                PullRefreshIndicatorGulu(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
+            }
+            PullRefreshIndicatorType.Normal -> {
+                PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
+            }
+        }
     }
 }
 
@@ -191,4 +211,10 @@ fun DefaultListErrorView(msg: String, retry: () -> Unit){
             Text(text = "出错了 点击重试")
         }
     }
+}
+
+sealed class PullRefreshIndicatorType {
+    object Normal: PullRefreshIndicatorType()
+    object Gulu: PullRefreshIndicatorType()
+    object Jelly: PullRefreshIndicatorType()
 }

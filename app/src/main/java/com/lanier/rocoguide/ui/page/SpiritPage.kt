@@ -62,14 +62,22 @@ fun SpiritScreen(navHostController: NavHostController, title: String){
 fun SpiritMainList(navHostController: NavHostController, paddingValues: PaddingValues){
     val vm = viewModel<SpiritViewModel>()
     val list = vm.spiritMainListFlow.collectAsLazyPagingItems()
-    Column(modifier = Modifier.padding(paddingValues).background(ExtendedTheme.colors.defaultMainBackground)) {
+    Column(
+        modifier = Modifier
+            .padding(paddingValues)
+            .background(ExtendedTheme.colors.defaultMainBackground)
+    ) {
         SpiritMainListImpl(list, navHostController)
     }
 }
 
 @Composable
 fun SpiritMainListImpl(list: LazyPagingItems<SpiritEntity>, navHostController: NavHostController){
-    RefreshLazyVerticalGrid(data = list, contentPadding = PaddingValues(10.dp, 10.dp)) { index, data ->
+    RefreshLazyVerticalGrid(
+        data = list,
+        contentPadding = PaddingValues(10.dp, 10.dp),
+        pullRefreshStateType = PullRefreshIndicatorType.Jelly
+    ) { _, data ->
         SpiritItem(navHostController, item = data)
     }
 }
@@ -84,14 +92,26 @@ fun SpiritItem(navHostController: NavHostController, item: SpiritEntity){
         }
         .background(ExtendedTheme.colors.defaultLazyItemBackground)
     ){
-        Box(modifier = Modifier.height(150.dp), contentAlignment = Alignment.Center) {
-            Image(painter = painterResource(id = R.drawable.ic_spirit_main_bg), contentDescription = "")
+        Box(
+            modifier = Modifier.height(150.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_spirit_main_bg),
+                contentDescription = ""
+            )
             AsyncImage(model = item.avatar, contentDescription = "avatar", )
         }
-        Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-            AttrImage(attr = item.primaryAttributes, modifier = Modifier
-                .width(20.dp)
-                .height(20.dp))
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            AttrImage(
+                attr = item.primaryAttributes,
+                modifier = Modifier
+                    .width(20.dp)
+                    .height(20.dp)
+            )
             item.secondaryAttributes.id?.let {
                 if (it != -1) {
                     Spacer(modifier = Modifier.width(10.dp))
@@ -103,10 +123,19 @@ fun SpiritItem(navHostController: NavHostController, item: SpiritEntity){
                 }
             }
         }
-        Text(text = item.number, textAlign = TextAlign.Center, fontSize = 13.sp, modifier = Modifier
-            .fillMaxWidth())
-        Text(text = item.name, textAlign = TextAlign.Center, modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth())
+        Text(
+            text = item.number,
+            textAlign = TextAlign.Center,
+            fontSize = 13.sp,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Text(
+            text = item.name,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+        )
     }
 }

@@ -6,6 +6,7 @@ import com.lanier.rocoguide.base.net.Net
 import com.lanier.rocoguide.entity.NewsData
 import com.lanier.rocoguide.entity.NewsList
 import com.lanier.rocoguide.vm.repo.NewsRepo
+import kotlinx.coroutines.delay
 
 /**
  * Create by Eric
@@ -19,6 +20,7 @@ class NewsSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, NewsData> {
         val nextPage = params.key ?: 1
         val response = repo.getNewsList(nextPage).getOrDefault(NewsList())
+        delay(2000)
         if (response.code == 200) {
             return LoadResult.Page(response.data, null, if (response.data.isEmpty()) null else nextPage + 1)
         }

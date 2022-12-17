@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import com.lanier.rocoguide.entity.SpiritEntity
 import com.lanier.rocoguide.entity.SpiritList
 import com.lanier.rocoguide.vm.repo.remote.SpiritRemoteData
+import kotlinx.coroutines.delay
 
 /**
  * Author: 芒硝
@@ -22,6 +23,7 @@ class SpiritSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SpiritEntity> {
         val currentPage = params.key?: 1
         val response = repo.getSpiritList(currentPage, keywords)
+        delay(2000)
         return if (response.isSuccess) {
             val base = response.getOrDefault(SpiritList())
             LoadResult.Page(base.data, null, if (base.data.isEmpty()) null else currentPage + 1)
