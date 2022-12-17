@@ -65,7 +65,7 @@ fun CommonBaseScaffold(
                     },
                     actions = actions
                 )
-                else -> SmallTopAppBar(
+                else -> TopAppBar(
                     title = { Text(text = title) },
                     navigationIcon = {
                         if (showNavigationIcon) {
