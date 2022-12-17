@@ -6,12 +6,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,13 +20,16 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemsIndexed
+import com.lanier.rocoguide.ui.common.pullrefresh.PullRefreshIndicator
+import com.lanier.rocoguide.ui.common.pullrefresh.pullRefresh
+import com.lanier.rocoguide.ui.common.pullrefresh.rememberPullRefreshState
 import com.lanier.rocoguide.utils.logE
 
 /**
  * Create by Eric
  * on 2022/7/29
  */
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T: Any> RefreshLazyColumn(
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
@@ -95,7 +95,7 @@ fun <T: Any> RefreshLazyColumn(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T: Any> RefreshLazyVerticalGrid(
     columns: Int = 3,
