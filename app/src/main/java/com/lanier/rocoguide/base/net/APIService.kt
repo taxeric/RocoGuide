@@ -50,6 +50,9 @@ interface APIService {
     @GET("api/environment/v1/environment")
     suspend fun getEnvironment(): EnvironmentList
 
+    @GET("api/abnormal/v1/abnormal")
+    suspend fun getAbnormal(): AbnormalList
+
     @Streaming
     @GET
     suspend fun getFileStream(
