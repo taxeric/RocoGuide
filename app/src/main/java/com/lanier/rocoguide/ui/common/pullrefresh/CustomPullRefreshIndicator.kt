@@ -1,22 +1,19 @@
 package com.lanier.rocoguide.ui.common.pullrefresh
 
 import androidx.annotation.DrawableRes
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
@@ -24,75 +21,11 @@ import coil.compose.AsyncImage
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import com.lanier.rocoguide.R
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 /**
  * Create by Eric
  * on 2022/12/17
  */
-/**
- * An example to show how [pullRefresh] could be used to build a custom
- * pull to refresh component.
- */
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-fun CustomPullRefreshSample() {
-    val refreshScope = rememberCoroutineScope()
-    val threshold = with(LocalDensity.current) { 160.dp.toPx() }
-
-    var refreshing by remember { mutableStateOf(false) }
-    var itemCount by remember { mutableStateOf(15) }
-    var currentDistance by remember { mutableStateOf(0f) }
-
-    val progress = currentDistance / threshold
-
-    fun refresh() = refreshScope.launch {
-        refreshing = true
-        delay(1500)
-        itemCount += 5
-        refreshing = false
-    }
-
-    fun onPull(pullDelta: Float): Float = when {
-        refreshing -> 0f
-        else -> {
-            val newOffset = (currentDistance + pullDelta).coerceAtLeast(0f)
-            val dragConsumed = newOffset - currentDistance
-            currentDistance = newOffset
-            dragConsumed
-        }
-    }
-
-    suspend fun onRelease() {
-        if (refreshing) return // Already refreshing - don't call refresh again.
-        if (currentDistance > threshold) refresh()
-
-        animate(initialValue = currentDistance, targetValue = 0f) { value, _ ->
-            currentDistance = value
-        }
-    }
-
-    Box(Modifier.pullRefresh(::onPull, { onRelease() })) {
-        LazyColumn {
-            if (!refreshing) {
-                items(itemCount) {
-                    Text(text = "Item ${itemCount - it}", Modifier.fillMaxWidth())
-                }
-            }
-        }
-
-        // Custom progress indicator
-        AnimatedVisibility(visible = (refreshing || progress > 0)) {
-            if (refreshing) {
-                LinearProgressIndicator(Modifier.fillMaxWidth())
-            } else {
-                LinearProgressIndicator(progress, Modifier.fillMaxWidth())
-            }
-        }
-    }
-}
-
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun PullRefreshIndicatorGulu(
@@ -130,7 +63,9 @@ internal fun CustomPullRefreshGifIndicator(
         shadowElevation = if (state.progress > 0 || refreshing) 20.dp else 0.dp,
     ) {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White),
             contentAlignment = Alignment.Center
         ) {
             if (refreshing) {

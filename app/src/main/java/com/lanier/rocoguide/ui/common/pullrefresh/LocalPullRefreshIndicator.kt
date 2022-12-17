@@ -53,7 +53,7 @@ fun PullRefreshIndicator(
             .pullRefreshIndicatorTransform(state, scale),
         shape = SpinnerShape,
         color = backgroundColor,
-        tonalElevation = if (showElevation) Elevation else 0.dp,
+//        tonalElevation = if (showElevation) Elevation else 0.dp,
         shadowElevation = if (showElevation) Elevation else 0.dp,
     ) {
         Crossfade(
