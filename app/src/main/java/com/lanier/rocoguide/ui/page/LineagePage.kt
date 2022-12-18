@@ -1,11 +1,13 @@
 package com.lanier.rocoguide.ui.page
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
@@ -21,7 +24,6 @@ import coil.compose.AsyncImage
 import com.lanier.rocoguide.entity.LineageEntity
 import com.lanier.rocoguide.ui.common.EnableBackBaseScaffold
 import com.lanier.rocoguide.ui.common.RefreshLazyColumn
-import com.lanier.rocoguide.ui.common.SimpleDialog
 import com.lanier.rocoguide.ui.theme.ExtendedTheme
 import com.lanier.rocoguide.vm.LineageVM
 
@@ -65,44 +67,62 @@ fun LineageRv(list: LazyPagingItems<LineageEntity>) {
 
 @Composable
 fun LineageItem(item: LineageEntity) {
-    var showDialog by remember {
+    var showIntroduce by remember {
         mutableStateOf(false)
     }
-    Row(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(0.dp, 4.dp, 0.dp, 0.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(ExtendedTheme.colors.defaultLazyItemBackground)
-            .clickable { showDialog = !showDialog }
-            .padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(8.dp)
+            .animateContentSize()
     ) {
-        Text(
-            text = "#${item.id}",
-            color = MaterialTheme.colorScheme.outline,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .weight(1f)
-        )
-        AsyncImage(
-            model = item.icon,
-            contentDescription = "icon",
-            modifier = Modifier
-                .size(36.dp)
-                .weight(1f)
-        )
-        Text(
-            text = item.name,
-            color = MaterialTheme.colorScheme.outline,
-            modifier = Modifier
-                .weight(2f)
-        )
-    }
-    if (showDialog) {
-        SimpleDialog(title = item.name, content = item.introduce) {
-            showDialog = !showDialog
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "#${item.id}",
+                color = MaterialTheme.colorScheme.outline,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .weight(1f)
+            )
+            AsyncImage(
+                model = item.icon,
+                contentDescription = "icon",
+                modifier = Modifier
+                    .size(36.dp)
+                    .weight(1f)
+            )
+            Text(
+                text = item.name,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier
+                    .weight(2f)
+            )
+            IconButton(
+                onClick = { showIntroduce = !showIntroduce },
+                modifier = Modifier
+                    .weight(1f)
+            ) {
+                Icon(
+                    imageVector = if (showIntroduce) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
+                    contentDescription = "",
+                )
+            }
+        }
+        if (showIntroduce) {
+            Text(
+                text = item.introduce,
+                fontSize = 14.sp,
+                modifier = Modifier
+                    .padding(8.dp)
+            )
         }
     }
 }
