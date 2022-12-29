@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.List
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -29,6 +30,7 @@ import com.lanier.rocoguide.entity.SpiritEntity
 import com.lanier.rocoguide.ui.common.*
 import com.lanier.rocoguide.ui.theme.ExtendedTheme
 import com.lanier.rocoguide.vm.spirit.SpiritViewModel
+import com.lanier.rocoguide.vm.spirit.getSeries
 
 /**
  * Create by Eric
@@ -36,8 +38,15 @@ import com.lanier.rocoguide.vm.spirit.SpiritViewModel
  */
 @Composable
 fun SpiritScreen(navHostController: NavHostController, title: String){
+    val vm = viewModel<SpiritViewModel>()
     var showSearchDialog by remember {
         mutableStateOf(false)
+    }
+    var showFilterDialog by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(key1 = Unit) {
+        getSeries()
     }
     ActionsBaseScaffold(title = title, actions = {
         IconButton(onClick = {
@@ -45,8 +54,13 @@ fun SpiritScreen(navHostController: NavHostController, title: String){
         }) {
             Icon(imageVector = Icons.Filled.Search, contentDescription = "search")
         }
+        IconButton(onClick = {
+            showFilterDialog = true
+        }) {
+            Icon(imageVector = Icons.Outlined.List, contentDescription = "list")
+        }
     }) {
-        SpiritMainList(navHostController, it)
+        SpiritMainList(navHostController, it, vm)
     }
     if (showSearchDialog) {
         SearchDialog(type = Search.Spirit, label = "精灵名") {
@@ -56,11 +70,19 @@ fun SpiritScreen(navHostController: NavHostController, title: String){
             }
         }
     }
+    if (showFilterDialog) {
+        SpiritFilterDialog {
+            showFilterDialog = false
+        }
+    }
 }
 
 @Composable
-fun SpiritMainList(navHostController: NavHostController, paddingValues: PaddingValues){
-    val vm = viewModel<SpiritViewModel>()
+fun SpiritMainList(
+    navHostController: NavHostController,
+    paddingValues: PaddingValues,
+    vm: SpiritViewModel
+){
     val list = vm.spiritMainListFlow.collectAsLazyPagingItems()
     Column(
         modifier = Modifier

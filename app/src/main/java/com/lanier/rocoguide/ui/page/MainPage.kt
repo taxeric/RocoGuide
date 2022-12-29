@@ -34,7 +34,7 @@ import com.lanier.rocoguide.ui.common.CommonBigPicView
 import com.lanier.rocoguide.ui.page.genetic.GeneticDetailScreen
 import com.lanier.rocoguide.ui.page.genetic.GeneticResultScreen
 import com.lanier.rocoguide.ui.page.genetic.GeneticScreen
-import com.lanier.rocoguide.ui.page.miscellaneous.AbnormalScreen
+import com.lanier.rocoguide.ui.page.miscellaneous.*
 import com.lanier.rocoguide.ui.page.news.NewsScreen
 import com.lanier.rocoguide.ui.page.search.SearchBaseScreen
 import com.lanier.rocoguide.ui.page.settings.SettingsScreen
