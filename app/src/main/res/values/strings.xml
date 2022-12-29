@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">Roco</string>
 
+    <string name="sure">确定</string>
+    <string name="loading">Loading…</string>
+    <string name="filter">过滤</string>
     <string name="waiting_perfection">Waiting for perfection</string>
-    <string name="fix_data">Fix this Spirit</string>
+    <string name="fix_data">Fix this spirit</string>
     <string name="lay_egg_tips">精灵可以孵蛋蛋,可能会遗传技能,是否前往遗传图鉴?</string>
     <string name="readme">查看项目简介及相关说明</string>
     <string name="thank">资源及开源库</string>

@@ -15,6 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
@@ -25,9 +27,12 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.lanier.rocoguide.R
+import com.lanier.rocoguide.base.RocoEventModel
+import com.lanier.rocoguide.base.cache.LocalCache
 import com.lanier.rocoguide.entity.Search
 import com.lanier.rocoguide.ui.theme.LocalDarkTheme
 import com.lanier.rocoguide.utils.PreferenceUtil
+import com.lanier.rocoguide.vm.spirit.SeriesFlow
 
 /**
  * Create by Eric
@@ -81,6 +86,65 @@ fun SimpleDialog(
     }
 }
 
+@Composable
+fun SpiritFilterDialog(onDismiss: () -> Unit){
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(
+            dismissOnClickOutside = true,
+            dismissOnBackPress = true
+        )
+    ) {
+        val seriesFlow = SeriesFlow.collectAsState(initial = RocoEventModel.Loading).value
+        Column(
+            modifier = Modifier
+                .clip(RoundedCornerShape(10.dp))
+                .background(MaterialTheme.colorScheme.background)
+                .padding(10.dp)
+        ) {
+            Text(
+                text = stringResource(id = R.string.filter),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(8.dp)
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            if (seriesFlow == RocoEventModel.Loading) {
+                Text(
+                    text = stringResource(id = R.string.loading),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            } else {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                        .padding(4.dp)
+                ) {
+                    for (series in LocalCache.seriesList) {
+                        Text(
+                            text = series.name,
+                            fontSize = 12.sp,
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .border(1.dp, Color.LightGray, RoundedCornerShape(4.dp))
+                                .padding(2.dp)
+                        )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            TextButton(onClick = onDismiss, modifier = Modifier
+                .align(Alignment.End)
+                .padding(5.dp, 2.dp)) {
+                Text(text = stringResource(id = R.string.sure))
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchDialog(type: Search, label: String = "", onDismiss: (String) -> Unit) {
@@ -127,7 +191,7 @@ fun SearchDialog(type: Search, label: String = "", onDismiss: (String) -> Unit) 
                     onClick = { onDismiss(mDesc) }, modifier = Modifier
                         .padding(5.dp)
                 ) {
-                    Text(text = "确定")
+                    Text(text = stringResource(id = R.string.sure))
                 }
             }
             Spacer(modifier = Modifier.height(5.dp))
@@ -172,7 +236,7 @@ fun DarkThemeDialog(onDismiss: () -> Unit){
                     onDismiss()
                     SettingsHelper.switchDarkThemeMode(darkValue)
                 }, modifier = Modifier) {
-                    Text(text = "确定")
+                    Text(text = stringResource(id = R.string.sure))
                 }
             }
             Spacer(modifier = Modifier.height(5.dp))
@@ -221,7 +285,7 @@ fun RacialValueDialog(onDismiss: () -> Unit) {
                     PreferenceUtil.updateInt(PreferenceUtil.RACIAL_SHOW_STYLE, localStyle)
                     onDismiss()
                 }, modifier = Modifier) {
-                    Text(text = "确定")
+                    Text(text = stringResource(id = R.string.sure))
                 }
             }
             Spacer(modifier = Modifier.height(5.dp))
@@ -257,7 +321,7 @@ fun EggDialog(groupName: String, groupId: Int, onDismiss: (Boolean) -> Unit){
                     Text(text = "取消")
                 }
                 TextButton(onClick = { onDismiss(true) }, modifier = Modifier) {
-                    Text(text = "确定")
+                    Text(text = stringResource(id = R.string.sure))
                 }
             }
             Spacer(modifier = Modifier.height(5.dp))
@@ -292,7 +356,7 @@ fun DataErrorDialog(type: Int, onDismiss: () -> Unit) {
                     .align(Alignment.End)
                     .padding(5.dp)
             ) {
-                Text(text = "确定")
+                Text(text = stringResource(id = R.string.sure))
             }
             Spacer(modifier = Modifier.height(5.dp))
         }
@@ -308,10 +372,12 @@ fun HomepageLuLuDialog(onDismiss: () -> Unit){
             dismissOnBackPress = true
         )
     ) {
-        Column(modifier = Modifier
-            .clip(RoundedCornerShape(10.dp))
-            .background(MaterialTheme.colorScheme.background)
-            .padding(10.dp)) {
+        Column(
+            modifier = Modifier
+                .clip(RoundedCornerShape(10.dp))
+                .background(MaterialTheme.colorScheme.background)
+                .padding(10.dp)
+        ) {
             Spacer(modifier = Modifier.height(20.dp))
             Text(text = stringResource(id = R.string.waiting_perfection), fontSize = 16.sp, modifier = Modifier
                 .fillMaxWidth())
@@ -319,7 +385,7 @@ fun HomepageLuLuDialog(onDismiss: () -> Unit){
             TextButton(onClick = onDismiss, modifier = Modifier
                 .align(Alignment.End)
                 .padding(5.dp, 2.dp)) {
-                Text(text = "确定")
+                Text(text = stringResource(id = R.string.sure))
             }
             Spacer(modifier = Modifier.height(5.dp))
         }
@@ -346,7 +412,7 @@ fun SpiritDetailsFixDialog(onDismiss: () -> Unit){
             TextButton(onClick = onDismiss, modifier = Modifier
                 .align(Alignment.End)
                 .padding(5.dp, 2.dp)) {
-                Text(text = "确定")
+                Text(text = stringResource(id = R.string.sure))
             }
             Spacer(modifier = Modifier.height(5.dp))
         }
@@ -362,7 +428,12 @@ fun GeneticDialog(onDismiss: (Int) -> Unit){
         Column(modifier = Modifier
             .clip(RoundedCornerShape(5.dp))
             .background(MaterialTheme.colorScheme.background)) {
-            Text(text = "调试", fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(8.dp))
+            Text(
+                text = "调试",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(8.dp)
+            )
             Spacer(modifier = Modifier.height(10.dp))
             TextButton(onClick = { onDismiss(0) }, modifier = Modifier.fillMaxWidth()){
                 Text(text = "三代精灵")
@@ -400,7 +471,7 @@ fun GeneticMoreDialog(onDismiss: () -> Unit){
             Button(onClick = onDismiss, modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp)) {
-                Text(text = "确定")
+                Text(text = stringResource(id = R.string.sure))
             }
             Spacer(modifier = Modifier.height(10.dp))
         }

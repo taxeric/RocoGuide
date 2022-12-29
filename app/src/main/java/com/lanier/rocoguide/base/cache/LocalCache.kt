@@ -324,6 +324,10 @@ object LocalCache {
     )
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="系列">
+    val seriesList = mutableListOf<SeriesEntity>()
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="网络">
     const val BASE_URL = "your host"
     // </editor-fold>
