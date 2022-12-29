@@ -1,4 +1,4 @@
-package com.lanier.rocoguide.ui.page
+package com.lanier.rocoguide.ui.page.miscellaneous
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues

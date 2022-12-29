@@ -1,4 +1,4 @@
-package com.lanier.rocoguide.ui.page
+package com.lanier.rocoguide.ui.page.spirit
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

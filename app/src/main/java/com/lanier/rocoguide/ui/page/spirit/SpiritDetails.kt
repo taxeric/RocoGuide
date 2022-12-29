@@ -1,4 +1,4 @@
-package com.lanier.rocoguide.ui.page
+package com.lanier.rocoguide.ui.page.spirit
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.*

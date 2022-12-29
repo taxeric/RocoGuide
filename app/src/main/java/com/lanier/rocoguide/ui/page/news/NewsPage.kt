@@ -1,4 +1,4 @@
-package com.lanier.rocoguide.ui.page
+package com.lanier.rocoguide.ui.page.news
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

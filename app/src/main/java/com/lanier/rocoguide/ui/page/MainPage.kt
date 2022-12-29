@@ -34,7 +34,13 @@ import com.lanier.rocoguide.ui.common.CommonBigPicView
 import com.lanier.rocoguide.ui.page.genetic.GeneticDetailScreen
 import com.lanier.rocoguide.ui.page.genetic.GeneticResultScreen
 import com.lanier.rocoguide.ui.page.genetic.GeneticScreen
+import com.lanier.rocoguide.ui.page.miscellaneous.AbnormalScreen
+import com.lanier.rocoguide.ui.page.news.NewsScreen
+import com.lanier.rocoguide.ui.page.search.SearchBaseScreen
 import com.lanier.rocoguide.ui.page.settings.SettingsScreen
+import com.lanier.rocoguide.ui.page.spirit.SkillDetailScreen
+import com.lanier.rocoguide.ui.page.spirit.SkillScreen
+import com.lanier.rocoguide.ui.page.spirit.SpiritScreen
 
 /**
  * Create by Eric
@@ -126,7 +132,10 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
             NewsScreen(navController, title = Screen.NewsList.title)
         }
         composable(Screen.SpiritList.route) {
-            SpiritScreen(navController, title = Screen.SpiritList.title)
+            com.lanier.rocoguide.ui.page.spirit.SpiritScreen(
+                navController,
+                title = Screen.SpiritList.title
+            )
         }
         composable(Screen.OtherList.route) {
             OtherScreen(navController, title = Screen.OtherList.title)

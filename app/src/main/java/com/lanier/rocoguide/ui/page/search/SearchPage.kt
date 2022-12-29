@@ -1,4 +1,4 @@
-package com.lanier.rocoguide.ui.page
+package com.lanier.rocoguide.ui.page.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -10,6 +10,8 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.lanier.rocoguide.entity.Search
 import com.lanier.rocoguide.ui.common.SearchBaseScaffold
+import com.lanier.rocoguide.ui.page.spirit.SkillMainListImpl
+import com.lanier.rocoguide.ui.page.spirit.SpiritMainListImpl
 import com.lanier.rocoguide.ui.theme.ExtendedTheme
 import com.lanier.rocoguide.vm.search.SearchViewModel
 import com.lanier.rocoguide.vm.search.SearchVMFactory

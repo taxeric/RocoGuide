@@ -1,4 +1,4 @@
-package com.lanier.rocoguide.ui.page
+package com.lanier.rocoguide.ui.page.miscellaneous
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
