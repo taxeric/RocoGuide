@@ -20,7 +20,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.lanier.rocoguide.base.ROUTE_SCREEN_GENETIC_DETAIL
 import com.lanier.rocoguide.entity.SpiritEggGroup
 import com.lanier.rocoguide.ui.common.*
-import com.lanier.rocoguide.vm.EggGroupViewModel
+import com.lanier.rocoguide.vm.egggroup.EggGroupViewModel
 
 /**
  * Author: 芒硝

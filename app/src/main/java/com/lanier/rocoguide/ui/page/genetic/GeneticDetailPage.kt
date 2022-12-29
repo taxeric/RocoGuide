@@ -8,9 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,7 +15,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -31,7 +27,7 @@ import com.lanier.rocoguide.entity.GeneticSpiritData
 import com.lanier.rocoguide.entity.SpiritEggGroup
 import com.lanier.rocoguide.ui.common.EnableBackBaseScaffoldWithActions
 import com.lanier.rocoguide.ui.common.GeneticDialog
-import com.lanier.rocoguide.vm.GeneticViewModel
+import com.lanier.rocoguide.vm.egggroup.GeneticViewModel
 
 /**
  * Author: 芒硝
