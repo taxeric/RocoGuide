@@ -11,8 +11,8 @@ import com.lanier.rocoguide.base.net.Net
  */
 class SpiritRemoteData {
 
-    suspend fun getSpiritList(page: Int, keywords: String = "") = RetrofitHelper.launch {
-        Net.service.getSpiritList(page, keywords)
+    suspend fun getSpiritList(page: Int, keywords: String = "", series: Int = 1) = RetrofitHelper.launch {
+        Net.service.getSpiritList(page, keywords = keywords, seriesId = series)
     }
 
     suspend fun getSpiritById(id: Int) = RetrofitHelper.launch {

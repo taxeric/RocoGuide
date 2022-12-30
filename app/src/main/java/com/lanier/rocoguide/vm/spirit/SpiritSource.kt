@@ -13,14 +13,15 @@ import com.lanier.rocoguide.entity.SpiritList
  */
 class SpiritSource(
     private val repo: SpiritRemoteData,
-    private val keywords: String = ""
+    private val keywords: String = "",
+    private val series: Int = 1,
 ): PagingSource<Int, SpiritEntity>() {
 
     override fun getRefreshKey(state: PagingState<Int, SpiritEntity>): Int = 1
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SpiritEntity> {
         val currentPage = params.key?: 1
-        val response = repo.getSpiritList(currentPage, keywords)
+        val response = repo.getSpiritList(currentPage, keywords, series)
         return if (response.isSuccess) {
             val base = response.getOrDefault(SpiritList())
             LoadResult.Page(base.data, null, if (base.data.isEmpty()) null else currentPage + 1)

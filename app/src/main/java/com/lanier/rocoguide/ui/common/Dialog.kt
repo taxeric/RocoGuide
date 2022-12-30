@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -29,9 +28,13 @@ import androidx.compose.ui.window.DialogProperties
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.RocoEventModel
 import com.lanier.rocoguide.base.cache.LocalCache
+import com.lanier.rocoguide.entity.FilterSpiritEntity
 import com.lanier.rocoguide.entity.Search
+import com.lanier.rocoguide.entity.SeriesEntity
+import com.lanier.rocoguide.ui.theme.ExtendedTheme
 import com.lanier.rocoguide.ui.theme.LocalDarkTheme
 import com.lanier.rocoguide.utils.PreferenceUtil
+import com.lanier.rocoguide.vm.spirit.FilterFlow
 import com.lanier.rocoguide.vm.spirit.SeriesFlow
 
 /**
@@ -96,8 +99,12 @@ fun SpiritFilterDialog(onDismiss: () -> Unit){
         )
     ) {
         val seriesFlow = SeriesFlow.collectAsState(initial = RocoEventModel.Loading).value
+        var curSeries by remember {
+            mutableStateOf(SeriesEntity())
+        }
         Column(
             modifier = Modifier
+                .wrapContentHeight()
                 .clip(RoundedCornerShape(10.dp))
                 .background(MaterialTheme.colorScheme.background)
                 .padding(10.dp)
@@ -116,28 +123,44 @@ fun SpiritFilterDialog(onDismiss: () -> Unit){
                         .fillMaxWidth()
                 )
             } else {
-                Row(
+                val tabs = mutableListOf<CustomTab>().apply {
+                    LocalCache.seriesList.forEach {
+                        add(CustomTab(it.name))
+                    }
+                }
+                SimpleRadioGroup(
+                    tabs = tabs,
+                    onSelected = { index, _ ->
+                        LocalCache.curSeriesIndex = index
+                        curSeries = LocalCache.seriesList[index]
+                    },
+                    defaultSelected = LocalCache.curSeriesIndex,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState())
-                        .padding(4.dp)
-                ) {
-                    for (series in LocalCache.seriesList) {
-                        Text(
-                            text = series.name,
-                            fontSize = 12.sp,
-                            modifier = Modifier
-                                .padding(4.dp)
-                                .border(1.dp, Color.LightGray, RoundedCornerShape(4.dp))
-                                .padding(2.dp)
-                        )
-                    }
+                        .padding(8.dp, 0.dp),
+                    contentModifier = Modifier
+                        .padding(4.dp, 0.dp)
+                ) {  tab, selected, childModifier ->
+                    Text(
+                        text = tab.text,
+                        color = if (selected == tab.tag) ExtendedTheme.colors.defaultRacialGridBgColor else MaterialTheme.colorScheme.onSurface,
+                        fontSize = 12.sp,
+                        modifier = childModifier
+                            .border(1.dp, if (selected == tab.tag) ExtendedTheme.colors.defaultRacialGridBgColor else Color.Transparent, RoundedCornerShape(4.dp))
+                            .padding(2.dp)
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(20.dp))
-            TextButton(onClick = onDismiss, modifier = Modifier
-                .align(Alignment.End)
-                .padding(5.dp, 2.dp)) {
+            TextButton(
+                onClick = {
+                    FilterFlow.tryEmit(FilterSpiritEntity(series = curSeries))
+                    onDismiss()
+                },
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(5.dp, 2.dp)
+            ) {
                 Text(text = stringResource(id = R.string.sure))
             }
             Spacer(modifier = Modifier.height(5.dp))

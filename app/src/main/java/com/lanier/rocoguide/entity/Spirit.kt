@@ -99,3 +99,7 @@ data class PersonalityEntity(
     val down: String,
     val type: Int = 0
 )
+
+data class FilterSpiritEntity(
+    val series: SeriesEntity = SeriesEntity()
+)

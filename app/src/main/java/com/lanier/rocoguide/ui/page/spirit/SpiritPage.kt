@@ -25,10 +25,13 @@ import coil.compose.AsyncImage
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_SEARCH_LIST
 import com.lanier.rocoguide.base.ROUTE_SCREEN_SPIRIT_DETAIL
+import com.lanier.rocoguide.entity.FilterSpiritEntity
 import com.lanier.rocoguide.entity.Search
+import com.lanier.rocoguide.entity.SeriesEntity
 import com.lanier.rocoguide.entity.SpiritEntity
 import com.lanier.rocoguide.ui.common.*
 import com.lanier.rocoguide.ui.theme.ExtendedTheme
+import com.lanier.rocoguide.vm.spirit.FilterFlow
 import com.lanier.rocoguide.vm.spirit.SpiritViewModel
 import com.lanier.rocoguide.vm.spirit.getSeries
 
@@ -38,7 +41,6 @@ import com.lanier.rocoguide.vm.spirit.getSeries
  */
 @Composable
 fun SpiritScreen(navHostController: NavHostController, title: String){
-    val vm = viewModel<SpiritViewModel>()
     var showSearchDialog by remember {
         mutableStateOf(false)
     }
@@ -60,7 +62,7 @@ fun SpiritScreen(navHostController: NavHostController, title: String){
             Icon(imageVector = Icons.Outlined.List, contentDescription = "list")
         }
     }) {
-        SpiritMainList(navHostController, it, vm)
+        SpiritMainList(navHostController, it)
     }
     if (showSearchDialog) {
         SearchDialog(type = Search.Spirit, label = "精灵名") {
@@ -81,9 +83,15 @@ fun SpiritScreen(navHostController: NavHostController, title: String){
 fun SpiritMainList(
     navHostController: NavHostController,
     paddingValues: PaddingValues,
-    vm: SpiritViewModel
 ){
+    val vm = viewModel<SpiritViewModel>()
     val list = vm.spiritMainListFlow.collectAsLazyPagingItems()
+    val filter = FilterFlow.collectAsState(initial = FilterSpiritEntity(
+        series = SeriesEntity(id = 1))
+    ).value
+    LaunchedEffect(key1 = filter) {
+        vm.getSpirit(filter.series.id)
+    }
     Column(
         modifier = Modifier
             .padding(paddingValues)

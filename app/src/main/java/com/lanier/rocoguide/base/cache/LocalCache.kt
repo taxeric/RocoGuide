@@ -328,6 +328,11 @@ object LocalCache {
     val seriesList = mutableListOf<SeriesEntity>()
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="过滤精灵">
+    var filterSpiritEntity = FilterSpiritEntity()
+    var curSeriesIndex = 1
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="网络">
     const val BASE_URL = "your host"
     // </editor-fold>
