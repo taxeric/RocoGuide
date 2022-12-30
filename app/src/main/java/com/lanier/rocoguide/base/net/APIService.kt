@@ -28,8 +28,9 @@ interface APIService {
     @GET("api/spirit/v1/spirits")
     suspend fun getSpiritList(
         @Query("page") page: Int,
+        @Query("amount") amount: Int = 20,
         @Query("keywords") keywords: String = "",
-        @Query("amount") amount: Int = 20
+        @Query("seriesId") seriesId: Int = 1,
     ): SpiritList
 
     @GET("api/spirit/v1/spirit")
