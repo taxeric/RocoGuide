@@ -56,12 +56,11 @@ fun SimpleRadioGroup(
     var selectedTab by remember {
         mutableStateOf(tabs[defaultSelected].tag)
     }
-    val localModifier = modifier
-        .selectableGroup()
     if (orientation == Orientation.Horizontal) {
-        localModifier.horizontalScroll(rememberScrollState())
         Row(
-            modifier = modifier,
+            modifier = modifier
+                .selectableGroup()
+                .horizontalScroll(rememberScrollState()),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ItemView(
@@ -76,9 +75,10 @@ fun SimpleRadioGroup(
             )
         }
     } else {
-        localModifier.verticalScroll(rememberScrollState())
         Column(
-            modifier = modifier,
+            modifier = modifier
+                .selectableGroup()
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ItemView(
@@ -123,7 +123,7 @@ private fun ItemView(
     }
 }
 
-data class CustomTab(
+class CustomTab(
     val text: String,
     val tag: String = text
 )
