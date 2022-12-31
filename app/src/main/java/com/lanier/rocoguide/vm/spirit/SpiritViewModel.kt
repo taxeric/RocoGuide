@@ -62,6 +62,7 @@ suspend fun getSeries() {
         LocalCache.seriesList.clear()
         LocalCache.seriesList.addAll(series.data)
         if (series.data.isNotEmpty()) {
+            LocalCache.curSeriesIndex = 0
             LocalCache.filterSpiritEntity = LocalCache.filterSpiritEntity.copy(
                 series = series.data[0]
             )
@@ -69,6 +70,7 @@ suspend fun getSeries() {
         }
         SeriesFlow.tryEmit(RocoEventModel.Complete())
     } else {
+        LocalCache.curSeriesIndex = 0
         SeriesFlow.tryEmit(RocoEventModel.Complete())
     }
 }
