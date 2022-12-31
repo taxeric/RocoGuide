@@ -24,7 +24,7 @@ class SpiritSource(
         val response = repo.getSpiritList(currentPage, keywords, series)
         return if (response.isSuccess) {
             val base = response.getOrDefault(SpiritList())
-            LoadResult.Page(base.data, null, if (base.data.isEmpty()) null else currentPage + 1)
+            LoadResult.Page(base.data, null, if (base.data.isEmpty() || base.data.size < 20) null else currentPage + 1)
         } else {
             val thr = response.exceptionOrNull()?:Throwable("unknow error")
             LoadResult.Error(thr)

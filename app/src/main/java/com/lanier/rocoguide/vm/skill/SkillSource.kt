@@ -22,7 +22,7 @@ class SkillSource(
         val response = repo.getSkillList(currentPage, keywords)
         return if (response.isSuccess) {
             val base = response.getOrDefault(SkillsList())
-            LoadResult.Page(base.data, null, if (base.data.isEmpty()) null else currentPage + 1)
+            LoadResult.Page(base.data, null, if (base.data.isEmpty() || base.data.size < 20) null else currentPage + 1)
         } else {
             val thr = response.exceptionOrNull()?: Throwable("unknow error")
             LoadResult.Error(thr)
