@@ -33,6 +33,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.material.placeholder
+import com.google.accompanist.placeholder.material.shimmer
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_BIG_PIC_LOAD
 import com.lanier.rocoguide.base.ROUTE_SCREEN_GENETIC_DETAIL
@@ -177,21 +180,37 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
             modifier = Modifier
                 .height(210.dp)
         ) {
-            SpiritEntityPic(data, modifier = Modifier
-                .weight(0.35f)
-                .fillMaxHeight()
-                .padding(10.dp, 0.dp, 4.dp, 0.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(ExtendedTheme.colors.defaultLazyItemBackground)) {
+            SpiritEntityPic(
+                data,
+                modifier = Modifier
+                    .weight(0.35f)
+                    .fillMaxHeight()
+                    .padding(10.dp, 0.dp, 4.dp, 0.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(ExtendedTheme.colors.defaultLazyItemBackground)
+                    .placeholder(
+                        visible = data.id <= 0,
+                        color = Color.LightGray,
+                        highlight = PlaceholderHighlight.shimmer(),
+                    )
+            ) {
                 val url = URLEncoder.encode(it, StandardCharsets.UTF_8.toString())
                 navHostController.navigate("$ROUTE_SCREEN_BIG_PIC_LOAD/$url")
             }
-            SpiritEntityBaseInfo(data, modifier = Modifier
-                .weight(0.65f)
-                .fillMaxHeight()
-                .padding(4.dp, 0.dp, 10.dp, 0.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(ExtendedTheme.colors.defaultLazyItemBackground))
+            SpiritEntityBaseInfo(
+                data,
+                modifier = Modifier
+                    .weight(0.65f)
+                    .fillMaxHeight()
+                    .padding(4.dp, 0.dp, 10.dp, 0.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(ExtendedTheme.colors.defaultLazyItemBackground)
+                    .placeholder(
+                        visible = data.id <= 0,
+                        color = Color.LightGray,
+                        highlight = PlaceholderHighlight.shimmer(),
+                    )
+            )
         }
         Spacer(modifier = Modifier.height(10.dp))
         Text(
@@ -202,6 +221,11 @@ fun SpiritDetailImpl(paddingValues: PaddingValues, data: SpiritEntity, navHostCo
                 .padding(10.dp, 0.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(ExtendedTheme.colors.defaultLazyItemBackground)
+                .placeholder(
+                    visible = data.id <= 0,
+                    color = Color.LightGray,
+                    highlight = PlaceholderHighlight.shimmer(),
+                )
                 .padding(8.dp)
         )
         Spacer(modifier = Modifier.height(10.dp))
@@ -228,6 +252,11 @@ private fun SpiritRacialView(
             .padding(10.dp, 0.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(ExtendedTheme.colors.defaultLazyItemBackground)
+            .placeholder(
+                visible = data.id <= 0,
+                color = Color.LightGray,
+                highlight = PlaceholderHighlight.shimmer(),
+            )
     ) {
         when (racialStyle) {
             PreferenceUtil.RACIAL_GRID -> {
