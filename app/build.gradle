@@ -11,8 +11,8 @@ android {
         applicationId "com.lanier.rocoguide"
         minSdk 29
         targetSdk 33
-        versionCode 4
-        versionName "1.21"
+        versionCode 5
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -89,6 +89,8 @@ dependencies {
     implementation('com.google.accompanist:accompanist-webview:0.28.0')
     //---- [refresh]
     implementation('com.google.accompanist:accompanist-swiperefresh:0.28.0')
+    //---- [placeholder]
+    implementation("com.google.accompanist:accompanist-placeholder-material:0.28.0")
 
     //---- [coil]
     def coil_version = '2.2.2'
