@@ -1,7 +1,33 @@
 <resources>
     <string name="app_name">Roco</string>
 
+    <string name="debug">调试</string>
+    <string name="ok">OK</string>
     <string name="sure">确定</string>
+    <string name="cancel">取消</string>
+    <string name="close">关闭</string>
+    <string name="exit">退出</string>
+    <string name="later">稍后</string>
+    <string name="no_more_tips">不再提示</string>
+    <string name="downloading">正在下载</string>
+    <string name="download_now">立即下载</string>
+    <string name="file_size">文件大小:</string>
+
+    <string name="upgrade_version">版本更新</string>
+    <string name="upgrade_content">更新内容:</string>
+    
+    <string name="dialog_title_set_serve_address">设置服务端地址</string>
+    <string name="host">Host</string>
+    <string name="port">Port</string>
+
+    <string name="grid">表格</string>
+    <string name="progress">进度</string>
+    <string name="hexagonal">六边形</string>
+
+    <string name="follow_system">跟随系统</string>
+    <string name="day">Day</string>
+    <string name="dark">Dark</string>
+
     <string name="loading">Loading…</string>
     <string name="filter">过滤</string>
     <string name="waiting_perfection">Waiting for perfection</string>
