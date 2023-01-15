@@ -28,7 +28,8 @@ import java.io.File
  */
 class SpiritViewModel: ViewModel() {
 
-    val spiritMainListFlow = MutableStateFlow<PagingData<SpiritEntity>>(PagingData.empty())
+    private val _spiritMainListFlow = MutableStateFlow<PagingData<SpiritEntity>>(PagingData.empty())
+    val spiritMainListFlow get() = _spiritMainListFlow
     private val remoteData = SpiritRemoteData()
 
     fun getSpirit(series: Int = 1) {
@@ -40,7 +41,7 @@ class SpiritViewModel: ViewModel() {
             }.flow
                 .cachedIn(viewModelScope)
                 .collect { pagingData ->
-                    spiritMainListFlow.tryEmit(pagingData)
+                    _spiritMainListFlow.tryEmit(pagingData)
             }
         }
     }
