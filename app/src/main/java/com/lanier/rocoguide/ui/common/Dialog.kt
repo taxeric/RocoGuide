@@ -421,7 +421,7 @@ fun GeneticDialog(onDismiss: (Int) -> Unit){
         properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
     ) {
         Column(modifier = Modifier
-            .clip(RoundedCornerShape(5.dp))
+            .clip(RoundedCornerShape(10.dp))
             .background(MaterialTheme.colorScheme.background)) {
             Text(
                 text = stringResource(id = R.string.debug),
@@ -451,7 +451,7 @@ fun GeneticMoreDialog(onDismiss: () -> Unit){
         properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
     ) {
         Column(modifier = Modifier
-            .clip(RoundedCornerShape(5.dp))
+            .clip(RoundedCornerShape(10.dp))
             .background(MaterialTheme.colorScheme.background)) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "多代遗传", textAlign = TextAlign.Center, fontSize = 19.sp, fontWeight = FontWeight.Bold,
@@ -541,7 +541,7 @@ fun ChangeLogDialog(
         )
         Column(
             modifier = Modifier
-                .clip(RoundedCornerShape(5.dp))
+                .clip(RoundedCornerShape(10.dp))
                 .background(MaterialTheme.colorScheme.background)
                 .padding(10.dp)
         ) {
@@ -639,7 +639,7 @@ fun ChangeLogDialog(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ConfigDialog(
+fun ConfigServeDialog(
     onDismiss: (Boolean) -> Unit
 ) {
     var host by remember {
@@ -661,7 +661,7 @@ fun ConfigDialog(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(5.dp))
+                .clip(RoundedCornerShape(10.dp))
                 .background(MaterialTheme.colorScheme.background)
                 .padding(12.dp)
         ) {
