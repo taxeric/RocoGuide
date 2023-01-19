@@ -2,6 +2,7 @@
     <string name="app_name">Roco</string>
 
     <string name="debug">调试</string>
+    <string name="welcome">Welcome</string>
     <string name="loading">Loading…</string>
     <string name="filter">过滤</string>
     <string name="ok">OK</string>
@@ -10,7 +11,7 @@
     <string name="close">关闭</string>
     <string name="exit">退出</string>
     <string name="later">稍后</string>
-    <string name="no_more_tips">不再提示</string>
+    <string name="show_never_again">不再提示</string>
     <string name="downloading">正在下载</string>
     <string name="download_now">立即下载</string>
     <string name="file_size">文件大小:</string>
@@ -29,6 +30,8 @@
     <string name="follow_system">跟随系统</string>
     <string name="day">Day</string>
     <string name="dark">Dark</string>
+
+    <string name="welcome_guide">现在前往设置服务端信息</string>
 
     <string name="waiting_perfection">Waiting for perfection</string>
     <string name="fix_data">Fix this spirit</string>
