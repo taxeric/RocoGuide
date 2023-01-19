@@ -20,11 +20,15 @@ object PreferenceUtil {
     }
 
     fun getInt(key: String, def: Int = -1) = sharedPreferences.getInt(key, def)
-    fun getStr(key: String, def: String = "") = sharedPreferences.getString(key, def)
+    fun getStr(key: String, def: String = "") = sharedPreferences.getString(key, def)?:def
 
     fun updateInt(key: String, value: Int) {
         sharedPreferences.edit().putInt(key, value).apply()
     }
+
+    fun getWelcomeDialogVisible() = getInt(WELCOME_DIALOG, WELCOME_DIALOG_SHOW)
+    fun getServeHost() = getStr(SERVE_HOST, "")
+    fun getServePort() = getInt(SERVE_PORT, 0)
 
     fun getRacialValue(): Int = getInt(RACIAL_SHOW_STYLE, RACIAL_GRID)
     fun getRacialStyle(style: Int = getRacialValue()): String {
@@ -41,4 +45,11 @@ object PreferenceUtil {
     const val RACIAL_GRID = 1
     const val RACIAL_PROGRESS = 2
     const val RACIAL_HEXAGONAL = 3
+
+    const val WELCOME_DIALOG = "home_show_set_serve_dialog"
+    const val WELCOME_DIALOG_SHOW = 1
+    const val WELCOME_DIALOG_HIDE = 0
+
+    const val SERVE_HOST = "serve_host"
+    const val SERVE_PORT = "serve_port"
 }

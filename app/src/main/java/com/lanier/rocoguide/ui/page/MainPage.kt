@@ -31,6 +31,7 @@ import com.lanier.rocoguide.base.*
 import com.lanier.rocoguide.entity.Screen
 import com.lanier.rocoguide.entity.Skill
 import com.lanier.rocoguide.ui.common.CommonBigPicView
+import com.lanier.rocoguide.ui.common.WelcomeDialog
 import com.lanier.rocoguide.ui.page.genetic.GeneticDetailScreen
 import com.lanier.rocoguide.ui.page.genetic.GeneticResultScreen
 import com.lanier.rocoguide.ui.page.genetic.GeneticScreen
@@ -267,5 +268,8 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
             val url = argument.getString(ROUTE_PARAMS_WEB_VIEW_URL)?: ""
             WebViewByUrl(navController, title, url)
         }
+    }
+    WelcomeDialog {
+        navController.navigate(ROUTE_SCREEN_MAIN_SETTINGS)
     }
 }

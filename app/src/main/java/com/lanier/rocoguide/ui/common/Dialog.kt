@@ -34,6 +34,7 @@ import com.lanier.rocoguide.entity.SeriesEntity
 import com.lanier.rocoguide.ui.theme.ExtendedTheme
 import com.lanier.rocoguide.ui.theme.LocalDarkTheme
 import com.lanier.rocoguide.utils.PreferenceUtil
+import com.lanier.rocoguide.utils.logE
 import com.lanier.rocoguide.vm.spirit.FilterFlow
 import com.lanier.rocoguide.vm.spirit.SeriesFlow
 
@@ -593,7 +594,7 @@ fun ChangeLogDialog(
             if (!mandatory) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(checked = checkEnable, onCheckedChange = { checkEnable = it })
-                    Text(text = stringResource(id = R.string.no_more_tips), fontSize = 13.sp, color = MaterialTheme.colorScheme.onBackground,
+                    Text(text = stringResource(id = R.string.show_never_again), fontSize = 13.sp, color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier
                             .press {
                                 checkEnable = !checkEnable
@@ -637,6 +638,83 @@ fun ChangeLogDialog(
     }
 }
 
+@Composable
+fun WelcomeDialog(
+    toSetting: () -> Unit
+) {
+    var alwaysShowDialog by remember {
+        mutableStateOf(PreferenceUtil.getWelcomeDialogVisible() == PreferenceUtil.WELCOME_DIALOG_SHOW)
+    }
+    val localServeIsEmpty by remember {
+        mutableStateOf(PreferenceUtil.getServeHost().isEmpty())
+    }
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
+    "aa >>>>>>> $alwaysShowDialog $localServeIsEmpty".logE()
+    val updateNeverShowAgain = {
+        PreferenceUtil.updateInt(
+            PreferenceUtil.WELCOME_DIALOG,
+            if (showDialog) PreferenceUtil.WELCOME_DIALOG_SHOW
+            else PreferenceUtil.WELCOME_DIALOG_HIDE
+        )
+        alwaysShowDialog = false
+    }
+    if (alwaysShowDialog && localServeIsEmpty) {
+        AlertDialog(
+            onDismissRequest = updateNeverShowAgain,
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        toSetting()
+                        updateNeverShowAgain()
+                    },
+                    modifier = Modifier
+                ) {
+                    Text(text = stringResource(id = R.string.sure))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = updateNeverShowAgain,
+                    modifier = Modifier
+                ) {
+                    Text(text = stringResource(id = R.string.close))
+                }
+            },
+            title = {
+                Text(text = stringResource(id = R.string.welcome))
+            },
+            text = {
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.welcome_guide)
+                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Checkbox(
+                            checked = showDialog,
+                            onCheckedChange = { showDialog = it })
+                        Text(
+                            text = stringResource(id = R.string.show_never_again),
+                            modifier = Modifier
+                                .clickable {
+                                    showDialog = !showDialog
+                                }
+                        )
+                    }
+                }
+            }
+        )
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConfigServeDialog(
@@ -647,9 +725,6 @@ fun ConfigServeDialog(
     }
     var port by remember {
         mutableStateOf("8080")
-    }
-    var alwaysShowTips by remember {
-        mutableStateOf(false)
     }
     Dialog(
         onDismissRequest = { onDismiss(false) },
@@ -693,30 +768,26 @@ fun ConfigServeDialog(
                 modifier = Modifier
                     .fillMaxWidth()
             )
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Checkbox(checked = alwaysShowTips, onCheckedChange = { alwaysShowTips = it })
-                Text(
-                    text = stringResource(id = R.string.no_more_tips),
-                    modifier = Modifier
-                        .clickable {
-                            alwaysShowTips = !alwaysShowTips
-                        }
-                )
-            }
             Spacer(modifier = Modifier.height(24.dp))
             Row(
                 horizontalArrangement = Arrangement.End,
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                TextButton(onClick = { onDismiss(false) }, modifier = Modifier) {
-                    Text(text = stringResource(id = R.string.cancel))
+                TextButton(
+                    onClick = {
+                        onDismiss(false)
+                    },
+                    modifier = Modifier
+                ) {
+                    Text(text = stringResource(id = R.string.close))
                 }
-                TextButton(onClick = { onDismiss(true) }, modifier = Modifier) {
+                TextButton(
+                    onClick = {
+                        onDismiss(true)
+                    },
+                    modifier = Modifier
+                ) {
                     Text(text = stringResource(id = R.string.sure))
                 }
             }
