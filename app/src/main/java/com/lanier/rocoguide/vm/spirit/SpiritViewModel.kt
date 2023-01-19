@@ -92,5 +92,12 @@ private fun readSeries(): List<SeriesEntity> {
 private fun saveSeries(entity: SeriesList) {
     val gson = Gson()
     val file = File(defaultLocalJsonDataPath, "series.json")
+    val parentFile = File(defaultLocalJsonDataPath)
+    if (!parentFile.exists()){
+        parentFile.mkdir()
+    }
+    if (!file.exists()){
+        file.createNewFile()
+    }
     file.writeText(gson.toJson(entity))
 }
