@@ -3,27 +3,19 @@ package com.lanier.rocoguide.ui.page.settings
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.ui.Modifier
 import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.lanier.lib_net.RetrofitHelper
 import com.lanier.rocoguide.R
@@ -65,6 +57,7 @@ fun SettingsScreenImpl(navHostController: NavHostController, paddingValues: Padd
         DarkTheme()
         DownloadNewestVersionPath()
         PreferenceSubtitle(text = "Others")
+        ServeDialog()
         VersionText()
         GlanceTips()
         ReadMe()
@@ -122,6 +115,24 @@ fun RacialStyle(){
 }
 
 @Composable
+fun ServeDialog(){
+    var showServeDialog by remember {
+        mutableStateOf(false)
+    }
+    TitleTextWithRipple(
+        title = "服务端" ,
+        text = "设置服务端地址及端口,用于调试项目",
+    ){
+        showServeDialog = true
+    }
+    if (showServeDialog) {
+        ConfigServeDialog {
+            showServeDialog = false
+        }
+    }
+}
+
+@Composable
 fun ReadMe(){
     val context = LocalContext.current
     val url = "https://gitee.com/lanier/roco-guide"
@@ -148,7 +159,7 @@ fun AboutText(){
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
     TitleTextWithRipple("关于", stringResource(id = R.string.about)) {
-        clipboardManager.setText(buildAnnotatedString { append("TEJBMjQ2MA") })
+        clipboardManager.setText(buildAnnotatedString { append("https://github.com/taxeric/RocoGuide") })
         Toast.makeText(context, "Copied!", Toast.LENGTH_SHORT).show()
     }
 }
