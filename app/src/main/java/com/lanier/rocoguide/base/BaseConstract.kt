@@ -40,3 +40,5 @@ const val ROUTE_SCREEN_THANKS = "thank"
 const val ROUTE_SCREEN_WEB_VIEW = "webView"
 const val ROUTE_PARAMS_WEB_VIEW_TITLE = "webViewTitle"
 const val ROUTE_PARAMS_WEB_VIEW_URL = "webViewUrl"
+
+const val ROUTE_SCREEN_LAB = "screenLab"

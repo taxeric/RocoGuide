@@ -28,6 +28,8 @@ sealed class Screen (val route: String, val title: String = "", @DrawableRes val
     object GeneticMore: Screen(ROUTE_SCREEN_GENETIC_MORE, "多代遗传")
     object Thank: Screen(ROUTE_SCREEN_THANKS, "鸣谢")
     object WebViewPage: Screen(ROUTE_SCREEN_WEB_VIEW, )
+
+    object LabPage: Screen(ROUTE_SCREEN_LAB, "Lab")
 }
 
 sealed class Search (val type: Int, val title: String) {

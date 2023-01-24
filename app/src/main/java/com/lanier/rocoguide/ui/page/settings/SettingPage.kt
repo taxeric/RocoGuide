@@ -19,6 +19,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.navigation.NavHostController
 import com.lanier.lib_net.RetrofitHelper
 import com.lanier.rocoguide.R
+import com.lanier.rocoguide.base.ROUTE_SCREEN_LAB
 import com.lanier.rocoguide.base.ROUTE_SCREEN_THANKS
 import com.lanier.rocoguide.base.cache.CurrentDownloadContent
 import com.lanier.rocoguide.base.cache.LocalCache
@@ -58,10 +59,11 @@ fun SettingsScreenImpl(navHostController: NavHostController, paddingValues: Padd
         DownloadNewestVersionPath()
         PreferenceSubtitle(text = "Others")
         ServeDialog()
-        VersionText()
         GlanceTips()
         ReadMe()
         Thank(navHostController)
+        Lab(navHostController)
+        VersionText()
         AboutText()
     }
 }
@@ -161,6 +163,16 @@ fun AboutText(){
     TitleTextWithRipple("关于", stringResource(id = R.string.about)) {
         clipboardManager.setText(buildAnnotatedString { append("https://github.com/taxeric/RocoGuide") })
         Toast.makeText(context, "Copied!", Toast.LENGTH_SHORT).show()
+    }
+}
+
+@Composable
+fun Lab(navHostController: NavHostController){
+    TitleTextWithRipple(
+        title = stringResource(id = R.string.codelab),
+        text = stringResource(id = R.string.codelab_tips)
+    ) {
+        navHostController.navigate(ROUTE_SCREEN_LAB)
     }
 }
 
