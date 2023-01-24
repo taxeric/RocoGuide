@@ -24,7 +24,7 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.base.ROUTE_SCREEN_WEB_VIEW
-import com.lanier.rocoguide.entity.NewsData
+import com.lanier.rocoguide.entity.WrapNews
 import com.lanier.rocoguide.ui.common.CommonBaseScaffold
 import com.lanier.rocoguide.ui.common.HomepageLuLuDialog
 import com.lanier.rocoguide.ui.common.PullRefreshIndicatorType
@@ -111,7 +111,7 @@ fun NewsList(navController: NavController){
 }
 
 @Composable
-fun NewsItem(navController: NavController, item: NewsData){
+fun NewsItem(navController: NavController, item: WrapNews){
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -119,7 +119,7 @@ fun NewsItem(navController: NavController, item: NewsData){
             .background(ExtendedTheme.colors.defaultLazyItemBackground)
     ) {
         Text(
-            text = item.updateTime,
+            text = item.date,
             color = MaterialTheme.colorScheme.outline,
             fontSize = 14.sp,
             modifier = Modifier
@@ -127,18 +127,22 @@ fun NewsItem(navController: NavController, item: NewsData){
                 .padding(10.dp, 5.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = item.title,
-            color = MaterialTheme.colorScheme.onSurface,
-            fontSize = 16.sp,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(0.dp, 0.dp, 10.dp, 10.dp))
-                .clickable {
-                    val encodeUrl = URLEncoder.encode(item.url, StandardCharsets.UTF_8.toString())
-                    navController.navigate("${ROUTE_SCREEN_WEB_VIEW}/正文/$encodeUrl")
-                }
-                .padding(10.dp)
-        )
+        item.data.forEachIndexed { index, news ->
+            val isLatest = index == item.data.size - 1
+            Text(
+                text = news.title,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = 16.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(0.dp, 0.dp, if (isLatest) 10.dp else 0.dp, if (isLatest) 10.dp else 0.dp))
+                    .clickable {
+                        val encodeUrl =
+                            URLEncoder.encode(news.url, StandardCharsets.UTF_8.toString())
+                        navController.navigate("${ROUTE_SCREEN_WEB_VIEW}/正文/$encodeUrl")
+                    }
+                    .padding(10.dp)
+            )
+        }
     }
 }
