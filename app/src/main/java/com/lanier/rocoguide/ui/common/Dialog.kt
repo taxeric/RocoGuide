@@ -649,9 +649,8 @@ fun WelcomeDialog(
         mutableStateOf(PreferenceUtil.getServeHost().isEmpty())
     }
     var showDialog by remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
-    "aa >>>>>>> $alwaysShowDialog $localServeIsEmpty".logE()
     val updateNeverShowAgain = {
         PreferenceUtil.updateInt(
             PreferenceUtil.WELCOME_DIALOG,
@@ -699,7 +698,7 @@ fun WelcomeDialog(
                             .fillMaxWidth()
                     ) {
                         Checkbox(
-                            checked = showDialog,
+                            checked = !showDialog,
                             onCheckedChange = { showDialog = it })
                         Text(
                             text = stringResource(id = R.string.show_never_again),
