@@ -23,3 +23,8 @@ data class NewsData(
     val url: String = "",
     val externalContent: String = ""
 )
+
+data class WrapNews(
+    val date: String = "",
+    val data: List<NewsData> = listOf(),
+)
