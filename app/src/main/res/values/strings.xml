@@ -33,6 +33,11 @@
 
     <string name="welcome_guide">现在前往设置服务端信息</string>
 
+    <string name="codelab">Codelab</string>
+    <string name="codelab_tips">Experimental features</string>
+    <string name="lab_dynamic_icon">Dynamic Icon</string>
+    <string name="lab_dynamic_icon_tips">Dynamic switching of app\'s icon</string>
+
     <string name="waiting_perfection">Waiting for perfection</string>
     <string name="fix_data">Fix this spirit</string>
     <string name="lay_egg_tips">精灵可以孵蛋蛋,可能会遗传技能,是否前往遗传图鉴?</string>
