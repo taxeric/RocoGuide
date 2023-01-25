@@ -30,6 +30,11 @@ object PreferenceUtil {
     fun getServeHost() = getStr(SERVE_HOST, "")
     fun getServePort() = getInt(SERVE_PORT, 0)
 
+    fun getDynamicIconChoiceIndex() = getInt(DYNAMIC_ICON_INDEX, 0)
+    fun updateDynamicIconIndex(index: Int) {
+        updateInt(DYNAMIC_ICON_INDEX, index)
+    }
+
     fun getRacialValue(): Int = getInt(RACIAL_SHOW_STYLE, RACIAL_GRID)
     fun getRacialStyle(style: Int = getRacialValue()): String {
         return when (style) {
@@ -52,4 +57,6 @@ object PreferenceUtil {
 
     const val SERVE_HOST = "serve_host"
     const val SERVE_PORT = "serve_port"
+
+    private const val DYNAMIC_ICON_INDEX = "dynamic_icon_index"
 }

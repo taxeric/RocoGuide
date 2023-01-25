@@ -1,6 +1,7 @@
 package com.lanier.rocoguide.base.cache
 
 import android.graphics.Color
+import androidx.compose.runtime.mutableStateListOf
 import com.google.gson.Gson
 import com.lanier.rocoguide.R
 import com.lanier.rocoguide.entity.*
@@ -331,6 +332,16 @@ object LocalCache {
     // <editor-fold defaultstate="collapsed" desc="过滤精灵">
     var filterSpiritEntity = FilterSpiritEntity()
     var curSeriesIndex = 1
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="动态图标">
+    val dynamicIcons = mutableStateListOf<DynamicIconEntity>().apply {
+        add(DynamicIconEntity(R.string.dynamic_icon_default, R.mipmap.ic_roco_logo))
+        add(DynamicIconEntity(R.string.dynamic_icon_XueLingShow, R.mipmap.ic_xuelingshou))
+        add(DynamicIconEntity(R.string.dynamic_icon_Jelly, R.drawable.ic_jelly))
+        add(DynamicIconEntity(R.string.dynamic_icon_ChristmasPlumDeer, R.mipmap.ic_shengdanmeihualu))
+        add(DynamicIconEntity(R.string.dynamic_icon_ArcticSmallBear, R.mipmap.ic_jidixiaoxiong))
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="网络">
