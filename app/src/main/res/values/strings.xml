@@ -37,6 +37,11 @@
     <string name="codelab_tips">Experimental features</string>
     <string name="lab_dynamic_icon">Dynamic Icon</string>
     <string name="lab_dynamic_icon_tips">Dynamic switching of app\'s icon</string>
+    <string name="dynamic_icon_default">com.lanier.rocoguide.MainActivity</string>
+    <string name="dynamic_icon_XueLingShow">com.lanier.rocoguide.xls</string>
+    <string name="dynamic_icon_Jelly">com.lanier.rocoguide.jelly</string>
+    <string name="dynamic_icon_ChristmasPlumDeer">com.lanier.rocoguide.sdmlh</string>
+    <string name="dynamic_icon_ArcticSmallBear">com.lanier.rocoguide.jdxx</string>
 
     <string name="waiting_perfection">Waiting for perfection</string>
     <string name="fix_data">Fix this spirit</string>
