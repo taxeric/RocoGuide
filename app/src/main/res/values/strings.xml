@@ -35,6 +35,7 @@
 
     <string name="codelab">Codelab</string>
     <string name="codelab_tips">Experimental features</string>
+    <string name="lab_features_tips">实验性功能,可能导致APP崩溃</string>
     <string name="lab_dynamic_icon">Dynamic Icon</string>
     <string name="lab_dynamic_icon_tips">Dynamic switching of app\'s icon</string>
     <string name="dynamic_icon_default">com.lanier.rocoguide.MainActivity</string>
