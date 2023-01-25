@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.lanier.rocoguide.R
+import com.lanier.rocoguide.base.ROUTE_SCREEN_LAB_DYNAMIC_ICON
 import com.lanier.rocoguide.ui.common.CommonBaseScaffold
 import com.lanier.rocoguide.ui.common.TitleBarSize
 import com.lanier.rocoguide.ui.common.TitleTextWithRipple
@@ -40,6 +41,7 @@ fun LabScreenImpl(paddingValues: PaddingValues, navHostController: NavHostContro
             title = stringResource(id = R.string.lab_dynamic_icon),
             text = stringResource(id = R.string.lab_dynamic_icon_tips)
         ) {
+            navHostController.navigate(ROUTE_SCREEN_LAB_DYNAMIC_ICON)
         }
     }
 }

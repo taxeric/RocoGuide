@@ -30,6 +30,7 @@ sealed class Screen (val route: String, val title: String = "", @DrawableRes val
     object WebViewPage: Screen(ROUTE_SCREEN_WEB_VIEW, )
 
     object LabPage: Screen(ROUTE_SCREEN_LAB, "Lab")
+    object LabDynamicIcon: Screen(ROUTE_SCREEN_LAB_DYNAMIC_ICON, "Dynamic Icon")
 }
 
 sealed class Search (val type: Int, val title: String) {

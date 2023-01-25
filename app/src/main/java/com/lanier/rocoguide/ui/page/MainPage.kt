@@ -35,6 +35,7 @@ import com.lanier.rocoguide.ui.common.WelcomeDialog
 import com.lanier.rocoguide.ui.page.genetic.GeneticDetailScreen
 import com.lanier.rocoguide.ui.page.genetic.GeneticResultScreen
 import com.lanier.rocoguide.ui.page.genetic.GeneticScreen
+import com.lanier.rocoguide.ui.page.lab.DynamicIconScreen
 import com.lanier.rocoguide.ui.page.miscellaneous.*
 import com.lanier.rocoguide.ui.page.news.NewsScreen
 import com.lanier.rocoguide.ui.page.search.SearchBaseScreen
@@ -170,6 +171,9 @@ fun NavBar(navController: NavHostController, padding: PaddingValues){
         }
         composable(Screen.LabPage.route) {
             LabScreen(navController, title = Screen.LabPage.title)
+        }
+        composable(Screen.LabDynamicIcon.route) {
+            DynamicIconScreen(navController, title = Screen.LabDynamicIcon.title)
         }
         composable(
             route = "${Screen.GeneticDetail.route}/{${ROUTE_PARAMS_GROUP_ID}}/{${ROUTE_PARAMS_GROUP_TITLE}}",

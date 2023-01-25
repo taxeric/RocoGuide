@@ -4,6 +4,11 @@ package com.lanier.rocoguide.base
  * Create by Eric
  * on 2022/7/25
  */
+// <editor-fold defaultstate="collapsed" desc="杂项">
+const val BASE_APP_ID = "com.lanier.rocoguide"
+// </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="路由">
 const val ROUTE_SCREEN_MAIN_NEWS_LIST = "screenNews"
 const val ROUTE_SCREEN_MAIN_SPIRIT_LIST = "screenSpirit"
 const val ROUTE_SCREEN_MAIN_OTHER_LIST = "screenOther"
@@ -42,3 +47,5 @@ const val ROUTE_PARAMS_WEB_VIEW_TITLE = "webViewTitle"
 const val ROUTE_PARAMS_WEB_VIEW_URL = "webViewUrl"
 
 const val ROUTE_SCREEN_LAB = "screenLab"
+const val ROUTE_SCREEN_LAB_DYNAMIC_ICON = "screenDynamicIcon"
+// </editor-fold>
