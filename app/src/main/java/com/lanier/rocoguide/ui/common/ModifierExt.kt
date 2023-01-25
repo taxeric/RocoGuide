@@ -1,8 +1,11 @@
 package com.lanier.rocoguide.ui.common
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import com.lanier.rocoguide.ui.theme.ExtendedTheme
 
 /**
  * Author: 芒硝
@@ -23,4 +26,9 @@ fun Modifier.press(pressEvent: () -> Unit): Modifier {
     return pointerInput(this){
         detectTapGestures(onPress = { pressEvent() })
     }
+}
+
+@Composable
+fun Modifier.baseBackground(): Modifier {
+    return background(ExtendedTheme.colors.defaultMainBackground)
 }
