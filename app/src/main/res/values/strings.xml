@@ -22,6 +22,7 @@
     <string name="dialog_title_set_serve_address">服务端</string>
     <string name="host">Host</string>
     <string name="port">Port</string>
+    <string name="serve_err_tips">需包含协议,http / https</string>
 
     <string name="grid">表格</string>
     <string name="progress">进度</string>
