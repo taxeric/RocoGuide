@@ -5,7 +5,7 @@ Compose实现的洛克王国指南,更多详情请参见[README](https://gitee.c
 
 ## 使用  ![雷萌.png](https://s2.loli.net/2022/12/17/Li3ZhEvIQuOTrVt.png)
 在您搭建好[服务端](https://github.com/taxeric/RocoGuideServe)后,编辑设置页服务端的Host及Port即可  
-![Screenshot](https://s2.loli.net/2023/01/26/UoXS5QBI2TcFsLO.jpg)
+![Screenshot](https://s2.loli.net/2023/01/26/vZjcVbw8u3fJHoA.jpg)
 
 ## 开源库  ![冰灵乐熊.png](https://s2.loli.net/2022/12/17/yipBaAM7DtgIZCV.png)
 - [Compose-WebView: 适用于Compose的浏览器控件](https://google.github.io/accompanist/web/)
