@@ -345,7 +345,8 @@ object LocalCache {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="网络">
-    const val BASE_URL = "your host"
+    var baseHost = ""
+    var basePort = 0
     // </editor-fold>
 }
 

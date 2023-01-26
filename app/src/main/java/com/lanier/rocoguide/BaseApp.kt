@@ -22,6 +22,10 @@ class BaseApp: Application() {
         defaultLocalJsonDataPath = "$baseCacheDir/html/"
         defaultLocalApkDataPath = "$baseCacheDir/apk/"
         NotificationUtil.createNotificationChannel(this)
-        RetrofitHelper.initHelper(LocalCache.BASE_URL)
+        LocalCache.baseHost = PreferenceUtil.getServeHost()
+        LocalCache.basePort = PreferenceUtil.getServePort()
+        if (LocalCache.baseHost.isNotEmpty() && LocalCache.basePort > 0) {
+            RetrofitHelper.initHelper("${LocalCache.baseHost}:${LocalCache.basePort}/")
+        }
     }
 }
