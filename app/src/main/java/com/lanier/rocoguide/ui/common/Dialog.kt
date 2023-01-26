@@ -717,16 +717,21 @@ fun WelcomeDialog(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConfigServeDialog(
-    onDismiss: (Boolean) -> Unit
+    defaultHost: String = "",
+    defaultPort: Int = 0,
+    onDismiss: (String, Int, Boolean) -> Unit
 ) {
     var host by remember {
-        mutableStateOf("127.0.0.1")
+        mutableStateOf(defaultHost.ifEmpty { "http://127.0.0.1" })
+    }
+    var hostErr by remember {
+        mutableStateOf(!host.contains("http"))
     }
     var port by remember {
-        mutableStateOf("8080")
+        mutableStateOf(if (defaultPort <= 0) "8080" else defaultPort.toString())
     }
     Dialog(
-        onDismissRequest = { onDismiss(false) },
+        onDismissRequest = { onDismiss("", 0, false) },
         properties = DialogProperties(
             dismissOnClickOutside = true,
             dismissOnBackPress = true
@@ -750,13 +755,24 @@ fun ConfigServeDialog(
             )
             OutlinedTextField(
                 value = host,
-                onValueChange = { host = it },
+                onValueChange = {
+                    host = it
+                    hostErr = !it.contains("http")
+                },
                 label = {
                     Text(text = stringResource(id = R.string.host))
                 },
+                isError = hostErr,
                 modifier = Modifier
                     .fillMaxWidth()
             )
+            AnimatedVisibility(visible = hostErr) {
+                Text(
+                    text = stringResource(id = R.string.serve_err_tips),
+                    color = MaterialTheme.colorScheme.error,
+                    fontSize = 12.sp
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(
                 value = port,
@@ -775,7 +791,7 @@ fun ConfigServeDialog(
             ) {
                 TextButton(
                     onClick = {
-                        onDismiss(false)
+                        onDismiss("", 0, false)
                     },
                     modifier = Modifier
                 ) {
@@ -783,7 +799,7 @@ fun ConfigServeDialog(
                 }
                 TextButton(
                     onClick = {
-                        onDismiss(true)
+                        onDismiss(host, port.toInt(), !hostErr)
                     },
                     modifier = Modifier
                 ) {

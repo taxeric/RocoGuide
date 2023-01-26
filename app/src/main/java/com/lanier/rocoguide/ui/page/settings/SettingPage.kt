@@ -121,15 +121,26 @@ fun ServeDialog(){
     var showServeDialog by remember {
         mutableStateOf(false)
     }
+    val context = LocalContext.current
     TitleTextWithRipple(
         title = "服务端" ,
-        text = "设置服务端地址及端口,用于调试项目",
+        text = if (LocalCache.baseHost.isEmpty()) "设置服务端地址及端口,用于调试项目"
+        else "${LocalCache.baseHost}:${LocalCache.basePort}",
     ){
         showServeDialog = true
     }
     if (showServeDialog) {
-        ConfigServeDialog {
+        ConfigServeDialog (
+            LocalCache.baseHost,
+            LocalCache.basePort
+        ) { host, port, modify ->
             showServeDialog = false
+            if (modify) {
+                if (host.isNotEmpty() && host != "127.0.0.1" && port > 0) {
+                    PreferenceUtil.updateServe(host, port)
+                    Toast.makeText(context, "重启生效", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 }

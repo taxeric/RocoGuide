@@ -2,6 +2,7 @@ package com.lanier.rocoguide.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 
 /**
  * Create by Eric
@@ -25,10 +26,19 @@ object PreferenceUtil {
     fun updateInt(key: String, value: Int) {
         sharedPreferences.edit().putInt(key, value).apply()
     }
+    fun updateStr(key: String, value: String) {
+        sharedPreferences.edit().putString(key, value).apply()
+    }
 
     fun getWelcomeDialogVisible() = getInt(WELCOME_DIALOG, WELCOME_DIALOG_SHOW)
     fun getServeHost() = getStr(SERVE_HOST, "")
     fun getServePort() = getInt(SERVE_PORT, 0)
+    fun updateServe(host: String, port: Int) {
+        sharedPreferences.edit {
+            putString(SERVE_HOST, host)
+            putInt(SERVE_PORT, port)
+        }
+    }
 
     fun getDynamicIconChoiceIndex() = getInt(DYNAMIC_ICON_INDEX, 0)
     fun updateDynamicIconIndex(index: Int) {
