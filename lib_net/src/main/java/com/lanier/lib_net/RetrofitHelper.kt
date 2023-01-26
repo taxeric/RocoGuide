@@ -21,10 +21,12 @@ object RetrofitHelper {
 
     private lateinit var mRetrofit: Retrofit
     private lateinit var mRetrofitWithoutPrint: Retrofit
+    private var initialized = false
 
     var baseUrl: String = ""
 
     fun initHelper(baseUrl: String){
+        initialized = true
         this.baseUrl = baseUrl
         if (!::mRetrofit.isInitialized){
             mRetrofit = Retrofit.Builder()
@@ -48,6 +50,9 @@ object RetrofitHelper {
         mRetrofitWithoutPrint.create(clazz)
 
     suspend fun <T> launch(block: suspend () -> T): Result<T>{
+        if (!initialized || baseUrl.isEmpty()) {
+            return Result.failure(Throwable("unknown host"))
+        }
         return try {
             val response = withContext(Dispatchers.Default) {
                 block()
