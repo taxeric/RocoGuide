@@ -1,11 +1,9 @@
 package com.lanier.rocoguide.vm.spirit
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.google.gson.Gson
 import com.lanier.rocoguide.base.RocoEventModel
 import com.lanier.rocoguide.base.cache.LocalCache
@@ -28,27 +26,34 @@ import java.io.File
  */
 class SpiritViewModel: ViewModel() {
 
-    private val _spiritMainListFlow = MutableStateFlow<PagingData<SpiritEntity>>(PagingData.empty())
-    val spiritMainListFlow get() = _spiritMainListFlow
-    private val remoteData = SpiritRemoteData()
+    val eventFlow = MutableStateFlow(false)
+    val list = mutableStateListOf<SpiritEntity>()
+    var lastSeries = 1
+    private var page = 0
 
-    fun getSpirit(series: Int = 1) {
+    fun getSpirit(series: Int = 1, refresh: Boolean = true) {
+        if (refresh || lastSeries != series) {
+            page = 1
+        } else {
+            page ++
+        }
         viewModelScope.launch {
-            Pager(
-                PagingConfig(20, prefetchDistance = 3),
-            ) {
-                SpiritSource(remoteData, series = series)
-            }.flow
-                .cachedIn(viewModelScope)
-                .collect { pagingData ->
-                    _spiritMainListFlow.tryEmit(pagingData)
+            eventFlow.tryEmit(true)
+            val response = Net.service.getSpiritList(page, keywords = "", seriesId = series)
+            if (response.code == 200) {
+                if (refresh || lastSeries != series) {
+                    list.clear()
+                }
+                list.addAll(response.data)
             }
+            lastSeries = series
+            eventFlow.tryEmit(false)
         }
     }
 }
 
 val SeriesFlow = MutableSharedFlow<RocoEventModel<Nothing>>(replay = 1)
-val FilterFlow = MutableSharedFlow<FilterSpiritEntity>(replay = 1)
+val FilterFlow = MutableSharedFlow<FilterSpiritEntity>(extraBufferCapacity = 1)
 
 suspend fun getSeries() {
     LocalCache.seriesList.clear()

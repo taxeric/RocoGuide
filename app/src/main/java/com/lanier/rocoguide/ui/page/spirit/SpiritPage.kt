@@ -4,6 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -30,6 +34,9 @@ import com.lanier.rocoguide.entity.Search
 import com.lanier.rocoguide.entity.SeriesEntity
 import com.lanier.rocoguide.entity.SpiritEntity
 import com.lanier.rocoguide.ui.common.*
+import com.lanier.rocoguide.ui.common.pullrefresh.PullRefreshIndicatorJelly
+import com.lanier.rocoguide.ui.common.pullrefresh.pullRefresh
+import com.lanier.rocoguide.ui.common.pullrefresh.rememberPullRefreshState
 import com.lanier.rocoguide.ui.theme.ExtendedTheme
 import com.lanier.rocoguide.vm.spirit.FilterFlow
 import com.lanier.rocoguide.vm.spirit.SpiritViewModel
@@ -62,7 +69,7 @@ fun SpiritScreen(navHostController: NavHostController, title: String){
             Icon(imageVector = Icons.Outlined.List, contentDescription = "list")
         }
     }) {
-        SpiritMainList(navHostController, it)
+        SpiritMainListV2(navHostController, it)
     }
     if (showSearchDialog) {
         SearchDialog(type = Search.Spirit, label = "精灵名") {
@@ -79,25 +86,63 @@ fun SpiritScreen(navHostController: NavHostController, title: String){
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SpiritMainList(
+fun SpiritMainListV2(
     navHostController: NavHostController,
     paddingValues: PaddingValues,
-){
+) {
     val vm = viewModel<SpiritViewModel>()
-    val list = vm.spiritMainListFlow.collectAsLazyPagingItems()
-    val filter = FilterFlow.collectAsState(initial = FilterSpiritEntity(
-        series = SeriesEntity(id = 1))
-    ).value
-    LaunchedEffect(key1 = filter) {
-        vm.getSpirit(filter.series.id)
+    val refreshing = vm.eventFlow.collectAsState().value
+    var seriesId by remember {
+        mutableStateOf(1)
     }
-    Column(
+    LaunchedEffect(key1 = Unit) {
+        FilterFlow.collect {
+            seriesId = it.series.id
+        }
+    }
+    if (vm.lastSeries != seriesId) {
+        LaunchedEffect(key1 = Unit) {
+            vm.getSpirit(seriesId)
+        }
+    }
+    val scrollState = rememberLazyGridState()
+    val isReachedBottom by remember {
+        derivedStateOf {
+            scrollState.firstVisibleItemIndex + scrollState.layoutInfo
+                .visibleItemsInfo.size == scrollState.layoutInfo.totalItemsCount
+        }
+    }
+    LaunchedEffect(key1 = Unit) {
+        snapshotFlow { isReachedBottom }
+            .collect {
+                if (it) {
+                    vm.getSpirit(seriesId, refresh = false)
+                }
+            }
+    }
+    val pullRefreshState = rememberPullRefreshState(refreshing = refreshing, onRefresh = { vm.getSpirit(seriesId) })
+    Box(
         modifier = Modifier
+            .fillMaxSize()
             .padding(paddingValues)
-            .background(ExtendedTheme.colors.defaultMainBackground)
+            .pullRefresh(pullRefreshState)
+            .baseBackground()
     ) {
-        SpiritMainListImpl(list, navHostController)
+        LazyVerticalGrid(
+            modifier = Modifier.fillMaxSize(),
+            state = scrollState,
+            columns = GridCells.Fixed(3),
+            verticalArrangement = Arrangement.spacedBy(5.dp),
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            contentPadding = PaddingValues(10.dp)
+        ) {
+            itemsIndexed(vm.list) { index, data ->
+                SpiritItem(navHostController, item = data)
+            }
+        }
+        PullRefreshIndicatorJelly(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
     }
 }
 
