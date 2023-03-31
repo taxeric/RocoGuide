@@ -1,7 +1,7 @@
 package com.lanier.rocoguide.service.music
 
 import androidx.compose.runtime.compositionLocalOf
-import com.lanier.rocoguide.entity.RemoteMusicEntity
+import com.lanier.rocoguide.entity.MusicEntity
 
 /**
  * Create by Eric
@@ -9,7 +9,7 @@ import com.lanier.rocoguide.entity.RemoteMusicEntity
  */
 interface IMusicController {
 
-    fun setPlayList(music: RemoteMusicEntity)
+    fun setPlayList(music: MusicEntity)
     fun play()
     fun resume()
     fun pause()

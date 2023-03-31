@@ -7,14 +7,10 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.lanier.rocoguide.MainActivity
 import com.lanier.rocoguide.R
-import com.lanier.rocoguide.entity.MusicAction
-import com.lanier.rocoguide.entity.MusicState
-import com.lanier.rocoguide.service.music.MusicServiceV2
 
 /**
  * Author: 芒硝
@@ -117,41 +113,5 @@ object NotificationUtil{
                 .setCategory(Notification.CATEGORY_SERVICE)
                 .build()
         }
-    }
-
-    fun notificationMediaPlayer(
-        mediaStyle: Notification.MediaStyle,
-        state: MusicState
-    ): Notification {
-
-        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder(context, MUSIC_CHANNEL_ID)
-        } else Notification.Builder(context)
-
-        val playPauseIntent = Intent(context, MusicServiceV2::class.java)
-            .setAction(
-                if (state.isPlaying) MusicAction.PAUSE.ordinal.toString() else MusicAction.RESUME.ordinal.toString()
-            )
-        val playPausePI = PendingIntent.getBroadcast(
-            context,
-            1,
-            playPauseIntent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-        val playPauseAction = Notification.Action.Builder(
-            Icon.createWithResource(
-                context,
-                if (state.isPlaying) R.drawable.ic_pause_filled_rounded else R.drawable.ic_play_filled_rounded
-            ),
-            "PlayPause",
-            playPausePI
-        ).build()
-
-        return builder
-            .setStyle(mediaStyle)
-            .setSmallIcon(R.drawable.ic_play_filled_rounded)
-            .setOnlyAlertOnce(true)
-            .addAction(playPauseAction)
-            .build()
     }
 }

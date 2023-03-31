@@ -1,6 +1,6 @@
 package com.lanier.rocoguide.service.music
 
-import com.lanier.rocoguide.entity.RemoteMusicEntity
+import com.lanier.rocoguide.entity.MusicEntity
 
 /**
  * Create by Eric
@@ -15,6 +15,6 @@ interface IMusicServiceInterface<T> {
     fun next()
     fun previous()
     fun currentPlayComplete(autoPlayNext: Boolean = false)
-    fun getCurrentPlayMusic(): RemoteMusicEntity?
+    fun getCurrentPlayMusic(): MusicEntity?
     fun release()
 }
