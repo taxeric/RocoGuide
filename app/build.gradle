@@ -96,6 +96,9 @@ dependencies {
     def coil_version = '2.2.2'
     implementation("io.coil-kt:coil-gif:$coil_version")
     implementation("io.coil-kt:coil-compose:$coil_version")
+
+    //---- [media3]
+    implementation("androidx.media3:media3-exoplayer:1.0.0")
     
     //---- [html]
     implementation('org.jsoup:jsoup:1.15.3')
