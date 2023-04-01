@@ -6,6 +6,8 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import com.lanier.rocoguide.service.music.IMusicController
+import com.lanier.rocoguide.service.music.LocalSongController
 import com.lanier.rocoguide.ui.common.SettingsHelper
 
 private val DarkColorScheme = darkColorScheme(
@@ -146,11 +148,15 @@ fun Color.applyOpacity(enabled: Boolean): Color {
 }
 
 @Composable
-fun SettingsProvider(content: @Composable () -> Unit){
+fun SettingsProvider(
+    songController: IMusicController,
+    content: @Composable () -> Unit
+){
     val appSettings = SettingsHelper.composableDarkThemeFlow.collectAsState().value
 //    "app settings -> ${appSettings.appDarkTheme.darkThemeValue}".logI()
     CompositionLocalProvider(
-        LocalDarkTheme provides appSettings.appDarkTheme
+        LocalDarkTheme provides appSettings.appDarkTheme,
+        LocalSongController provides songController
     ) {
         content()
     }
