@@ -10,7 +10,7 @@ import com.lanier.rocoguide.entity.MusicEntity
 interface IMusicController {
 
     fun setPlayList(music: MusicEntity)
-    fun play()
+    fun play(music: MusicEntity)
     fun resume()
     fun pause()
     fun stop(withRelease: Boolean = false)
