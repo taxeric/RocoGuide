@@ -7,8 +7,15 @@ package com.lanier.rocoguide.entity
 data class MusicEntity(
     val path: String = "",
     val name: String = "",
-    val duration: Long = 0L
+    val duration: Long = 0L,
+    val downloadState: DownloadState = DownloadState.Download
 )
+
+sealed interface DownloadState {
+    object DownloadDone: DownloadState
+    object Downloading: DownloadState
+    object Download: DownloadState
+}
 
 enum class MusicAction{
     PAUSE,
