@@ -1,3 +1,7 @@
+# New Feature !
+请前往 [洛克王国图鉴](https://github.com/roco-kindom/picture-book-open) 体验  
+
+以下是该项目描述
 # RocoGuide ![6.png](https://s2.loli.net/2022/12/17/fz1bZ24TQLc3Der.png)
 Compose实现的洛克王国指南,更多详情请参见[README](https://gitee.com/lanier/roco-guide)
 
